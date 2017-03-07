@@ -1,0 +1,41 @@
+.sheet{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.2);
+    z-index: 99;
+    .warp{
+        z-index: 100;
+        position: fixed;
+        bottom: 8px;
+        left: 8px;
+        right: 8px;
+        li,button{
+            .h(50);
+            .lh(50);
+            width: 100%;
+            color: @sheetColor;
+        }
+    }
+    button{
+        border: 0;
+        outline: none;
+        .mt(8);
+        border-radius: 5px;
+        .fs(16);
+    }
+    ul{
+       padding: 0;
+       margin: 0;
+       border-radius: 5px;
+       background-color: @sheetBgColor;
+       max-height: 500px;
+       overflow: scroll;
+        li{
+            list-style: none;
+            border-bottom: 1px solid @lineColor;
+        }
+    }
+}
