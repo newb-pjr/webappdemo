@@ -1,1 +1,1 @@
-angular.module('app',['ui.router','validation']);
+angular.module('app',['ui.router','validation','ngCookies']);

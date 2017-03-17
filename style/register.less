@@ -70,6 +70,16 @@
                 &::-webkit-input-placeholder{
                     color: @defaultColor;
                 }
+                &.ng-invalid{
+                    &+span{
+                        position: absolute;
+                        color: red;
+                        height: 100%;
+                        right: 38%;
+                        text-align: right;
+                        .fs(12);
+                    }
+                }
             }
             .message{
                 color: @headBgColor;

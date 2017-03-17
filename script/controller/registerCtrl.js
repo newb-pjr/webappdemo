@@ -1,6 +1,8 @@
-angular.module('app').controller('registerCtrl',['$http','$scope','$interval',function($http,$scope,$interval){
+angular.module('app').controller('registerCtrl',['$http','$scope','$interval','$state',function($http,$scope,$interval,$state){
 	$scope.submit = function(){
-		console.log($scope.user)
+		$http.post('data/regist.json',$scope.user).success(function(resp){
+			$state.go('login');
+		})
 	}
 	var count = 60
 	$scope.send = function(){
