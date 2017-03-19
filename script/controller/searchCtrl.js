@@ -3,11 +3,11 @@ angular.module('app').controller('searchCtrl',['dict', '$http', '$scope', functi
 	$scope.search = function(){
 		$http.get('data/positionList.json?name='+$scope.name).then(function(resp){
 			$scope.positionList = resp;
-			console.log(resp)
 		})
 	}
 	$scope.search();
 	$scope.sheet = {};
+	$scope.filterObj = {};
 	$scope.tabList = [{
 		id: 'city',
 		name: '城市'
@@ -27,12 +27,13 @@ angular.module('app').controller('searchCtrl',['dict', '$http', '$scope', functi
 	$scope.sClick = function(id,name){
 		if(id){
 			angular.forEach($scope.tabList, function(item){
-				console.log(item)
 				if(item.id === tabId){
 					item.name = name;
 				}
 			})
+			$scope.filterObj[tabId+'Id'] = id;
 		}else{
+			delete $scope.filterObj[tabId+'Id'];
 			angular.forEach($scope.tabList, function(item){
 				if(item.id === tabId){
 					switch (item.id){

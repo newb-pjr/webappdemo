@@ -7,6 +7,6 @@ angular.module('app').controller('myCtrl',['$http','$scope','$cookieStore','$sta
 		$cookieStore.remove('id');
 		$cookieStore.remove('name');
 		$cookieStore.remove('image');
-		$state.go('mian');
+		$state.go('main');
 	}
 }]);
