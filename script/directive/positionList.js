@@ -1,14 +1,14 @@
-angular.module('app').directive('appPosition', ['$cookieStore','$http',function($cookieStore,$http){
+angular.module('app').directive('appPosition', ['$http',function($http){
 	return{
 		restrict: 'A',
 		replace: true,
 		scope: {
 			data: '=',
-			filterObj: '='
+			filterObj: '=',
+			isFavorite: '='
 		},
 		templateUrl: 'view/template/positionList.html',
 		link: function(scope){
-			scope.name = $cookieStore.get('name') || '';
 			scope.select = function(item){
 				$http.post('data/favorite.json',{
 					id: item.id,

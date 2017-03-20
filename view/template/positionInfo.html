@@ -2,5 +2,5 @@
 	<p><span ng-bind="pos.data.name"></span><span class="c-r" ng-bind="pos.data.salaryName"></span></p>
 	<p><span ng-bind="pos.data.cityName"></span><span ng-bind="pos.data.experience"></span><span ng-bind="pos.data.education"></span></p>
 	<p ng-bind="pos.data.benefit"></p>
-	<img ng-show="isLogin" ng-src="{{imagePath}}" class="p-a" />
+	<img ng-show="isLogin" ng-click="favorite()" ng-src="{{imagePath}}" class="p-a" />
 </div>
