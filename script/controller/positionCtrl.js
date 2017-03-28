@@ -5,8 +5,10 @@ angular.module('app').controller('positionCtrl',['$q', '$http', '$state', '$scop
 		var def = $q.defer();
 		$http.get('/data/position.json?id='+$state.params.id).then(function(resp){
 			$scope.position = resp;
-			if(resp.data.posted){
-				$scope.message = '已投递';
+			if($scope.isLogin){
+				if(resp.data.posted){
+					$scope.message = '已投递';
+				}
 			}
 			def.resolve(resp);
 		}).catch(function(err){
