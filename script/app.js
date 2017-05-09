@@ -1,1 +1,1 @@
-angular.module('app',['ionic','ngCookies']);
+angular.module('app',['ionic']);
