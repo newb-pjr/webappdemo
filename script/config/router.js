@@ -8,7 +8,8 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider',function($st
 		url: '/position',
 		views: {
 			'position': {
-				templateUrl: 'view/template/position.html'
+				templateUrl: 'view/template/position.html',
+				controller: 'positionCtrl'
 			}
 		}
 	})
