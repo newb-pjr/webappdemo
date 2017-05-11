@@ -6,6 +6,7 @@
 		</div>
 	</ion-header-bar>
 	<ion-content>
+		<ion-refresher pulling-text="下拉刷新" spinner="ios" on-refresh="doRefresh()"></ion-refresher>
 		<ion-list>
 			<ion-item href="#" class="item item-thumbnail-left" ng-repeat="item in data">
 				<img ng-src="{{item.imageUrl}}">
