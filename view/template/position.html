@@ -15,5 +15,6 @@
 				<p ng-bind="item.date"></p>
 			</ion-item>
 		</ion-list>
+		<ion-infinite-scroll immediate-check="false" on-infinite="loadMore()" spinner="ios"></ion-infinite-scroll>
 	</ion-content>
 </ion-view>
