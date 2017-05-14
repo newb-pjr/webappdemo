@@ -38,9 +38,18 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider','$ionicConfi
 		url: '/my',
 		views: {
 			'my': {
-				templateUrl: 'view/template/my.html'
+				templateUrl: 'view/template/my.html',
+				controller: 'myCtrl'
 			}
 		}
+	})
+	.state('login',{
+		url: '/login',
+		templateUrl: 'view/template/login.html'
+	})
+	.state('register',{
+		url: '/register',
+		templateUrl: 'view/template/register.html'
 	})
 	$urlRouterProvider.otherwise('/tabs/position');
 }])

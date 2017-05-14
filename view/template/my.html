@@ -1,5 +1,5 @@
 <ion-view hide-nav-bar="true">
-	<ion-content>
+	<ion-content has-bouncing="false" padding="true">
 		<div class="my ta-c">
 			<div ng-if="name">
 				<img ng-src="{{image}}" class="d-b" />
@@ -11,7 +11,7 @@
 				</div>
 			</div>
 			<div ng-hide="name">
-				<button class="login-btn" ui-sref="login">去登录</button>
+				<button class="button button-block button-positive login-btn" ui-sref="login">去登录</button>
 			</div>
 		</div>
 	</ion-content>

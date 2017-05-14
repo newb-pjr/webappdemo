@@ -1,0 +1,26 @@
+<ion-view hide-nav-bar="true">
+	<div class="login">
+		<form name="form">
+			<!-- <div class="list list-inset">
+				<label class="item item-input c-w">
+					<i class="icon ion-ios-person-outline placeholder-icon"></i>
+					<input type="text" name="phone" placeholder="输入手机号码">
+				</label>
+				<label class="item item-input c-w">
+					<i class="icon ion-ios-locked-outline placeholder-icon"></i>
+					<input type="text" name="password" placeholder="输入密码">
+				</label>
+			</div> -->
+			<div class="form-line p-r">
+				<span class="account d-ib va-m"></span>
+				<input name="phone" validator="required,phone" ng-model="user.phone" class="d-ib va-m" type="text" placeholder="输入手机号码" />
+			</div>
+			<div class="form-line p-r">
+				<span class="lock d-ib va-m"></span>
+				<input name="password" validator="required,password" ng-model="user.password" class="d-ib va-m" type="password" placeholder="输入密码"/>
+			</div>
+			<button class="d-b login-btn" validation-submit="form" ng-click="submit();">登录</button>
+			<button class="d-b register-btn" ui-sref="register">注册</button>
+		</form>
+	</div>
+</ion-view>

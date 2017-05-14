@@ -1,13 +1,15 @@
 angular.module("app").controller('positionCtrl', ['$scope','$http','$timeout', function($scope,$http,$timeout){
+	var page = 2;
 	$http.get("data/positionList.json").success(function(resp){
 		$scope.data = resp;
 	})
 
 	$scope.doRefresh = function(){
+		page = 2;
+		$scope.nextPage = true;
 		$http.get("data/positionList1.json").success(function(resp){
-		console.log(resp)
+		console.log(page)
 			$scope.data = resp;
-
 		}) 
 		.finally(function() {
        // 停止广播ion-refresher
@@ -15,14 +17,23 @@ angular.module("app").controller('positionCtrl', ['$scope','$http','$timeout', f
 	     });
 	}
 
-	$scope.loadMore = function(){
-		var tData = $timeout(function(){
+	$scope.nextPage = true;
+	$scope.load_more = function(){
+		var loadMore = $timeout(function(){
+			page--;
 			$http.get("data/positionList.json").success(function(resp){
-				console.log(resp)
-				$scope.data = resp;
-				$scope.$broadcast('scroll.infiniteScrollComplete');
-			$timeout.cancel(tData);
+				for(var i=0; i<resp.length; i++){
+					$scope.data.push(resp[i]);
+					$scope.$broadcast("scroll.infiniteScrollComplete");
+				}
 			})
-		},2000)
+			if(page == 1){
+				$scope.nextPage = false;
+			}
+			console.log(page);
+		},2000);
 	}
+	// $scope.$on('$stateChangeSuccess', function () {
+	//     $scope.load_more();
+	// });
 }])

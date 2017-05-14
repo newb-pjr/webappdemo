@@ -1,0 +1,20 @@
+<ion-view hide-nav-bar="true">
+	<div class="register">
+		<form name="form">
+			<div class="form-line p-r">
+				<span class="account d-ib va-m"></span>
+				<input name="phone" validator="required,phone" ng-model="user.phone" class="d-ib va-m" type="text" placeholder="输入手机号码" />
+			</div>
+			<div class="form-line p-r">
+				<span class="lock d-ib va-m"></span>
+				<input name="password" validator="required,password" ng-model="user.password" class="d-ib va-m" type="password" placeholder="设置6位以上的密码"/>
+			</div>
+			<div class="message-wrap p-r">
+				<input name="code" validator="required" type="text" ng-model="user.code" class="message-box" placeholder="短信验证码" />
+				<span class="message f-r {{time?'disabled':''}}" ng-click="time?1==1:send();" ng-bind="time?time:'发送短信'"></span>
+			</div>
+			<button class="d-b login-btn" ui-sref="login">登录</button>
+			<button class="d-b register-btn" validation-submit="form" ng-click="submit()">注册</button>
+		</form>
+	</div>
+</ion-view>
