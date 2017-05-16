@@ -2,6 +2,7 @@ angular.module("app").controller('positionCtrl', ['$scope','$http','$timeout', f
 	var page = 2;
 	$http.get("data/positionList.json").success(function(resp){
 		$scope.data = resp;
+		var data = resp;
 	})
 
 	$scope.doRefresh = function(){

@@ -14,7 +14,7 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider','$ionicConfi
     $ionicConfigProvider.platform.android.views.transition('android');
 	$stateProvider.state('tabs',{
 		url: '/tabs',
-		abstract:true,
+		abstract:false,
 		templateUrl: 'view/tabs.html'
 	})
 	.state('tabs.position',{
@@ -41,15 +41,18 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider','$ionicConfi
 				templateUrl: 'view/template/my.html',
 				controller: 'myCtrl'
 			}
-		}
+		},
+		cache:false
 	})
 	.state('login',{
 		url: '/login',
-		templateUrl: 'view/template/login.html'
+		templateUrl: 'view/template/login.html',
+		controller: 'loginCtrl'
 	})
 	.state('register',{
 		url: '/register',
-		templateUrl: 'view/template/register.html'
+		templateUrl: 'view/template/register.html',
+		controller: 'registerCtrl'
 	})
 	$urlRouterProvider.otherwise('/tabs/position');
 }])
