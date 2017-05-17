@@ -3,6 +3,8 @@
 @import 'my.less';
 @import 'login.less';
 @import 'register.less';
+@import 'template/positionInfo.less';
+@import 'template/company.less';
 @import 'variable.less';
 @import 'property.less';
 
@@ -41,4 +43,7 @@
 }
 .pb(@px){
     padding-bottom: unit(@px/37.5,rem);
+}
+body{
+    background-color: @bodyBgColor;
 }

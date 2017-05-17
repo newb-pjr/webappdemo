@@ -9,6 +9,6 @@ angular.module("app").controller('myCtrl', ['$scope','$cookieStore', function($s
 		$cookieStore.remove('id');
 		$cookieStore.remove('name');
 		$cookieStore.remove('image');
-		$scope.name = false;
+		$scope.name = "";
 	}
 }])

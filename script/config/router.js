@@ -24,7 +24,8 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider','$ionicConfi
 				templateUrl: 'view/template/position.html',
 				controller: 'positionCtrl'
 			}
-		}
+		},
+		cache: false
 	})
 	.state('tabs.search',{
 		url: '/search',
@@ -43,6 +44,15 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider','$ionicConfi
 			}
 		},
 		cache:false
+	})
+	.state('tabs.positionDet',{
+		url: '/positionDet',
+		views: {
+			'position': {
+				templateUrl: 'view/template/positionDet.html',
+				controller: 'positionDetCtrl'
+			}
+		},
 	})
 	.state('login',{
 		url: '/login',

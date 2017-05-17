@@ -4,7 +4,7 @@ angular.module("app").controller('loginCtrl', ['$scope','$cookieStore','$http','
 			$cookieStore.put('id',resp.id);
 			$cookieStore.put('name',resp.name);
 			$cookieStore.put('image',resp.image);
-			$state.go('tabs.position');
+			$state.go('tabs.search');
 		})
 	}
 }])

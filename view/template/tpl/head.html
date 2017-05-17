@@ -1,6 +1,7 @@
-<ion-header-bar align-title="left" class="bar-positive">
-	<span class="title">10秒定制职位</span>
-	<div class="buttons">
-		<botton class="button button-energized">去登陆</botton>
+<ion-header-bar align-title="left" class="bar-positive head">
+	<span ng-hide="name" class="title">10秒定制职位</span>
+	<div ng-hide="name" class="buttons">
+		<botton class="button button-energized" ui-sref="login">去登录</botton>
 	</div>
+	<span ng-show="name" class="text f-r" ng-bind="'你好,'+name"></span>
 </ion-header-bar>
