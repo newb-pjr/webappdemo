@@ -53,6 +53,25 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider','$ionicConfi
 				controller: 'positionDetCtrl'
 			}
 		},
+		cache:false
+	})
+	.state('tabs.companyInfo',{
+		url: '/companyInfo/:id',
+		views: {
+			'position': {
+				templateUrl: 'view/template/company.html',
+				controller: 'companyCtrl'
+			}
+		}
+	})
+	.state('tabs.favorite',{
+		url: '/favorite',
+		views: {
+			'my': {
+				templateUrl: 'view/template/favorite.html',
+				controller: 'favoriteCtrl'
+			}
+		}
 	})
 	.state('login',{
 		url: '/login',

@@ -1,0 +1,39 @@
+.position-class{
+    border-top: 1px solid @lineColor;
+    .pt(13);
+    h5{
+        margin-bottom: 35px;
+        margin-top: 0;
+        .ml(9);
+    }
+    a{
+        background-color: @btnColor;
+        padding: 10px 23px;
+        border-radius: 20px;
+        color: #000;
+        text-decoration: none;
+        display: inline-block;
+        .ml(9);
+        &.active{
+            color: @defaultColor;
+            background-color: @headBgColor;
+        }
+    }
+    ul{
+        border-top: 1px solid @lineColor;
+        padding: 0;
+        margin-top: 5px;
+        li{
+            list-style: none;
+            .ml(5);
+            .mt(10);
+            span{
+                color: red;
+                right: 10px;
+                top: 20px;
+            }
+        } 
+    }
+    
+    
+}
