@@ -71,7 +71,8 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider','$ionicConfi
 				templateUrl: 'view/template/favorite.html',
 				controller: 'favoriteCtrl'
 			}
-		}
+		},
+		cache:false
 	})
 	.state('login',{
 		url: '/login',

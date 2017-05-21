@@ -4,7 +4,8 @@ angular.module("app").directive('appCompany', [function(){
 		replace: true,
 		templateUrl: 'view/template/tpl/company.html',
 		scope: {
-			com: '='
+			com: '=',
+			comRouter: '@'
 		}
 	};
 }]);

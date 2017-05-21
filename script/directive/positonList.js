@@ -5,7 +5,8 @@ angular.module("app").directive('appPosition', ['$http',function($http){
 		templateUrl: 'view/template/tpl/positionList.html',
 		scope: {
 			data: '=',
-			isFavorite: '='
+			isFavorite: '=',
+			appRouter: '@'
 		},
 		link: function(scope){
 			scope.select = function(item,$event){

@@ -1,7 +1,7 @@
 <ion-view title="职位详情" hide-back-button="false">
     <ion-content>
 		<div app-position-info pos="position" is-Login="isLogin"></div>
-		<div app-company com="company"></div>
+		<div app-company com="company" com-router="tabs.companyInfo({id:com.id})"></div>
 		<div class="position-desc bg-w">
 			<h5>职位描述</h5>
 			<p ng-bind="position.description"></p>

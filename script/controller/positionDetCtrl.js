@@ -10,4 +10,7 @@ angular.module("app").controller('positionDetCtrl', ['$scope','$http','$cookieSt
 	}else{
 		$scope.isLogin = false;
 	}
+	 $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+            viewData.enableBack = true;
+        });
 }])
