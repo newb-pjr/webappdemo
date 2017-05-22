@@ -74,6 +74,24 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider','$ionicConfi
 		},
 		cache:false
 	})
+	.state('tabs.myPositionDet',{
+		url: '/myPositionDet',
+		views: {
+			'my': {
+				templateUrl: 'view/template/positionDet.html',
+				controller: 'positionDetCtrl'
+			}
+		}
+	})
+	.state('tabs.myCompanyInfo',{
+		url: '/myCompanyInfo/:id',
+		views: {
+			'my': {
+				templateUrl: 'view/template/company.html',
+				controller: 'companyCtrl'
+			}
+		}
+	})
 	.state('login',{
 		url: '/login',
 		templateUrl: 'view/template/login.html',
