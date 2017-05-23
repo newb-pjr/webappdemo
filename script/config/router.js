@@ -31,7 +31,8 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider','$ionicConfi
 		url: '/search',
 		views: {
 			'search': {
-				templateUrl: 'view/template/search.html'
+				templateUrl: 'view/template/search.html',
+				controller: 'searchCtrl'
 			}
 		}
 	})
