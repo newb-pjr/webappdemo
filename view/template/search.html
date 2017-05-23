@@ -4,12 +4,14 @@
 		<input type="text" placeholder="搜索职位/公司/城市" />
 		<button class="button icon-left ion-ios-search-strong button-clear button-stable">搜索</button>
 	</ion-header-bar>
-	<ion-tabs class="tabs-striped tabs-top tabs-color-positive">
-		<ion-tab title="城市" ng-click="filter();"></ion-tab>
-		<ion-tab title="薪资"></ion-tab>
-		<ion-tab title="公司规模"></ion-tab>
+	<ion-tabs class="tabs-striped tabs-top tabs-color-positive" delegate-handle="my-tab">
+		<ion-tab title="城市" ng-click="filter(this.title)"></ion-tab>
+		<ion-tab title="薪资" ng-click="filter(this.title)"></ion-tab>
+		<ion-tab title="公司规模" ng-click="filter(this.title)"></ion-tab>
 	</ion-tabs>
-	<ion-content class="search-content">
-	146465453
+	<ion-content class="search-content has-tabs" overflow-scroll="false" has-bouncing="true">
+		<ion-refresher pulling-text="下拉刷新" spinner="ios" on-refresh="doRefresh()"></ion-refresher>
+		<div app-position data="data"></div>
+		<ion-infinite-scroll ng-if="nextPage" on-infinite="load_more();" spinner="ios" distance="1%" immediate-check="false"></ion-infinite-scroll>
 	</ion-content>
 </ion-view>
