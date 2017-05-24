@@ -1,0 +1,10 @@
+<ion-view view-title="投递记录">
+	<ion-tabs class="tabs-striped tabs-top tabs-color-positive" delegate-handle="post-tab">
+		<ion-tab title="全部" ng-click="postFilter(this.title)"></ion-tab>
+		<ion-tab title="邀请面试" ng-click="postFilter(this.title)"></ion-tab>
+		<ion-tab title="不合适" ng-click="postFilter(this.title)"></ion-tab>
+	</ion-tabs>
+	<ion-content class="has-tabs search-content">
+		<div app-position class="" filter-obj="filterObj" data="myPositionList"></div>
+	</ion-content>
+</ion-view>

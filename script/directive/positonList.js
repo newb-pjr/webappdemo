@@ -6,7 +6,7 @@ angular.module("app").directive('appPosition', ['$http',function($http){
 		scope: {
 			data: '=',
 			isFavorite: '=',
-			appRouter: '@'
+			filterObj: '='
 		},
 		link: function(scope){
 			scope.select = function(item,$event){

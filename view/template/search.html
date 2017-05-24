@@ -11,7 +11,7 @@
 	</ion-tabs>
 	<ion-content class="search-content has-tabs" overflow-scroll="false" has-bouncing="true">
 		<ion-refresher pulling-text="下拉刷新" spinner="ios" on-refresh="doRefresh()"></ion-refresher>
-		<div app-position data="data"></div>
+		<div app-position data="data" filter-obj="filterObj"></div>
 		<ion-infinite-scroll ng-if="nextPage" on-infinite="load_more();" spinner="ios" distance="1%" immediate-check="false"></ion-infinite-scroll>
 	</ion-content>
 </ion-view>

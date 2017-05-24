@@ -5,6 +5,7 @@ angular.module("app").controller('searchCtrl', ['$scope','dict','$ionicActionShe
 	var sheet = [];
 	var tabCont;
 	var page = 2;
+	$scope.filterObj = {};
 	$http.get("data/positionList.json").success(function(resp){
 		$scope.data = resp;
 		var data = resp;
@@ -44,16 +45,19 @@ angular.module("app").controller('searchCtrl', ['$scope','dict','$ionicActionShe
 		switch(title){
 			case '城市':
 				tabCont = city;
+				tabId = 'city';
 				$ionicTabsDelegate.$getByHandle('my-tab').select(0);
 				break;
 			case '薪资':
 				tabCont = salary;
+				tabId = 'salary';
 				$ionicTabsDelegate.$getByHandle('my-tab').select(1);
 				break;
 			case '公司规模':
 				tabCont = scale;
-			default:
+				tabId = 'scale';
 				$ionicTabsDelegate.$getByHandle('my-tab').select(2);
+			default:
 				break;
 		}
 		for(var i=0; i<tabCont.length; i++){
@@ -61,7 +65,17 @@ angular.module("app").controller('searchCtrl', ['$scope','dict','$ionicActionShe
 		}
 		$ionicActionSheet.show({
 			buttons: sheet,
-			cancelText: '取消'
+			cancelText: '取消',
+			buttonClicked: function(index){
+				$scope.filterObj = {};
+				if(tabCont[index].id == ""){
+					delete $scope.filterObj[tabId + 'Id'];
+				}else {
+					$scope.filterObj[tabId + 'Id'] = tabCont[index].id;
+				}
+				// console.log($scope.filterObj)
+				return true;
+			}
 		})
 	}
 }])

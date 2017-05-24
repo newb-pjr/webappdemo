@@ -93,6 +93,15 @@ angular.module('app').config(['$stateProvider','$urlRouterProvider','$ionicConfi
 			}
 		}
 	})
+	.state('tabs.post',{
+		url: 'post',
+		views: {
+			'my': {
+				templateUrl: 'view/template/post.html',
+				controller: 'postCtrl'
+			}
+		}
+	})
 	.state('login',{
 		url: '/login',
 		templateUrl: 'view/template/login.html',
