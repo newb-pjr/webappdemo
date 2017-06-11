@@ -1,3 +1,13 @@
 <ion-view view-title="文章">
-	<ion-content>news</ion-content>
+	<ion-content>
+		<ion-list class="list">
+			<ion-item href="#" ng-repeat="news in data" class="item-thumbnail-left item-icon-right">
+				<img ng-if="news.pic" ng-src="{{ENV.imgUrl}}{{news.pic}}">
+				<img ng-if="!news.pic" ng-src="img/ionic.png">
+				<h2 ng-bind="news.title"></h2>
+				<p ng-bind="news.username"></p>
+				<i class="icon ion-ios-arrow-forward"></i>
+			</ion-item>
+		</ion-list>
+	</ion-content>
 </ion-view>

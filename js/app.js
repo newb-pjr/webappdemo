@@ -1,4 +1,4 @@
-angular.module("app",["ionic"]).config(['$stateProvider','$urlRouterProvider','$ionicConfigProvider',function($stateProvider,$urlRouterProvider,$ionicConfigProvider) {
+angular.module("app",["ionic","app.services","app.config","app.controllers","ngResource"]).config(['$stateProvider','$urlRouterProvider','$ionicConfigProvider',function($stateProvider,$urlRouterProvider,$ionicConfigProvider) {
 	$ionicConfigProvider.platform.ios.tabs.style('standard');
 	$ionicConfigProvider.platform.ios.tabs.position('bottom');
 	$ionicConfigProvider.platform.android.tabs.style('standard');
@@ -30,7 +30,8 @@ angular.module("app",["ionic"]).config(['$stateProvider','$urlRouterProvider','$
 			url: '/news',
 			views: {
 				'tab-news': {
-					templateUrl: 'view/tabs/news.html'
+					templateUrl: 'view/tabs/news.html',
+					controller: 'newsCtrl'
 				}
 			}
 		})
