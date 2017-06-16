@@ -1,20 +1,152 @@
 .home{
+	background-color: @appBgColor;
 	.slideBox{
 		background-color: @appBgColor;
 		img{
 			width: 100%;
-			.h(343);
+			.h(120);
 		}
 	}
 	.homeIntro{
 		text-align: center;
+		background-color: @appContColor;
+		padding-bottom: 0;
 		img{
-			.w(152);
-			.h(152);
+			.w(60);
+			.h(60);
 		}
 		p{
 			color: @homeIntroColor;
-			.fs(38);
+			.fs(14);
+		}
+	}
+	.headline{
+		background-color: @appContColor;
+		margin-top: 5px;
+		padding-bottom: 0;
+		img{
+			.w(74);
+			.h(12);
+			text-align: center;
+		}
+		.headlineLeft{
+			border-right: 1px solid @appBgColor;
+		}
+		p{
+			.fs(10);
+			color: @homeIntroColor;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+	.aboutUs{
+		background-color: @appContColor;
+		margin-top: 5px;
+		padding-bottom: 0;
+		.title{
+			.fs(14);
+			.lh(28);
+			span{
+				&:last-child{
+					color: @mainColor;
+					.ml(10);
+				}
+			}
+		}
+		.content{
+			.fs(12);
+			a{
+				color: @mainColor;
+				text-decoration: none;
+			}
+			color: @homeIntroColor;
+			.lh(16);
+		}
+		img{
+			.w(128);
+			.h(130);
+			.mt(10);
+		}
+		.contentPoint{
+			.fs(12);
+			padding: 0;
+			i{
+				color: @mainColor;
+				.mr(3);
+			}
+			div{
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+	}
+	.customer{
+		margin-top: 5px;
+		background-color: @appContColor;
+		padding-right: 0;
+		padding-bottom: 0;
+		.title{
+			padding-left: 5px;
+			border-left: 5px solid @mainColor;
+			color: @mainColor;
+			.fs(14);
+			.mb(6);
+		}
+		.evaluate{
+			div{
+				padding: 0 0 5px;
+			}
+			img{
+				width: 100%;
+				.h(42);
+			}
+			p{
+				padding-left: 5px;
+				&:first-child{
+					.fs(14);
+				}
+				&:last-child{
+					.fs(12);
+					.lh(16);
+					color: @homeIntroColor;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 1;
+					overflow: hidden;
+				}
+			}
+		}
+		.contact{
+			background-color: @homeContactColor;
+			color: @appContColor;
+			padding-left: 0;
+			border-left: 3px solid @appBgColor;
+			box-sizing: border-box;
+			img{
+				.w(40);
+				.h(36);
+				.mb(5);
+				vertical-align: middle;
+			}
+			span{
+				.fs(14);
+				.ml(5);
+			}
+			p{
+				.fs(10);
+				.lh(16);
+			}
+		}
+	}
+}
+@media only screen and (min-width: 376px) and (max-width: 414px){
+	.home{
+		.slideBox{
+			img{
+				.h(148);
+			}
 		}
 	}
 }
