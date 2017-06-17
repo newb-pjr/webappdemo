@@ -1,4 +1,4 @@
-angular.module("app",['ionic']).config(['$ionicConfigProvider','$stateProvider','$urlRouterProvider',function($ionicConfigProvider,$stateProvider,$urlRouterProvider) {
+angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider','$stateProvider','$urlRouterProvider',function($ionicConfigProvider,$stateProvider,$urlRouterProvider) {
 	$ionicConfigProvider.platform.ios.tabs.style('standard');
 	$ionicConfigProvider.platform.ios.tabs.position('bottom');
 	$ionicConfigProvider.platform.android.tabs.style('standard');
@@ -23,6 +23,15 @@ angular.module("app",['ionic']).config(['$ionicConfigProvider','$stateProvider',
 			views: {
 				'tab-home': {
 					templateUrl: 'view/tabs/home.html'
+				}
+			}
+		})
+		.state('tabs.start',{
+			url: '/start',
+			views: {
+				'tab-start': {
+					templateUrl: 'view/tabs/start.html',
+					controller: 'startCtrl'
 				}
 			}
 		})

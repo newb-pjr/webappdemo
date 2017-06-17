@@ -1,0 +1,48 @@
+.start{
+	background-color: @appBgColor;
+	.content{
+		background-color: @appContColor;
+		padding-bottom: 0;
+		p{
+			.fs(12);
+			color: @startColor;
+			.lh(16);
+			&.title{
+				color: @mainColor;
+				.fs(16);
+				.lh(22);
+			}
+			&.row{
+				padding: 0;
+			}
+			span{
+				&:first-child{
+					padding-left: 0;
+					padding-right: 0;
+				}
+				&:last-child{
+					padding-left: 0;
+				}
+			}
+		}
+	}
+	.select{
+		background-color: @mainColor;
+		.fs(18);
+		color: @appContColor;
+		padding-bottom: 0;
+		padding-top: 3px;
+		margin-top: 5px;
+		ul{
+			li{
+				display: inline-block;
+				padding: 10px;
+				.lh(10);
+				&.active{
+					background-color: @appContColor;
+					color: @mainColor;
+				}
+			}
+		}
+	}
+}
