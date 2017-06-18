@@ -9,7 +9,6 @@ angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider',
 
 	$ionicConfigProvider.platform.ios.backButton.previousTitleText('').icon('ion-ios-arrow-thin-left');
 	$ionicConfigProvider.platform.android.backButton.previousTitleText('').icon('ion-android-arrow-back');
-
 	$ionicConfigProvider.platform.ios.views.transition('ios');
 	$ionicConfigProvider.platform.android.views.transition('android');
 
@@ -26,12 +25,36 @@ angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider',
 				}
 			}
 		})
+		.state('tabs.check',{
+			url: '/check',
+			views: {
+				'tab-start': {
+					templateUrl: 'view/tabs/start/checked.html',
+				}
+			}
+		})
 		.state('tabs.start',{
 			url: '/start',
 			views: {
 				'tab-start': {
 					templateUrl: 'view/tabs/start.html',
 					controller: 'startCtrl'
+				}
+			}
+		})
+		.state('tabs.info',{
+			url: '/info',
+			views: {
+				'tab-info': {
+					templateUrl: 'view/tabs/info.html'
+				}
+			}
+		})
+		.state('tabs.person',{
+			url: '/person',
+			views: {
+				'tab-person': {
+					templateUrl: 'view/tabs/person.html'
 				}
 			}
 		})

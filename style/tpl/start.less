@@ -2,7 +2,7 @@
 	background-color: @appBgColor;
 	.content{
 		background-color: @appContColor;
-		padding-bottom: 0;
+		padding-bottom: 5px;
 		p{
 			.fs(12);
 			color: @startColor;
@@ -34,15 +34,98 @@
 		padding-top: 3px;
 		margin-top: 5px;
 		ul{
+			.ml(12);
 			li{
 				display: inline-block;
 				padding: 10px;
 				.lh(10);
+				.mr(8);
 				&.active{
 					background-color: @appContColor;
 					color: @mainColor;
 				}
 			}
+		}
+	}
+	.cargoInfo{
+		background-color: @appContColor;
+		.cargoContent{
+			padding: 0;
+			.w(320);
+			margin: 0 auto;
+			.title{
+				.fs(14);
+			}
+			.tips{
+				.fs(10);
+				color: @tipsColor;
+			}
+			input{
+				width: 100%;
+				.h(30);
+				.lh(30);
+				padding: 0 5px;
+				border: 1px solid #000;
+				box-sizing: border-box;;
+				.fs(12);
+			}
+			div{
+				padding: 0 10px 0 0;
+				&:last-child{
+					padding: 0;
+				}
+			}
+			textarea{
+				width: 100%;
+				.h(38);
+				border: 1px solid #000;
+				resize: none;
+				.fs(12);
+				padding: 5px;
+			}
+		}
+		.cargoBtn{
+			padding-top: 10px;
+			.cargoBtnContent{
+				.w(320);
+				margin: 0 auto;
+				padding: 0;
+				a{
+					&.highlight{
+						background-color: @mainColor;
+					}
+					background-color: @cargoGrayColor;
+					width: 100%;
+					.h(24);
+					.lh(24);
+					display: block;
+					color: @appContColor;
+					.fs(14);
+					border-radius: 5px;
+					text-decoration: none;
+					text-align: center;
+				}
+				div{
+					padding: 0 10px 0 0;
+					&:last-child{
+						padding: 0;
+					}
+				}
+			}
+		}
+		.cargoSub{
+			color: @appContColor;
+			.fs(18);
+			text-align: center;
+			background-color: @mainColor;
+			.w(124);
+			.h(32);
+			.lh(32);
+			display: block;
+			margin: 0 auto;
+			text-decoration: none;
+			border-radius: 5px;
+			.mt(18);
 		}
 	}
 }

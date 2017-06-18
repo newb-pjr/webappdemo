@@ -14,9 +14,58 @@
 		</div>
 		<div class="padding select">
 			<ul>
-				<li class="active" ng-click="select(this)">有运单号</li>
-				<li ng-click="select(this)">无运单号</li>
+				<li class="active">有运单号</li>
+				<li>无运单号</li>
 			</ul>
+		</div>
+		<div class="cargoInfo padding">
+			<div class="cargoContent">
+				<p class="title">快递单号</p>
+				<input type="text" name="order">
+				<p class="tips">*必需填写  哪里找到快递单号？</p>
+			</div>
+			<div class="cargoContent">
+				<p class="title">快递公司</p>
+				<input type="text" name="company">
+				<p class="tips">*必需填写</p>
+			</div>
+			<div class="row cargoContent">
+				<div class="col col-50">
+					<p class="title">品名</p>
+					<input type="text" name="name">
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col col-25">
+					<p class="title">数量</p>
+					<input type="text" name="num">
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col col-25">
+					<p class="title">单位</p>
+					<input type="text" name="unit">
+					<p class="tips">*必需填写</p>
+				</div>
+			</div>
+			<div class="cargoBtn">
+				<div class="row cargoBtnContent">
+					<div class="col">
+						<a href="javascript:void(0)" class="highlight">增加货件</a>
+					</div>
+					<div class="col">
+						<a href="javascript:void(0)">删除货件</a>
+					</div>
+					<div class="col">
+						<a href="#/tabs/check">查看全部</a>
+					</div>
+				</div>
+			</div>
+			<div class="cargoContent">
+				<p class="title">备注</p>
+				<textarea></textarea>
+				<p class="tips">*如果是国际转运，请输入货品内容及价格。</p>
+				<p class="tips">例: 衣服x1,$350; 手机套x2,$200;</p>
+			</div>
+			<a href="javascript:void(0)" class="cargoSub">登记货品</a>
 		</div>
 	</ion-content>
 </ion-view>

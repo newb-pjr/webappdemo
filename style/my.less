@@ -8,8 +8,9 @@
 }
 .tabs{
 	i{
-		&.icon-app-track{
+		&.icon-app-track,&.icon-app-home,&.icon-app-info,&.icon-app-person{
 			margin-top: -3px;
+			margin-bottom: 2px;
 		}
 	}
 }
@@ -18,4 +19,31 @@ p{
 }
 .tabs-color-positive .tab-item{
 	color: @homeIntroColor;
+}
+.checkbox input:checked+.checkbox-icon:before, .checkbox input:checked:before{
+	background: @mainColor;
+    border-color: @mainColor;
+}
+.col-30{
+	-webkit-box-flex: 0;
+    -webkit-flex: 0 0 30%;
+    -moz-box-flex: 0;
+    -moz-flex: 0 0 30%;
+    -ms-flex: 0 0 30%;
+    flex: 0 0 30%;
+    max-width: 30%;
+}
+.item-checkbox .checkbox{
+	left: 0px;
+	top: 56%;
+}
+.checkbox input, .checkbox-icon{
+	width: 22px;
+	height: 22px;
+}
+.checkbox input:after, .checkbox-icon:after{
+	top: 29%;
+	left: 20%;
+	height: 8px;
+	border-width: 3px;
 }

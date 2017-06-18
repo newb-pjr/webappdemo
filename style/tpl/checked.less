@@ -1,0 +1,98 @@
+.checked{
+	background-color: @appBgColor;
+	.showContent{
+		bottom: 100px;
+	}
+	.title{
+		background-color: @appContColor;
+		.fs(14);
+		text-align: center;
+		div{
+			padding: 0;
+		}
+		color: @homeIntroColor;
+	}
+	.listContent{
+		&.item-checkbox{
+			padding-left: 30px;
+		}
+		&.item{
+			padding: 5px;
+			p{
+				.fs(12);
+				color: @cargoBlackColor;
+			}
+			border-top-width: 3px;
+			border-color: @appBgColor;
+		}
+		.content{
+			text-align: center;
+			.fs(12);
+			color: #f00;
+			padding: 0;
+			.lh(16);
+			div{
+				padding: 0;
+			}
+			.firstItem{
+				.pl(25);
+			}
+			a{
+				color: @mainColor;
+				text-decoration: none;
+			}
+			.cargoName{
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				overflow: hidden;
+				white-space: normal;
+			}
+		}
+	}
+	.cargoFooter{
+		&.bar-footer{
+			height: 52px;
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+		.bottom{
+			padding: 0;
+			background-color: @appContColor;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			z-index: 999;
+			height: 52px;
+			.item{
+				border: none;
+				padding: 12px 16px;
+			}
+			.item-checkbox{
+				padding-left: 38px;
+			}
+			.delectBtn{
+				float: right;
+				color: @appContColor;
+				.w(100);
+				.h(28);
+				.lh(28);
+				text-align: center;
+				text-decoration: none;
+				display: block;
+				background-color: @mainColor;
+				border-radius: 5px;
+				.mt(8);
+				.mr(8);
+				.fs(18);
+			}
+			
+		}
+	}
+}
+@media only screen and (min-width: 376px) and (max-width: 414px){
+	.checked .cargoFooter .bottom .delectBtn{
+		.mt(5);
+	}
+}
