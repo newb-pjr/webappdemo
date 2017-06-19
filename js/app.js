@@ -25,6 +25,15 @@ angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider',
 				}
 			}
 		})
+		.state('tabs.start',{
+			url: '/start',
+			views: {
+				'tab-start': {
+					templateUrl: 'view/tabs/start.html',
+					controller: 'startCtrl'
+				}
+			}
+		})
 		.state('tabs.check',{
 			url: '/check',
 			views: {
@@ -33,12 +42,11 @@ angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider',
 				}
 			}
 		})
-		.state('tabs.start',{
-			url: '/start',
+		.state('tabs.package',{
+			url: '/package',
 			views: {
 				'tab-start': {
-					templateUrl: 'view/tabs/start.html',
-					controller: 'startCtrl'
+					templateUrl: 'view/tabs/start/package.html',
 				}
 			}
 		})
