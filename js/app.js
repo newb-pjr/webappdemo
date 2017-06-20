@@ -54,9 +54,11 @@ angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider',
 			url: '/info',
 			views: {
 				'tab-info': {
-					templateUrl: 'view/tabs/info.html'
+					templateUrl: 'view/tabs/info.html',
+					controller: 'infoCtrl'
 				}
-			}
+			},
+			cache: false
 		})
 		.state('tabs.person',{
 			url: '/person',

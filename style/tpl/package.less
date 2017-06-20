@@ -1,7 +1,13 @@
 .package{
+	background-color: @appBgColor;
+	.has-footer{
+		bottom: 130px;
+	}
 	.bar-subheader{
 		height: 76px;
 		padding: 0;
+		border-bottom: 1px solid @borderBotttomColor;
+		box-sizing: border-box;
 		p{
 			&.title{
 				color: @mainColor;
@@ -27,7 +33,7 @@
 		}
 	}
 	.has-subheader{
-		top: 121px;
+		top: 120px;
 		.listContent{
 			.item{
 				padding: 0;
@@ -53,6 +59,12 @@
 				padding: 0 5px 0 0;
 				text-align: center;
 				.fs(14);
+				p{
+					.fs(12);
+				}
+				div{
+					padding: 0;
+				}
 				.cargoDetail{
 					border-bottom: 1px solid @appBgColor;
 					.lh(16);
@@ -77,6 +89,71 @@
 					padding: 0;
 				}
 			}
+		}
+	}
+	.footer{
+		.row{
+			padding: 0;
+			.col{
+				padding: 0;
+			}
+		}
+		label{
+			width: 100%;
+			height: 34px;
+			&.item{
+				border: none;
+				padding: 8px 8px 0;
+			}
+			&.item-checkbox{
+				padding-left: 38px;
+				.checkbox{
+					top: 65%;
+				}
+			}
+		}
+		&.bar-footer{
+			height: 80px;
+			padding: 0;
+		}
+		.packageSub{
+			text-align: center;
+			.packageBtn{
+				display: block;
+				.w(140);
+				.h(26);
+				.lh(26);
+				color: @appContColor;
+				background-color: @mainColor;
+				.fs(16);
+				text-decoration: none;
+				border-radius: 5px;
+				margin: 0 auto;
+			}
+			p{
+				color: @tipsColor;
+				.fs(10);
+			}
+		}
+	}
+}
+@media only screen and (min-width: 321px) and (max-width: 360px){
+	.package{
+		.bar-subheader{
+			height: 70px;
+		}
+		.has-subheader{
+			top: 114px;
+		}
+	}
+}
+@media only screen and (max-width: 320px){
+	.package{
+		.bar-subheader{
+			height: 66px;
+		}
+		.has-subheader{
+			top: 110px;
 		}
 	}
 }

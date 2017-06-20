@@ -1,3 +1,65 @@
 <ion-view view-title="运费说明">
-	<ion-content>yunfeishuoming</ion-content>
+	<ion-content class="info">
+		<div class="padding headIntro">
+			<p class="title">运费计算模式</p>
+			<p class="infoContent">比较模式：比较货件实重与体积重，并取较重者为最终计算重量。</p>
+			<p class="infoContent">实重模式：用货件实重作最终计算重量，但若货件其中边长超过限制，便会以比较模式计算。</p>
+			<p class="title">体积重量</p>
+			<p class="infoContent">空运的成本除是计算货件的实际重量，还需计算货件占据的体积。我们会相比货件的实际重量和体积重量来计算你的运费，并以较大者为准。</p>
+		</div>
+		<div class="padding infoCalculate">
+			<p>国内集运至东南亚件体积重量试算 (L*W*H/6000)</p>
+			<div class="row sizeInput">
+				<div class="col col-20">
+					<input type="text" name="length" placeholder="长度(cm)" ng-model="length">
+				</div>
+				<div class="col col-20">
+					<input type="text" name="" placeholder="宽度(cm)" ng-model="width">
+				</div>
+				<div class="col col-20">
+					<input type="text" name="" placeholder="高度(cm)" ng-model="height">
+				</div>
+				<div class="col col-40 result">
+					= 体积重量 <span class="highlight" ng-bind="length*width*height/6000||'0.00'|number:2">0.00</span> kg
+				</div>
+			</div>
+			<div class="payInput">
+				<p>国际集运件运费试算</p>
+				<div class="row">
+					<div class="col">货品总重 <input type="text" name=""> kg</div>
+				</div>
+				<div class="row">
+					<div class="col">运送方式 ：国际运输方式</div>
+				</div>
+				<div class="row">
+					<div class="col">派送方式 <select></select></div>
+				</div>
+				<div class="row">
+					<div class="col">参考收费： <span class="highlight">0.00</span> 元</div>
+				</div>
+			</div>
+		</div>
+		<div class="internationalInfo">
+			<div class="topic">
+				<p>國際轉運</p>
+				<div class="row">
+					<div class="col">運送方式</div>
+					<div class="col">首重1KG</div>
+					<div class="col">續重1KG</div>
+					<div class="col">附加費</div>
+					<div class="col">時效</div>
+				</div>
+			</div>
+			<div class="row itemlDetail">
+				<div class="col">速運住宅專綫</div>
+				<div class="col">¥14.5</div>
+				<div class="col">¥4.8</div>
+				<div class="col">¥20</div>
+				<div class="col">2-5</div>
+			</div>
+			<div class="internationalDetail">
+				全港住宅，学校，医院等均需要附加費20元或者到付25港幣；綠色通道過關，到港后由神州集運私家車隊派送，正常2-3天送到；有電梯能停車可以送貨上門，可以晚上派送
+			</div>
+		</div>
+	</ion-content>
 </ion-view>

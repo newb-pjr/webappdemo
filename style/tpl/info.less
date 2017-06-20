@@ -1,0 +1,129 @@
+.info{
+	background-color: @appBgColor;
+	.headIntro{
+		background-color: @mainColor;
+		border-top: 2px solid @infoBorderColor;
+		color: @appContColor;
+		padding-top: 0;
+		.title{
+			.fs(14);
+			.lh(32);
+		}
+		.infoContent{
+			.fs(12);
+			.lh(16);
+		}
+	}
+	.infoCalculate{
+		.mt(5);
+		background-color: @appContColor;
+		p{
+			.fs(14);
+			font-weight: bold;
+			color: @cargoBlackColor;
+		}
+		input{
+			border: 1px solid @cargoGrayColor;
+			.fs(12);
+			width: 100%;
+			.h(26);
+			.lh(26);
+			border-radius: 5px;
+			padding: 0 5px;
+		}
+		.sizeInput{
+			padding: 0;
+			.mt(10);
+			.result{
+				padding-right: 0;
+				.lh(26);
+				.fs(14);
+				color: @cargoBlackColor;
+				.highlight{
+					color: @mainColor;
+					.fs(19);
+					font-weight: bold;
+				}
+			}
+		}
+		.payInput{
+			border-top: 2px solid @mainColor;
+			.mt(15);
+			.fs(14);
+			.row{
+				padding: 0;
+			}
+			p{
+				.lh(38);
+				padding-left: 5px;
+			}
+			input{
+				.w(146);
+				.h(24);
+				.lh(24);
+				.fs(12);
+				border-radius: 5px;
+				padding: 0 5px;
+				border: 1px solid @cargoGrayColor;
+				display: inline;
+			}
+			select{
+				.w(154);
+				.h(24);
+				.lh(24);
+				.fs(12);
+				border-radius: 5px;
+				padding: 0 5px;
+				border: 1px solid @cargoGrayColor;
+			}
+			.highlight{
+				color: @mainColor;
+				.fs(19);
+				font-weight: bold;
+			}
+		}
+	}
+	.internationalInfo{
+		.mt(5);
+		background-color: @appContColor;
+		.topic{
+			.row{
+				padding: 0;
+				div{
+					padding: 0 0 0 5px;
+				}
+			}
+			background-color: @internationalBgColor;
+			color: @appContColor;
+			border-bottom: 1px solid @cargoBlackColor;
+			.fs(12);
+			text-align: center;
+			p{
+				.fs(16);
+				padding-top: 5px;
+			}
+		}
+		.itemlDetail{
+			padding: 0;
+			text-align: center;
+			.fs(10);
+			color: @cargoBlackColor;
+			background-color: @itemBgColor;
+			div{
+				padding: 0 0 0 5px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			border-bottom: 1px solid @cargoBlackColor;
+			.lh(26);
+		}
+		.internationalDetail{
+			background-color: @appContColor;
+			.fs(10);
+			color: @cargoGrayColor;
+			padding: 5px;
+			.lh(16);
+		}
+	}
+}
