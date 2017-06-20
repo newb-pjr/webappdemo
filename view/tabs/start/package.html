@@ -1,8 +1,48 @@
 <ion-view view-title="开始集运" class="package">
 	<div class="bar bar-subheader">
 		<p class="title">货品等级记录</p>
+		<div class="topic row">
+			<div class="col col-40">货物品名</div>
+			<div class="col col-20">到库时间</div>
+			<div class="col col-20">上架时间</div>
+			<div class="col col-10">备注</div>
+			<div class="col col-10">操作</div>
+		</div>
 	</div>
-	<ion-content has-subheader="true">
+	<ion-content has-subheader="true" class="has-subheader">
+		<ion-list class="listContent">
+			<ion-item>
+				<ion-checkbox>
+					<div class="row selectTopic">
+						<div class="col col-50">运单号:10112450000</div>
+						<div class="col col-25">顺丰快递</div>
+						<div class="col col-25">
+							<div class="right">
+								<a href="javascript:void(0)" class="check">查看</a><i class="icon ion-ios-arrow-right"></i>
+							</div>
+						</div>
+					</div>
+				</ion-checkbox>
+				<div class="row row-center cargo">
+					<div class="col col-40 padding-none">
+						<div class="cargoDetail">
+							<p class="cargoName">衣服土门墩衣服土</p>
+							<p class="cargoInfo">尺寸：10cmx10cmx2cm</p>
+							<p class="cargoInfo">数量：10件</p>
+						</div>
+						<div class="cargoDetail">
+							<p class="cargoName">衣服土门墩衣服土</p>
+							<p class="cargoInfo">尺寸：10cmx10cmx2cm</p>
+							<p class="cargoInfo">数量：10件</p>
+						</div>
+					</div>
+					<div class="col col-20">未到库</div>
+					<div class="col col-20">未上架</div>
+					<div class="col col-10"></div>
+					<div class="col col-10"><a href="javascript:void(0)">删除</a></div>
+				</div>
+			</ion-item>
+		</ion-list>
 		
 	</ion-content>
 </ion-view>

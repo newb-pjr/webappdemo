@@ -1,8 +1,82 @@
 .package{
-	.title{
-		color: @mainColor;
-		border-left: 3px solid @mainColor;
-		.pl(8);
-		text-align: left;
+	.bar-subheader{
+		height: 76px;
+		padding: 0;
+		p{
+			&.title{
+				color: @mainColor;
+				border-left: 6px solid @mainColor;
+				.pl(8);
+				text-align: left;
+				.fs(16) !important;
+				.lh(28) !important;
+				.h(28);
+				margin-top: 8px;
+				display: inline-block;
+			}
+		}
+		.topic{
+			background-color: @appBgColor;
+			color: @startColor;
+			.fs(14);
+			text-align: center;
+			.mt(44);
+			div{
+				padding: 0;
+			}
+		}
+	}
+	.has-subheader{
+		top: 121px;
+		.listContent{
+			.item{
+				padding: 0;
+			}
+			.item-checkbox{
+				padding-left: 30px;
+			}
+			.selectTopic{
+				.fs(14);
+				color: @startColor;
+				.right{
+					float: right;
+					a{
+						&.check{
+							color: @mainColor;
+							text-decoration: none;
+							padding-right: 5px;
+						}
+					}
+				}
+			}
+			.cargo{
+				padding: 0 5px 0 0;
+				text-align: center;
+				.fs(14);
+				.cargoDetail{
+					border-bottom: 1px solid @appBgColor;
+					.lh(16);
+					padding: 5px 5px 5px 10px; 
+					text-align: left;
+					&:last-child{
+						border-bottom: none;
+					}
+					.cargoName{
+						color: @cargoBlackColor;
+					}
+					.cargoInfo{
+						.fs(10);
+						color: @cargoGrayColor;
+					}
+				}
+				a{
+					color: @mainColor;
+					text-decoration: none;
+				}
+				.padding-none{
+					padding: 0;
+				}
+			}
+		}
 	}
 }
