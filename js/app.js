@@ -15,7 +15,7 @@ angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider',
 	$stateProvider
 		.state('tabs',{
 			url: '/tabs',
-			templateUrl: 'view/tabs.html'
+			templateUrl: 'view/tabs.html',
 		})
 		.state('tabs.home',{
 			url: '/home',
@@ -32,7 +32,7 @@ angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider',
 					templateUrl: 'view/tabs/start.html',
 					controller: 'startCtrl'
 				}
-			}
+			},
 		})
 		.state('tabs.check',{
 			url: '/check',
@@ -47,7 +47,9 @@ angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider',
 			views: {
 				'tab-start': {
 					templateUrl: 'view/tabs/start/package.html',
-				}
+					controller: 'packageCtrl'
+				},
+				cache: false
 			}
 		})
 		.state('tabs.info',{
@@ -57,8 +59,7 @@ angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider',
 					templateUrl: 'view/tabs/info.html',
 					controller: 'infoCtrl'
 				}
-			},
-			cache: false
+			}
 		})
 		.state('tabs.person',{
 			url: '/person',

@@ -1,0 +1,105 @@
+.my{
+	background-color: @appBgColor;
+	.avatar{
+		background-color: @appContColor;
+		border-bottom: 2px solid @appBgColor;
+		.pt(14);
+		text-align: center;
+		img{
+			.w(86);
+			.h(86);
+			.br(43);
+		}
+		.name{
+			.fs(16);
+			color: @cargoBlackColor;
+			.lh(30);
+		}
+		.loginTime{
+			.fs(12);
+			color: @cargoGrayColor;
+			.mb(5);
+		}
+	}
+	.myOrder{
+		background-color: @appContColor;
+		.mt(5);
+		.topic{
+			background-color: @myOrderBgColor;
+			padding: 5px 10px;
+			p{
+				color: @appContColor;
+				.fs(18);
+				float: left;
+			}
+			a{
+				.fs(14);
+				float: right;
+				color: @appContColor;
+				text-decoration: none;
+			}
+			.clear{
+				clear: both;
+			}
+		}
+		.myOrderContent{
+			text-align: center;
+			border-right: 1px solid @appBgColor;
+			padding: 0;
+			&:last-child{
+				border: none; 
+			}
+			img{
+				.w(63);
+				.h(63);
+			}
+			p{
+				.fs(12);
+			}
+		}
+		.row{
+			.pt(14);
+			.pb(14);
+		}
+	}
+	.mySelect{
+		background-color: @appContColor;
+		.mt(5);
+		text-align: center;
+		.pt(18);
+		.pb(18);
+		.row{
+			border-bottom: 1px solid @appBgColor;
+			padding: 0;
+			&:last-child{
+				border-bottom: none;
+				.col{
+					.pt(8);
+				}
+			}
+			&:first-child{
+				.col{
+					.pb(8);
+				}
+			}
+			&+.row{
+				margin-top: 0;
+			}
+			.col{
+				border-right: 1px solid @appBgColor;
+				padding: 0;
+				&:last-child{
+					border-right: none;
+				}
+				img{
+					.w(65);
+					.h(65);
+				}
+				p{
+					.fs(13);
+					color: @cargoGrayColor;
+				}
+			}
+		}
+	}
+}

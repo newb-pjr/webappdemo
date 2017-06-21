@@ -13,3 +13,8 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope', function(
 	// $scope.result = $scope.length*$scope.width*$scope.height/6000;
 	// console.log($scope.result);
 }])
+.controller('packageCtrl', ['$scope', function($scope){
+	 $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+            viewData.enableBack = true;
+        });
+}])
