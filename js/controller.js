@@ -1,8 +1,5 @@
-angular.module("app.controller",[]).controller('startCtrl', ['$scope', function($scope){
-		console.log(789)
-	$scope.select = function(obj){
-		console.log(789)
-	}
+angular.module("app.controller",[]).controller('startCtrl', ['$scope','$ionicTabsDelegate', function($scope,$ionicTabsDelegate){
+
 }])
 .controller('infoCtrl', ['$scope', function($scope){
 	
@@ -17,4 +14,23 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope', function(
 	 $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
             viewData.enableBack = true;
         });
+}])
+.controller('orderCtrl', ['$scope', function($scope){
+	$scope.tab = function(title){
+		// console.log(title)
+	// 	switch(title){
+	// 		case '所有订单':
+	// 			$ionicTabsDelegate.$getByHandle('order-tab').select(0);
+	// 			break;
+	// 		case '未到达货品':
+	// 			$ionicTabsDelegate.$getByHandle('order-tab').select(1);
+	// 			break;
+	// 		case '已到达货品':
+	// 			$ionicTabsDelegate.$getByHandle('order-tab').select(2);
+	// 			break;
+	// 		case '待收货':
+	// 			$ionicTabsDelegate.$getByHandle('order-tab').select(3);
+	// 			break;
+	// 	}
+	}
 }])

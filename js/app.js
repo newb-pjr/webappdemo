@@ -1,4 +1,4 @@
-angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider','$stateProvider','$urlRouterProvider',function($ionicConfigProvider,$stateProvider,$urlRouterProvider) {
+angular.module("app",['ionic','app.controller','app.directive']).config(['$ionicConfigProvider','$stateProvider','$urlRouterProvider',function($ionicConfigProvider,$stateProvider,$urlRouterProvider) {
 	$ionicConfigProvider.platform.ios.tabs.style('standard');
 	$ionicConfigProvider.platform.ios.tabs.position('bottom');
 	$ionicConfigProvider.platform.android.tabs.style('standard');
@@ -66,6 +66,15 @@ angular.module("app",['ionic','app.controller']).config(['$ionicConfigProvider',
 			views: {
 				'tab-person': {
 					templateUrl: 'view/tabs/person.html'
+				}
+			}
+		})
+		.state('tabs.order',{
+			url: '/order',
+			views: {
+				'tab-person': {
+					templateUrl: 'view/tabs/person/order.html',
+					controller: 'orderCtrl'
 				}
 			}
 		})

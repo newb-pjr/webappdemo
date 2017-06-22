@@ -1,0 +1,95 @@
+.order{
+	.tabBgColor{
+		background-color: @orderBgColor;
+		.active{
+			color: @mainColor;
+		}
+	}
+	.orderContent{
+		background-color: @appBgColor;
+		.orderMain{
+			background-color: @appContColor;
+			.mt(3);
+			.orderTipic{
+				span{
+					color: @homeIntroColor;
+					&:first-child{
+						.fs(14);
+						float: left;
+					}
+					&:nth-child(2n){
+						.fs(12);
+						float: right;
+					}
+				}
+			}
+			.orderDetail{
+				text-align: center;
+				.fs(14);
+				color: @cargoBlackColor;
+				padding: 0;
+				.lh(16);
+				border-top: 2px solid @appBgColor;
+				.orderCargo{
+					.mb(5);
+				}
+				img{
+					.w(57);
+					.h(57);
+				}
+				.orderName{
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
+					text-align: left;
+				}
+				.orderNum{
+					.fs(12);
+					color: @cargoGrayColor;
+					text-align: left;
+				}
+				a{
+					.fs(14);
+					color: @mainColor;
+					text-decoration: none;
+					.lh(28);
+				}
+			}
+			.orderFooter{
+				border-top: 2px solid @appBgColor;
+				text-align: right;
+				.orderSum{
+					.fs(14);
+					color: @cargoBlackColor;
+					span{
+						&:first-child{
+							.mr(5);
+						}
+					}
+				}
+				.orderHandle{
+					.mt(8);
+					a{
+						.w(96);
+						.h(26);
+						.lh(26);
+						color: @appContColor;
+						text-decoration: none;
+						text-align: center;
+						display: inline-block;
+						border-radius: 5px;
+						.fs(14);
+						&:first-child{
+							background-color: @contactCustomService;
+							.mr(5);
+						}
+						&:last-child{
+							background-color: @mainColor;
+						}
+					}
+				}
+			}
+		}
+	}
+}
