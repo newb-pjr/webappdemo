@@ -1,0 +1,59 @@
+.address{
+	background-color: @appBgColor;
+	.addressContent{
+		background-color: @appContColor;
+		.mb(3);
+		.addressTopic{
+			color: @cargoBlackColor;
+			.fs(14);
+			span{
+				&:first-child{
+					float: left;
+				}
+				&:nth-child(2n){
+					float: right;
+				}
+			}
+		}
+		.addressDetail{
+			padding-top: 0;
+			color: @cargoBlackColor;
+			.fs(14);
+		}
+		.addressFooter{
+			border-top: 1px solid @appBgColor;
+			.fs(12);
+			.default{
+				color: @cargoGrayColor;
+				float: left;
+				position: relative;
+				img{
+					vertical-align: middle;
+					.w(13);
+					.h(13);
+					.mr(5);
+					.mt(-3);
+				}
+				.selectedImg{
+					position: absolute;
+					top: 35%;
+				}
+			}
+			.handle{
+				float: right;
+				a{
+					color: @cargoGrayColor;
+					text-decoration: none;
+					.fs(12);
+					i{
+						.fs(15);
+						.mr(3);
+					}
+					&:first-child{
+						.mr(16);
+					}
+				}
+			}
+		}
+	}
+}

@@ -7,8 +7,8 @@ angular.module("app",['ionic','app.controller','app.directive']).config(['$ionic
 	$ionicConfigProvider.platform.ios.navBar.alignTitle('center');
 	$ionicConfigProvider.platform.android.navBar.alignTitle('left');
 
-	$ionicConfigProvider.platform.ios.backButton.previousTitleText('').icon('ion-ios-arrow-thin-left');
-	$ionicConfigProvider.platform.android.backButton.previousTitleText('').icon('ion-android-arrow-back');
+	$ionicConfigProvider.platform.ios.backButton.previousTitleText(false).icon('ion-ios-arrow-thin-left').text('返回');
+	$ionicConfigProvider.platform.android.backButton.previousTitleText(false).icon('ion-android-arrow-back').text('返回');
 	$ionicConfigProvider.platform.ios.views.transition('ios');
 	$ionicConfigProvider.platform.android.views.transition('android');
 
@@ -75,6 +75,14 @@ angular.module("app",['ionic','app.controller','app.directive']).config(['$ionic
 				'tab-person': {
 					templateUrl: 'view/tabs/person/order.html',
 					controller: 'orderCtrl'
+				}
+			}
+		})
+		.state('tabs.address',{
+			url: '/address',
+			views: {
+				'tab-person': {
+					templateUrl: 'view/tabs/person/address.html'
 				}
 			}
 		})
