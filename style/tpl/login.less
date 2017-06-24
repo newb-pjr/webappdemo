@@ -1,0 +1,83 @@
+.login{
+	background: url(../img/login.jpg) no-repeat 0 0;
+	background-size: contain;
+	.loginImg{
+		.mt(106);
+		text-align: center;
+		img{
+			.w(242);
+			.h(64);
+		}
+	}
+	.inputInfo{
+		.mt(95);
+		.pl(34);
+		.pr(34);
+		.inputGroup{
+			input{
+				width: 100%;
+				.h(40);
+				.lh(40);
+				.fs(14);
+				padding: 0 5px;
+				border-radius: 5px;
+				&:first-child{
+					.mb(30);
+				}
+			}
+		}
+		.loginCheckbox{
+			color: @appContColor;
+			.fs(14);
+			.mt(16);
+			.left{
+				float: left;
+				label{
+					.mr(22);
+					input{
+						vertical-align: middle;
+					}
+				}
+			}
+			.right{
+				float: right;
+				a{
+					color: @appContColor;
+					.fs(14);
+					text-decoration: none;
+				}
+			}
+		}
+		.loginBtn{
+			.mt(62);
+			a{
+				&.loginIn{
+					width: 100%;
+					.h(40);
+					.lh(40);
+					color: @mainColor;
+					.fs(22);
+					text-align: center;
+					display: block;
+					background-color: @appContColor;
+					border-radius: 5px;
+					text-decoration: none;
+				}
+			}
+			.register{
+				.fs(14);
+				.mt(10);
+				color: @appContColor;
+				span{
+					float: left;
+				}
+				a{
+					float: right;
+					.fs(14);
+					color: @appContColor;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}

@@ -87,5 +87,9 @@ angular.module("app",['ionic','app.controller','app.directive']).config(['$ionic
 				}
 			}
 		})
+		.state('login',{
+			url: '/login',
+			templateUrl: 'view/login.html',
+		})
 	$urlRouterProvider.otherwise('tabs/home')
 }])
