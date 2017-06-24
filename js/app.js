@@ -82,7 +82,8 @@ angular.module("app",['ionic','app.controller','app.directive']).config(['$ionic
 			url: '/address',
 			views: {
 				'tab-person': {
-					templateUrl: 'view/tabs/person/address.html'
+					templateUrl: 'view/tabs/person/address.html',
+					controller: 'addressCtrl'
 				}
 			}
 		})

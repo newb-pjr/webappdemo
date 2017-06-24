@@ -34,3 +34,21 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','$ionicTab
 	// 	}
 	}
 }])
+.controller('addressCtrl', ['$scope','$ionicModal', function($scope,$ionicModal){
+	$ionicModal.fromTemplateUrl('view/tabs/person/addAddress.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal){
+		$scope.modal = modal;
+	})
+	
+	$scope.showModal = function(){
+		$scope.modal.show();
+	}
+	$scope.hideModal = function(){
+		$scope.modal.hide();
+	}
+	$scope.$on('$destroy', function() {
+    	$scope.modal.remove();
+  	})
+}])	
