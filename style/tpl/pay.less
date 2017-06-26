@@ -1,0 +1,69 @@
+.pay{
+	background-color: @appBgColor;
+	.personInfo{
+		.mt(3);
+		background-color: @appContColor;
+		color: @cargoBlackColor;
+		.fs(14);
+		span{
+			&:first-child{
+				float: left;
+			}
+			&:nth-child(2n){
+				float: right;
+			}
+		}
+		border-bottom: 2px solid @payBorderBottomColor;
+		&.border-none{
+			border: none;
+		}
+	}
+	.selectTopic{
+		.mt(3);
+		background-color: @appContColor;
+		.fs(14);
+		color: @startColor;
+		.right{
+			float: right;
+			a{
+				&.check{
+					color: @mainColor;
+					text-decoration: none;
+					padding-right: 5px;
+				}
+			}
+		}
+	}
+	.cargo{
+		.mt(3);
+		background-color: @appContColor;
+		padding: 0 5px 0 0;
+		text-align: center;
+		.fs(14);
+		p{
+			.fs(12);
+		}
+		div{
+			padding: 0;
+		}
+		.cargoDetail{
+			border-bottom: 1px solid @appBgColor;
+			.lh(16);
+			padding: 5px 5px 5px 10px; 
+			text-align: left;
+			&:last-child{
+				border-bottom: none;
+			}
+			.cargoName{
+				color: @cargoBlackColor;
+			}
+			.cargoInfo{
+				.fs(10);
+				color: @cargoGrayColor;
+			}
+		}
+		.padding-none{
+			padding: 0;
+		}
+	}
+}

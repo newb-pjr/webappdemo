@@ -48,8 +48,15 @@ angular.module("app",['ionic','app.controller','app.directive']).config(['$ionic
 				'tab-start': {
 					templateUrl: 'view/tabs/start/package.html',
 					controller: 'packageCtrl'
-				},
-				cache: false
+				}
+			}
+		})
+		.state('tabs.pay',{
+			url: '/pay',
+			views: {
+				'tab-start': {
+					templateUrl: 'view/tabs/start/pay.html'
+				}
 			}
 		})
 		.state('tabs.info',{
@@ -90,6 +97,10 @@ angular.module("app",['ionic','app.controller','app.directive']).config(['$ionic
 		.state('login',{
 			url: '/login',
 			templateUrl: 'view/login.html',
+		})
+		.state('register',{
+			url: '/register',
+			templateUrl: 'view/register.html',
 		})
 	$urlRouterProvider.otherwise('tabs/home')
 }])

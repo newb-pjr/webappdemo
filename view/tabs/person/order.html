@@ -1,11 +1,6 @@
 <ion-view view-title="我的订单" class="order" tabs-hide>
 	<div class="tabs-striped tabs-top tabs-color-positive">
-		<div class="tabs tabBgColor">
-			<a class="tab-item active" href="javascript:void(0)" ng-click="tab(this)">所有订单</a>
-			<a class="tab-item" href="javascript:void(0)" ng-click="tab(this)">未到达货品</a>
-			<a class="tab-item" href="javascript:void(0)" ng-click="tab(this)">已到达货品</a>
-			<a class="tab-item" href="javascript:void(0)" ng-click="tab(this)">待收货</a>
-		</div>
+		<div top-tabs tab-list="topTabs"></div>
 	</div>
 	<ion-content class="has-tabs has-tabs-top orderContent">
 		<div class="orderMain">

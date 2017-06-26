@@ -1,0 +1,84 @@
+.register{
+	background: url(../img/login.jpg) no-repeat 0 0;
+	background-size: contain;
+	position: fixed;
+	.registerImg{
+		.mt(68);
+		text-align: center;
+		img{
+			.w(242);
+			.h(64);
+		}
+	}
+	.inputInfo{
+		.mt(65);
+		.pl(34);
+		.pr(34);
+		.inputGroup{
+			input,select,div{
+				width: 100%;
+				.h(40);
+				.lh(40);
+				.fs(14);
+				padding: 0 5px;
+				border-radius: 5px;
+				.mb(23);
+				background-color: @appContColor;
+				span{
+					display: inline-block;
+					.h(40);
+					.lh(40);
+					border-right: 1px solid @cargoBlackColor;
+					.pl(8);
+					.pr(14);
+				}
+				&:last-child{
+					.mb(53);
+				}
+			}
+			div{
+				input{
+					&.phoneInput{
+						width: 80%;
+						.h(36);
+						.lh(36);
+						border-radius: 0px;
+						margin-bottom: 0;
+						display: inline-block;
+						margin-top: -3px;
+					}
+				}
+			}
+		}
+		.registerBtn{
+			a{
+				&.registerSub{
+					width: 100%;
+					.h(40);
+					.lh(40);
+					color: @mainColor;
+					.fs(22);
+					text-align: center;
+					display: block;
+					background-color: @appContColor;
+					border-radius: 5px;
+					text-decoration: none;
+				}
+			}
+			.login{
+				.fs(14);
+				.mt(10);
+				color: @appContColor;
+				span{
+					float: left;
+				}
+				a{
+					float: right;
+					.fs(14);
+					color: @appContColor;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}

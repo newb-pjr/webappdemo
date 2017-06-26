@@ -1,4 +1,4 @@
-<ion-view title="开始集运" class="package" >
+<ion-view title="开始集运" class="package">
 	<div class="bar bar-subheader">
 		<p class="title">货品等级记录</p>
 		<div class="topic row">
@@ -9,7 +9,7 @@
 			<div class="col col-10">操作</div>
 		</div>
 	</div>
-	<ion-content has-subheader="true" class="has-subheader">
+	<ion-content has-subheader="true" class="has-subheader has-tabs">
 		<ion-list class="listContent">
 			<ion-item>
 				<ion-checkbox>
@@ -106,12 +106,12 @@
 			</ion-item>
 		</ion-list>
 	</ion-content>
-	<ion-footer-bar class="footer">
+	<ion-footer-bar class="footer" ng-class="{'footerBottom':true}">
 		<div class="row">
 			<div class="col">
 				<ion-checkbox>全选</ion-checkbox>
 				<div class="packageSub">
-					<a href="javascript:void(0)" class="packageBtn">申请打包</a>
+					<a href="#/tabs/pay" class="packageBtn">申请打包</a>
 					<p>*货品必需填写内容才可打包</p>
 				</div>
 			</div>

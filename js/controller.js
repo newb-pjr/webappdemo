@@ -16,6 +16,24 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','$ionicTab
         });
 }])
 .controller('orderCtrl', ['$scope', function($scope){
+	$scope.topTabs = [{
+		id: 'all',
+		name: '所有订单',
+		isActive: true
+	},{
+		id: 'onRoad',
+		name: '未到达货品',
+		isActive: false
+	},{
+		id: 'arrive',
+		name: '已到达货品',
+		isActive: false
+	},{
+		id: 'takeOver',
+		name: '待收货',
+		isActive: false
+	}]
+
 	$scope.tab = function(title){
 		// console.log(title)
 	// 	switch(title){
