@@ -3,9 +3,18 @@ angular.module("app.directive",[]).directive('tabsHide', ['$rootScope', function
 		restrict: 'AE',
 		link: function(scope) {
 			$rootScope.tabsHide = 'tabs-item-hide';
-			scope.$on('$destroy',function(){
-				$rootScope.tabsHide = '';
-			})
+			// scope.$on('$destroy',function(){
+			// 	$rootScope.tabsHide = '';
+			// })
+		}
+	};
+}])
+.directive('tabsShow', ['$rootScope', function($rootScope){
+	return {
+		restrict: 'AE',
+		link: function(scope) {
+			$rootScope.tabsHide = '';
+			console.log(123)
 		}
 	};
 }])

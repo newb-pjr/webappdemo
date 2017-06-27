@@ -1,4 +1,5 @@
-angular.module("app.controller",[]).controller('startCtrl', ['$scope','$ionicTabsDelegate', function($scope,$ionicTabsDelegate){
+angular.module("app.controller",[]).controller('startCtrl', ['$scope','$ionicNavBarDelegate', function($scope,$ionicNavBarDelegate){
+	// $ionicNavBarDelegate.showBackButton(false);
 
 }])
 .controller('infoCtrl', ['$scope', function($scope){
@@ -10,10 +11,19 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','$ionicTab
 	// $scope.result = $scope.length*$scope.width*$scope.height/6000;
 	// console.log($scope.result);
 }])
-.controller('packageCtrl', ['$scope', function($scope){
-	 $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-            viewData.enableBack = true;
-        });
+.controller('packageCtrl', ['$scope','$state','$rootScope', function($scope,$state,$rootScope){
+	$scope.goBack = function(){
+		$state.go('tabs.start');
+		// $ionicHistory.goBack(-1)
+	}
+	// $ionicHistory.nextViewOptions({
+	// 	disableBack: true
+	// })
+	$scope.$on('$ionicView.enter', function () {
+  // 显示 tabs
+	  $rootScope.hideTabs = '';
+	  console.log(233333)
+	});
 }])
 .controller('orderCtrl', ['$scope', function($scope){
 	$scope.topTabs = [{
@@ -34,23 +44,6 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','$ionicTab
 		isActive: false
 	}]
 
-	$scope.tab = function(title){
-		// console.log(title)
-	// 	switch(title){
-	// 		case '所有订单':
-	// 			$ionicTabsDelegate.$getByHandle('order-tab').select(0);
-	// 			break;
-	// 		case '未到达货品':
-	// 			$ionicTabsDelegate.$getByHandle('order-tab').select(1);
-	// 			break;
-	// 		case '已到达货品':
-	// 			$ionicTabsDelegate.$getByHandle('order-tab').select(2);
-	// 			break;
-	// 		case '待收货':
-	// 			$ionicTabsDelegate.$getByHandle('order-tab').select(3);
-	// 			break;
-	// 	}
-	}
 }])
 .controller('addressCtrl', ['$scope','$ionicModal', function($scope,$ionicModal){
 	$ionicModal.fromTemplateUrl('view/tabs/person/addAddress.html', {
