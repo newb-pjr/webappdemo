@@ -2,7 +2,7 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 		var api = ENV.api;
 		var catid = 20;
 		var topic;
-		var page = 1;
+		var nextPage = 2;
 		var hasPage = true;
 
 		var resource = $resource(api, {}, {
@@ -21,31 +21,28 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 			getTopTopics: function(){
 				resource.query({
 					catid:catid,
-					page:page
+					page:1
 				},function(resp){
 					topic = resp.result;
 					if(resp.result.length<=20){
 						hasPage = false;
-					}else{
-						page++;
 					}
 					$rootScope.$broadcast("PortalList.portalsUpdated");
 				})
 			},
 			getNews: function(){
-				console.log(topic)
 				return topic;
 			},
 			getMoreNews: function(){
 				resource.query({
 					catid:catid,
-					page:page
+					page:nextPage
 				},function(resp){
 					topic = topic.concat(resp.result);
 					if(resp.result.length<=20){
 						hasPage = false;
 					}else{
-						page++;
+						nextPage++;
 					}
 					$rootScope.$broadcast("PortalList.portalsUpdated");
 				})

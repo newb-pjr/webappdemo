@@ -1,8 +1,22 @@
 <ion-view view-title="文章">
-	<ion-content>
+	<div class="bar bar-subheader padding-none">
+		<ion-scroll direction="x" scrollbar-x="false" class="scrollTabs">
+			<div class="button-bar button-list">
+				<a href="javascript:void(0)" class="button button-clear active">教程</a>
+				<a href="javascript:void(0)" class="button button-clear">资讯</a>
+				<a href="javascript:void(0)" class="button button-clear">杂谈</a>
+				<a href="javascript:void(0)" class="button button-clear">互联网</a>
+				<a href="javascript:void(0)" class="button button-clear">财经</a>
+				<a href="javascript:void(0)" class="button button-clear">娱乐</a>
+				<a href="javascript:void(0)" class="button button-clear">体育</a>
+				<a href="javascript:void(0)" class="button button-clear">科技</a>
+			</div>
+		</ion-scroll>
+	</div>
+	<ion-content class="has-subheader">
 		<ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
 		<ion-list class="list">
-			<ion-item href="#" ng-repeat="news in data" class="item-thumbnail-left item-icon-right">
+			<ion-item href="#" collection-repeat="news in data" class="item-thumbnail-left item-icon-right">
 				<img ng-if="news.pic" ng-src="{{ENV.imgUrl}}{{news.pic}}">
 				<img ng-if="!news.pic" ng-src="img/ionic.png">
 				<h2 ng-bind="news.title"></h2>
@@ -10,6 +24,6 @@
 				<i class="icon ion-ios-arrow-forward"></i>
 			</ion-item>
 		</ion-list>
-		<ion-infinite-scroll ng-if="pageEnd()" on-infinite="loadMore()" spinner="ios" distance="1%" immediate-check="false"></ion-infinite-scroll>
+		<ion-infinite-scroll on-infinite="loadMore()" spinner="ios" distance="1%" ng-if="pageEnd()"></ion-infinite-scroll>
 	</ion-content>
 </ion-view>

@@ -1,0 +1,19 @@
+.padding-none{
+	padding: 0;
+}
+.button-list{
+	width: 160%;
+	height: 44px;
+	a{
+		&.button{
+			border-radius: 0 !important;
+			color: @buttonColor;
+			width: 20%;
+			line-height: 44px !important;
+		}
+		&.active{
+			border-bottom: 2px solid @buttonBottomColor;
+			opacity: 1;
+		}
+	}
+}
