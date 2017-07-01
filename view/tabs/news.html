@@ -2,14 +2,7 @@
 	<div class="bar bar-subheader padding-none">
 		<ion-scroll direction="x" scrollbar-x="false" class="scrollTabs">
 			<div class="button-bar button-list">
-				<a href="javascript:void(0)" class="button button-clear active">教程</a>
-				<a href="javascript:void(0)" class="button button-clear">资讯</a>
-				<a href="javascript:void(0)" class="button button-clear">杂谈</a>
-				<a href="javascript:void(0)" class="button button-clear">互联网</a>
-				<a href="javascript:void(0)" class="button button-clear">财经</a>
-				<a href="javascript:void(0)" class="button button-clear">娱乐</a>
-				<a href="javascript:void(0)" class="button button-clear">体育</a>
-				<a href="javascript:void(0)" class="button button-clear">科技</a>
+				<a href="javascript:void(0)" class="button button-clear" ng-repeat="item in tabsList" ng-class="{'active':selectId==item.id}" ng-click="select(item.id,item.catid)" ng-bind="item.name"></a>
 			</div>
 		</ion-scroll>
 	</div>

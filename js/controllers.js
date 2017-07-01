@@ -19,6 +19,41 @@ angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFacto
 	console.log(newsFactory.getNextPage())
 		return newsFactory.getNextPage();
 	}
-	// $scope.pageStop = $scope.pageEnd();
-	// console.log($scope.pageStop)
+	$scope.tabsList = [{
+		id: 0,
+		name: '教程',
+		catid: 1
+	},{
+		id: 1,
+		name: '资讯',
+		catid: 2
+	},{
+		id: 2,
+		name: '杂谈',
+		catid: 3
+	},{
+		id: 3,
+		name: '互联网',
+		catid: 4
+	},{
+		id: 4,
+		name: '财经',
+		catid: 5
+	},{
+		id: 5,
+		name: '娱乐',
+		catid: 1
+	},{
+		id: 6,
+		name: '体育',
+		catid: 1
+	},{
+		id: 7,
+		name: '科技',
+		catid: 1
+	}]
+	$scope.selectId = 0;
+	$scope.select = function(selectId,catid){
+		$scope.selectId = selectId;
+	}
 }])
