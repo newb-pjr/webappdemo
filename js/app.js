@@ -39,7 +39,8 @@ angular.module("app",["ionic","app.services","app.config","app.controllers","ngR
 			url: '/thread',
 			views: {
 				'tab-thread': {
-					templateUrl: 'view/tabs/thread.html'
+					templateUrl: 'view/tabs/thread.html',
+					controller: 'threadCtrl'
 				}
 			}
 		})

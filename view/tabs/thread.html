@@ -1,3 +1,9 @@
 <ion-view view-title="帖子">
-	<ion-content>thread</ion-content>
+	<ion-content>
+		<ion-list class="list">
+			<ion-item href="#/thread-content/{{item.tid}}" ng-repeat="item in data">
+				<h2 ng-bind="item.subject"></h2>
+			</ion-item>
+		</ion-list>
+	</ion-content>
 </ion-view>

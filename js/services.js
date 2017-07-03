@@ -2,7 +2,7 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 		var api = ENV.api;
 		var catid = 20;
 		var topic;
-		var nextPage = 2;
+		var nextPage;
 		var hasPage = true;
 
 		var resource = $resource(api, {}, {
@@ -24,9 +24,10 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 					page:1
 				},function(resp){
 					topic = resp.result;
-					if(resp.result.length<=20){
+					if(resp.result.length<20){
 						hasPage = false;
 					}
+					nextPage = 2;
 					$rootScope.$broadcast("PortalList.portalsUpdated");
 				})
 			},
@@ -39,7 +40,7 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 					page:nextPage
 				},function(resp){
 					topic = topic.concat(resp.result);
-					if(resp.result.length<=20){
+					if(resp.result.length<20){
 						hasPage = false;
 					}else{
 						nextPage++;
@@ -47,8 +48,45 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 					$rootScope.$broadcast("PortalList.portalsUpdated");
 				})
 			},
+			setNewsCatid: function(cate_id){
+				catid = cate_id;
+				hasPage = true;
+				this.getTopTopics();
+			},
 			getNextPage: function(){
 				return hasPage;
 			}
 		}
+}])
+.factory('threadFactory', ['$rootScope','$resource','ENV', function($rootScope,$resource,ENV){
+	var api = ENV.api;
+	var fid = 2;
+	var thread;
+	var nextPage = true;
+	var resource = $resource(api, {}, {
+		query: {
+			method: 'get',
+			params: {
+				a: 'getThreadList',
+				fid: '@fid',
+				page: '@page'
+			},
+			timeout: 20000
+		}
+	})
+
+	return {
+		getFirstThreadList: function(){
+			resource.query({
+				fid: fid,
+				page: 1
+			},function(resp){
+				thread = resp.result;
+				$rootScope.$broadcast('threadList.threadsUpdated');
+			})
+		},
+		getThread: function(){
+			return thread;
+		}
+	};
 }])
