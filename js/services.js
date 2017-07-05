@@ -53,7 +53,7 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 				hasPage = true;
 				this.getTopTopics();
 			},
-			getNextPage: function(){
+			hasNextPage: function(){
 				return hasPage;
 			}
 		}
@@ -62,7 +62,7 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 	var api = ENV.api;
 	var fid = 2;
 	var thread;
-	var nextPage = true;
+	var hasPage = true;
 	var resource = $resource(api, {}, {
 		query: {
 			method: 'get',
@@ -82,11 +82,58 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 				page: 1
 			},function(resp){
 				thread = resp.result;
+				if(resp.result.length<20){
+					hasPage = false;
+				}
+				nextPage = 2;
 				$rootScope.$broadcast('threadList.threadsUpdated');
 			})
 		},
 		getThread: function(){
 			return thread;
+		},
+		getMoreThread: function(){
+			resource.query({
+				fid: fid,
+				page: nextPage
+			},function(resp){
+				thread = thread.concat(resp.result);
+				if(resp.result.length<20){
+					hasPage = false;
+				}else{
+					nextPage++;
+				}
+				$rootScope.$broadcast('threadList.threadsUpdated');
+			})
+		},
+		hasNextPage: function(){
+			return hasPage;
+		}
+	};
+}])
+.factory('newsContentFactory', ['ENV','$resource', function(ENV,$resource){
+	var api = ENV.api;
+	var resource = $resource(api, {}, {
+		query:{
+			method: 'get',
+			params:{
+				a:'getPortalArticle',
+				aid:'@aid'
+			}
+		}
+	})
+
+	return {
+		getNewsContent: function(){
+			resource.query({
+				aid:aid
+			},function(resp){
+				return resp.result.content;
+			})
+		},
+		getNewsAid: function(a_id){
+			aid = a_id;
+			this.getNewsContent();
 		}
 	};
 }])

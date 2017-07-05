@@ -1,9 +1,11 @@
 <ion-view view-title="帖子">
 	<ion-content>
+		<ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
 		<ion-list class="list">
 			<ion-item href="#/thread-content/{{item.tid}}" ng-repeat="item in data">
 				<h2 ng-bind="item.subject"></h2>
 			</ion-item>
 		</ion-list>
+		<ion-infinite-scroll on-infinite="loadMore()" immediate-check="false" ng-if="pageEnd()"></ion-infinite-scroll>
 	</ion-content>
 </ion-view>

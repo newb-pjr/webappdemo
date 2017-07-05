@@ -1,4 +1,4 @@
-angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFactory','ENV','$timeout','$ionicScrollDelegate', function($scope,newsFactory,ENV,$timeout,$ionicScrollDelegate){
+angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFactory','ENV','$ionicScrollDelegate', function($scope,newsFactory,ENV,$ionicScrollDelegate){
 	newsFactory.getTopTopics();
 	$scope.$on("PortalList.portalsUpdated",function(){
 		
@@ -12,12 +12,11 @@ angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFacto
 		newsFactory.getTopTopics();
 	}
 	$scope.loadMore = function(){
-			console.log(123)
 		newsFactory.getMoreNews();
 	}
 	$scope.pageEnd = function(){
-	console.log(newsFactory.getNextPage())
-		return newsFactory.getNextPage();
+	console.log(newsFactory.hasNextPage())
+		return newsFactory.hasNextPage();
 	}
 	$scope.tabsList = [{
 		id: 0,
@@ -63,5 +62,20 @@ angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFacto
 	threadFactory.getFirstThreadList();
 	$scope.$on('threadList.threadsUpdated',function(){
 		$scope.data = threadFactory.getThread();
+		$scope.$broadcast('scroll.refreshComplete');
+		$scope.$broadcast('scroll.infiniteScrollComplete');
 	})
+	$scope.doRefresh = function(){
+		threadFactory.getFirstThreadList();
+	}
+	$scope.loadMore = function(){
+		threadFactory.getMoreThread();
+	}
+	$scope.pageEnd = function(){
+	console.log(threadFactory.hasNextPage())
+		return threadFactory.hasNextPage();
+	}
+}])
+.controller('newsContCtrl', ['$scope','newsContentFactory','$stateParams', function($scope,newsContentFactory,$stateParams){
+	$scope.content = newsContentFactory.getNewsContent();
 }])

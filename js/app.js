@@ -35,6 +35,15 @@ angular.module("app",["ionic","app.services","app.config","app.controllers","ngR
 				}
 			}
 		})
+		.state('tabs.news-content',{
+			url: '/news-content/:aid',
+			views: {
+				'tab-news': {
+					templateUrl: 'view/news/news-content.html',
+					controller: 'newsContCtrl'
+				}
+			}
+		})
 		.state('tabs.thread',{
 			url: '/thread',
 			views: {
