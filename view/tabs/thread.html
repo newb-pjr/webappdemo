@@ -2,7 +2,7 @@
 	<ion-content>
 		<ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
 		<ion-list class="list">
-			<ion-item href="#/thread-content/{{item.tid}}" ng-repeat="item in data">
+			<ion-item href="#/tabs/thread-content/{{item.tid}}" ng-repeat="item in data">
 				<h2 ng-bind="item.subject"></h2>
 			</ion-item>
 		</ion-list>

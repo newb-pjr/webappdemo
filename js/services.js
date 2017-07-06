@@ -111,8 +111,10 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 		}
 	};
 }])
-.factory('newsContentFactory', ['ENV','$resource', function(ENV,$resource){
+.factory('newsContentFactory', ['$rootScope','ENV','$resource', function($rootScope,ENV,$resource){
 	var api = ENV.api;
+	var aid;
+	var newsCont;
 	var resource = $resource(api, {}, {
 		query:{
 			method: 'get',
@@ -124,16 +126,52 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 	})
 
 	return {
-		getNewsContent: function(){
+		getNews: function(){
 			resource.query({
 				aid:aid
 			},function(resp){
-				return resp.result.content;
+				newsCont = resp.result[0].content;
+				$rootScope.$broadcast('newsContent.newsUpdated');
 			})
 		},
 		getNewsAid: function(a_id){
 			aid = a_id;
-			this.getNewsContent();
+			this.getNews();
+		},
+		getNewsContent: function(){
+			return newsCont;
+		}
+	};
+}])
+.factory('threadContentFactory', ['$rootScope','ENV','$resource', function($rootScope,ENV,$resource){
+	var api = ENV.api;
+	var tid;
+	var threadCont;
+	var resource = $resource(api, {}, {
+		query: {
+			method: 'get',
+			params: {
+				a: 'getThreadContent',
+				tid: '@tid'
+			},
+			timeout: 20000
+		}
+	})
+	return {
+		getThread: function(){
+			resource.query({
+				tid:tid
+			},function(resp){
+				threadCont = resp.result;
+				$rootScope.$broadcast('threadContent.threadsUpdated');
+			})
+		},
+		getThreadTid: function(t_id){
+			tid = t_id;
+			this.getThread();
+		},
+		getThreadContent: function(){
+			return threadCont;
 		}
 	};
 }])

@@ -53,6 +53,15 @@ angular.module("app",["ionic","app.services","app.config","app.controllers","ngR
 				}
 			}
 		})
+		.state('tabs.thread-content',{
+			url: '/thread-content/:tid',
+			views: {
+				'tab-thread': {
+					templateUrl: 'view/thread/thread-content.html',
+					controller: 'threadContCtrl'
+				}
+			}
+		})
 		.state('tabs.user',{
 			url: '/user',
 			views: {

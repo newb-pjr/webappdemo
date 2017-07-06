@@ -77,5 +77,14 @@ angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFacto
 	}
 }])
 .controller('newsContCtrl', ['$scope','newsContentFactory','$stateParams', function($scope,newsContentFactory,$stateParams){
-	$scope.content = newsContentFactory.getNewsContent();
+	newsContentFactory.getNewsAid($stateParams.aid);
+	$scope.$on('newsContent.newsUpdated',function(){
+		$scope.content = newsContentFactory.getNewsContent();
+	})
+}])
+.controller('threadContCtrl', ['$scope','threadContentFactory','$stateParams', function($scope,threadContentFactory,$stateParams){
+	threadContentFactory.getThreadTid($stateParams.tid);
+	$scope.$on('threadContent.threadsUpdated',function(){
+		$scope.content = threadContentFactory.getThreadContent();
+	})
 }])
