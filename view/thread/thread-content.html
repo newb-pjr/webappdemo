@@ -1,6 +1,10 @@
-<ion-view view-title="帖子详情">
-	<ion-content padding="true">
-		<div ng-bind="content[0].subject"></div>
+<ion-view view-title="帖子详情" hide-tabs>
+	<ion-content padding="true" class="thread">
+		<div ng-bind="content[0].subject" class="title"></div>
 		<div ng-bind-html="content[0].message"></div>
+		<hr />
+		<ul>
+			<li ng-repeat="(key, value) in content" ng-if="key>0" ng-bind="value.message"></li>
+		</ul>
 	</ion-content>
 </ion-view>
