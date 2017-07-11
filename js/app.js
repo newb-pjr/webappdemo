@@ -69,6 +69,14 @@ angular.module("app",["ionic","app.services","app.config","app.controllers","app
 					templateUrl: 'view/tabs/user.html'
 				}
 			}
+		})
+		.state('tabs.login',{
+			url: '/login',
+			views: {
+				'tab-user': {
+					templateUrl: 'view/user/login.html'
+				}
+			}
 		});
 	$urlRouterProvider.otherwise('/tabs/home');
 }])
