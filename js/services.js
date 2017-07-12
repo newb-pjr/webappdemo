@@ -175,3 +175,16 @@ angular.module("app.services",[]).factory('newsFactory', ['$rootScope','$resourc
 		}
 	};
 }])
+.factory('Storage', [function(){
+	return {
+		save:function(key,value){
+			return window.localStorage.setItem(key,window.JSON.stringify(value));
+		},
+		get:function(key){
+			return window.JSON.parse(window.localStorage.getItem(key));
+		},
+		remove:function(key){
+			return window.localStorage.removeItem(key);
+		}
+	};
+}])

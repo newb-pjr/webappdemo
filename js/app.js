@@ -66,7 +66,8 @@ angular.module("app",["ionic","app.services","app.config","app.controllers","app
 			url: '/user',
 			views: {
 				'tab-user': {
-					templateUrl: 'view/tabs/user.html'
+					templateUrl: 'view/tabs/user.html',
+					controller: 'userCtrl'
 				}
 			}
 		})
@@ -74,7 +75,8 @@ angular.module("app",["ionic","app.services","app.config","app.controllers","app
 			url: '/login',
 			views: {
 				'tab-user': {
-					templateUrl: 'view/user/login.html'
+					templateUrl: 'view/user/login.html',
+					controller: 'loginCtrl'
 				}
 			}
 		});

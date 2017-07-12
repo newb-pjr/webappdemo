@@ -88,3 +88,19 @@ angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFacto
 		$scope.content = threadContentFactory.getThreadContent();
 	})
 }])
+.controller('loginCtrl', ['$scope','Storage', function($scope,Storage){
+	$scope.user={
+		username:'',
+		password:''
+	}
+	$scope.login = function(){
+		Storage.save("userInfo",$scope.user);
+	}
+}])
+.controller('userCtrl', ['$scope','Storage', function($scope,Storage){
+	if(Storage.get("userInfo")){
+		$scope.isLogin = true;
+	}else{
+		$scope.isLogin = false;
+	}
+}])
