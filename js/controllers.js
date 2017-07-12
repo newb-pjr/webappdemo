@@ -88,13 +88,14 @@ angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFacto
 		$scope.content = threadContentFactory.getThreadContent();
 	})
 }])
-.controller('loginCtrl', ['$scope','Storage', function($scope,Storage){
+.controller('loginCtrl', ['$scope','Storage','$state', function($scope,Storage,$state){
 	$scope.user={
 		username:'',
 		password:''
 	}
 	$scope.login = function(){
 		Storage.save("userInfo",$scope.user);
+		$state.go("tabs.user");
 	}
 }])
 .controller('userCtrl', ['$scope','Storage', function($scope,Storage){
@@ -102,5 +103,22 @@ angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFacto
 		$scope.isLogin = true;
 	}else{
 		$scope.isLogin = false;
+	}
+	$scope.username = Storage.get("userInfo").username;
+}])
+.controller('personalCtrl', ['$scope','$ionicActionSheet','Storage','$state', function($scope,$ionicActionSheet,Storage,$state){
+	$scope.logout = function(){
+		$ionicActionSheet.show({
+				destructiveText: "退出登录",
+				titleText: "确定退出当前登录账号么？",
+				cancelText: "取消",
+				cancel: function() {
+				},
+				destructiveButtonClicked: function() {
+					Storage.remove("userInfo");
+					$state.go("tabs.user");
+					return true;
+				}
+		});
 	}
 }])

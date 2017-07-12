@@ -1,9 +1,16 @@
 <ion-view view-title="我">
 	<ion-content class="user">
-		<div class="handleUser" ui-sref="tabs.login">
+		<div class="handleUser" ui-sref="tabs.login" ng-if="!isLogin">
 			<img src="img/commentfailure.png">
 			<p>立即登录<p>
 		</div>
+		<ion-list ng-if="isLogin">
+			<ion-item class="item item-avatar" href="#/tabs/personal">
+				<img src="img/commentfailure.png">
+				<h2 ng-bind="username"></h2>
+				<p>积分：1000</p>
+			</ion-item>
+		</ion-list>
 		<div class="button-bar bar-light">
 			<a href="javascript:void(0)" class="button icon-left">
 				<i class="icon ion-android-star-outline"></i>收藏

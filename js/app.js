@@ -80,5 +80,14 @@ angular.module("app",["ionic","app.services","app.config","app.controllers","app
 				}
 			}
 		});
+		.state('tabs.personal',{
+			url: '/personal',
+			views: {
+				'tab-user': {
+					templateUrl: 'view/user/personal.html',
+					controller: 'personalCtrl'
+				}
+			}
+		});
 	$urlRouterProvider.otherwise('/tabs/home');
 }])
