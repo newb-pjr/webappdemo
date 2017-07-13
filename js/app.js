@@ -79,7 +79,7 @@ angular.module("app",["ionic","app.services","app.config","app.controllers","app
 					controller: 'loginCtrl'
 				}
 			}
-		});
+		})
 		.state('tabs.personal',{
 			url: '/personal',
 			views: {

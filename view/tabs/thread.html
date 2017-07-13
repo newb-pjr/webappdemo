@@ -1,4 +1,7 @@
 <ion-view view-title="帖子">
+	<ion-nav-buttons side="right">
+		<button class="button button-icon icon ion-compose" ng-click="releaseThread()"></button>
+	</ion-nav-buttons>
 	<ion-content>
 		<ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
 		<ion-list class="list">

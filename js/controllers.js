@@ -58,7 +58,7 @@ angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFacto
 		newsFactory.setNewsCatid(catid);
 	}
 }])
-.controller('threadCtrl', ['$scope','threadFactory', function($scope,threadFactory){
+.controller('threadCtrl', ['$scope','threadFactory','$ionicModal', function($scope,threadFactory,$ionicModal){
 	threadFactory.getFirstThreadList();
 	$scope.$on('threadList.threadsUpdated',function(){
 		$scope.data = threadFactory.getThread();
@@ -75,6 +75,14 @@ angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFacto
 	console.log(threadFactory.hasNextPage())
 		return threadFactory.hasNextPage();
 	}
+	$scope.releaseThread = function(){
+		$ionicModal.fromTemplateUrl('view/thread/release-thread.html',{
+			scope: $scope,
+			animation: 'slide-in-up'
+		}).then(function(modal){
+			$scope.modal = modal;
+		})
+	}
 }])
 .controller('newsContCtrl', ['$scope','newsContentFactory','$stateParams', function($scope,newsContentFactory,$stateParams){
 	newsContentFactory.getNewsAid($stateParams.aid);
@@ -88,25 +96,40 @@ angular.module("app.controllers",[]).controller('newsCtrl', ['$scope','newsFacto
 		$scope.content = threadContentFactory.getThreadContent();
 	})
 }])
-.controller('loginCtrl', ['$scope','Storage','$state', function($scope,Storage,$state){
+.controller('loginCtrl', ['$scope','Storage','$state','$ionicLoading', function($scope,Storage,$state,$ionicLoading){
 	$scope.user={
 		username:'',
 		password:''
 	}
 	$scope.login = function(){
-		Storage.save("userInfo",$scope.user);
-		$state.go("tabs.user");
+		if($scope.user.password.length<6){
+			$ionicLoading.show({
+				template: '密码长度少于6位',
+				noBackdrop: true,
+				duration: 1500
+			})
+		}else{
+			Storage.save("userInfo",$scope.user);
+			$state.go("tabs.user");
+		}
 	}
 }])
 .controller('userCtrl', ['$scope','Storage', function($scope,Storage){
-	if(Storage.get("userInfo")){
-		$scope.isLogin = true;
-	}else{
-		$scope.isLogin = false;
-	}
-	$scope.username = Storage.get("userInfo").username;
+	$scope.$on("$ionicView.beforeEnter",function(){
+		if(Storage.get("userInfo")){
+			$scope.isLogin = true;
+			$scope.username = Storage.get("userInfo").username;
+		}else{
+			$scope.isLogin = false;
+		}
+	})
 }])
 .controller('personalCtrl', ['$scope','$ionicActionSheet','Storage','$state', function($scope,$ionicActionSheet,Storage,$state){
+	$scope.$on("$ionicView.beforeEnter",function(){
+		if(Storage.get("userInfo")){
+			$scope.username = Storage.get("userInfo").username;
+		}
+	})
 	$scope.logout = function(){
 		$ionicActionSheet.show({
 				destructiveText: "退出登录",
