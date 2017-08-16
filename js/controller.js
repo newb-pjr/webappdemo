@@ -46,7 +46,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	// })
 	$scope.$on('$ionicView.enter', function () {
   // 显示 tabs
-	  $rootScope.hideTabs = '';
+	  $rootScope.tabsHide = '';
 	  console.log(233333)
 	});
 }])
