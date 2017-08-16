@@ -21,15 +21,13 @@
 			<label class="item item-input item-select">
 				<div class="input-label">国家</div>
 				<select>
-					<option>中国</option>
-					<option>美国</option>
+					<option ng-repeat="data in country" ng-bind="data.title" value="{{data.id}}"></option>
 				</select>
 			</label>
 			<label class="item item-input item-select">
 				<div class="input-label">所在地区</div>
 				<select>
-					<option>中国</option>
-					<option>美国</option>
+					<option ng-repeat="data in area" ng-bind="data.title" value="{{data.id}}"></option>
 				</select>
 			</label>
 			<label class="item item-input item-select">

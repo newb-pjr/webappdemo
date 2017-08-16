@@ -3,25 +3,25 @@
 		<div class="registerImg">
 			<img src="img/login-img.png">
 		</div>
-		<div class="inputInfo">
+		<form class="inputInfo" name="form">
 			<div class="inputGroup">
 				<input type="text" placeholder="用户名" />
 				<select><option>国家/地区</option></select>
 				<div>
 					<span>+60</span>
-					<input type="text" name="" placeholder="手机号码" class="phoneInput">
+					<input type="text" name="phone" validator="required,phone" ng-model="user.phone" placeholder="手机号码" class="phoneInput" invalid-callback="validationInvalidHandler('error')">
 				</div>
 				<input type="text" placeholder="电子邮箱" />
-				<input type="password" placeholder="输入密码" />
+				<input type="password" name="password" validator="required,password" ng-model="user.password" placeholder="输入密码" />
 			</div>
 			<div class="registerBtn">
-				<a href="#/tabs/login" class="registerSub">注 册</a>
+				<a href="javascript:void(0)" validation-submit="form" class="registerSub" ng-click="register()">注 册</a>
 				<div class="login">
 					<span>已有账户</span>
 					<a href="#/login">立即登陆</a>
 					<div class="clear"></div>
 				</div>
 			</div>
-		</div>
+		</form>
 	</ion-content>
 </ion-view>

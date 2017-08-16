@@ -1,4 +1,4 @@
-angular.module("app",['ionic','app.controller','app.directive']).config(['$ionicConfigProvider','$stateProvider','$urlRouterProvider',function($ionicConfigProvider,$stateProvider,$urlRouterProvider) {
+angular.module("app",['ionic','app.config','app.controller','app.directive','app.services','validation','ngResource']).config(['$ionicConfigProvider','$stateProvider','$urlRouterProvider','$validationProvider','$httpProvider',function($ionicConfigProvider,$stateProvider,$urlRouterProvider,$validationProvider,$httpProvider) {
 	$ionicConfigProvider.platform.ios.tabs.style('standard');
 	$ionicConfigProvider.platform.ios.tabs.position('bottom');
 	$ionicConfigProvider.platform.android.tabs.style('standard');
@@ -11,6 +11,78 @@ angular.module("app",['ionic','app.controller','app.directive']).config(['$ionic
 	$ionicConfigProvider.platform.android.backButton.previousTitleText(false).icon('ion-android-arrow-back').text('返回');
 	$ionicConfigProvider.platform.ios.views.transition('ios');
 	$ionicConfigProvider.platform.android.views.transition('android');
+
+	// Use x-www-form-urlencoded Content-Type
+	  $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+	  $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
+
+
+	  // Override $http service's default transformRequest
+	  $httpProvider.defaults.transformRequest = [function(data)
+	  {
+	      /**
+	       * The workhorse; converts an object to x-www-form-urlencoded serialization.
+	       * @param {Object} obj
+	       * @return {String}
+	       */
+	      var param = function(obj)
+	      {
+	          var query = '';
+	          var name, value, fullSubName, subName, subValue, innerObj, i;
+
+
+	          for(name in obj)
+	          {
+	              value = obj[name];
+
+
+	              if(value instanceof Array)
+	              {
+	                  for(i=0; i<value.length; ++i)
+	                  {
+	                      subValue = value[i];
+	                      fullSubName = name + '[' + i + ']';
+	                      innerObj = {};
+	                      innerObj[fullSubName] = subValue;
+	                      query += param(innerObj) + '&';
+	                  }
+	              }
+	              else if(value instanceof Object)
+	              {
+	                  for(subName in value)
+	                  {
+
+
+	                      subValue = value[subName];
+	                      if(subValue != null){
+	                          // fullSubName = name + '[' + subName + ']';
+	                          //user.userName = hmm & user.userPassword = 111
+	                          fullSubName = name + '.' + subName;
+	                          // fullSubName =  subName;
+	                          innerObj = {};
+	                          innerObj[fullSubName] = subValue;
+	                          query += param(innerObj) + '&';
+	                      }
+	                  }
+	              }
+	              else if(value !== undefined ) //&& value !== null
+	              {
+	                  query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+	              }
+	          }
+
+
+	          return query.length ? query.substr(0, query.length - 1) : query;
+	      };
+
+
+	      return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+	  }]
+
+
+	  $httpProvider.defaults.useXDomain = true;
+	  // delete $httpProvider.defaults.headers.common['X-Requested-With'];
+	
 
 	$stateProvider
 		.state('tabs',{
@@ -72,7 +144,8 @@ angular.module("app",['ionic','app.controller','app.directive']).config(['$ionic
 			url: '/person',
 			views: {
 				'tab-person': {
-					templateUrl: 'view/tabs/person.html'
+					templateUrl: 'view/tabs/person.html',
+					controller: 'personCtrl'
 				}
 			}
 		})
@@ -97,10 +170,44 @@ angular.module("app",['ionic','app.controller','app.directive']).config(['$ionic
 		.state('login',{
 			url: '/login',
 			templateUrl: 'view/login.html',
+			controller: 'loginCtrl'
 		})
 		.state('register',{
 			url: '/register',
 			templateUrl: 'view/register.html',
+			controller: 'registerCtrl'
 		})
-	$urlRouterProvider.otherwise('tabs/home')
+	$urlRouterProvider.otherwise('login');
+
+	var expression = {
+		phone: /^1[\d]{10}$/,
+		password: function(value){
+			var str = value + "";
+			return str.length>5;
+		},
+		required: function(value){
+			return !!value;
+		}
+	}
+
+	var defaultMsg = {
+		phone: {
+			success: '',
+			error: '请输入11位手机号码'
+		},
+		password: {
+			success: '',
+			error: '密码长度至少6位'
+		},
+		required: {
+			success: '',
+			error: '不能为空'
+		}
+
+	}
+
+	$validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
+	$validationProvider.showErrorMessage = false;
+	$validationProvider.setValidMethod('submit-only');
+
 }])

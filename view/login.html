@@ -3,10 +3,10 @@
 		<div class="loginImg">
 			<img src="img/login-img.png">
 		</div>
-		<div class="inputInfo">
+		<form class="inputInfo" name="form">
 			<div class="inputGroup">
-				<input type="text" placeholder="手机号或站内帐号" />
-				<input type="password" placeholder="密码" />
+				<input type="text" placeholder="手机号或站内帐号" validator="required" name="username" ng-model="user.username" invalid-callback="usernameInvalidHandler('用户名不能为空')" />
+				<input type="password" placeholder="密码" validator="password,required" name="password" ng-model="user.password" invalid-callback="passwordInvalidHandler('输入密码格式有误')" />
 			</div>
 			<div class="loginCheckbox">
 				<div class="left">
@@ -19,13 +19,13 @@
 				<div class="clear"></div>
 			</div>
 			<div class="loginBtn">
-				<a href="#/tabs/home" class="loginIn">登 录</a>
+				<a href="javascript:void(0)" class="loginIn" validation-submit="form" ng-click="login()">登 录</a>
 				<div class="register">
 					<span>还没有账户？</span>
 					<a href="#/register">立即注册</a>
 					<div class="clear"></div>
 				</div>
 			</div>
-		</div>
+		</form>
 	</ion-content>
 </ion-view>

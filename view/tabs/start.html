@@ -14,11 +14,10 @@
 		</div>
 		<div class="padding select">
 			<ul>
-				<li class="active">有运单号</li>
-				<li>无运单号</li>
+				<li ng-repeat="listData in list" class="{{selectId==listData.id?'active':''}}" ng-click="index($index)" ng-bind="listData.name"></li>
 			</ul>
 		</div>
-		<div class="cargoInfo padding">
+		<div class="cargoInfo padding" ng-if="selectId==0">
 			<div class="cargoContent">
 				<p class="title">快递单号</p>
 				<input type="text" name="order">
@@ -26,8 +25,25 @@
 			</div>
 			<div class="cargoContent">
 				<p class="title">快递公司</p>
-				<input type="text" name="company">
+				<select><option ng-repeat="data in express" value="{{data.kd_com}}" ng-bind="data.kd_com"></option></select>
 				<p class="tips">*必需填写</p>
+			</div>
+			<div class="row cargoContent">
+				<div class="col">
+					<p class="title">一级品类</p>
+					<input type="text" name="name">
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col">
+					<p class="title">二级品类</p>
+					<input type="text" name="num">
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col">
+					<p class="title">三级品类</p>
+					<input type="text" name="unit">
+					<p class="tips">*必需填写</p>
+				</div>
 			</div>
 			<div class="row cargoContent">
 				<div class="col col-50">
@@ -42,6 +58,23 @@
 				</div>
 				<div class="col col-25">
 					<p class="title">单位</p>
+					<input type="text" name="unit">
+					<p class="tips">*必需填写</p>
+				</div>
+			</div>
+			<div class="row cargoContent">
+				<div class="col">
+					<p class="title">品牌</p>
+					<input type="text" name="name">
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col">
+					<p class="title">价格</p>
+					<input type="text" name="num">
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col">
+					<p class="title">总金额</p>
 					<input type="text" name="unit">
 					<p class="tips">*必需填写</p>
 				</div>
@@ -66,6 +99,45 @@
 				<p class="tips">例: 衣服x1,$350; 手机套x2,$200;</p>
 			</div>
 			<a href="#/tabs/package" class="cargoSub">登记货品</a>
+		</div>
+		<div class="cargoInfo padding" ng-if="selectId==1">
+			<p class="topic">供应商信息</p>
+			<div class="cargoContent">
+				<p class="title">供应商名称</p>
+				<select><option ng-repeat="data in agency" value="{{data.id}}" ng-bind="data.name"></option></select>
+				<p class="tips">*必需填写</p>
+			</div>
+			<div class="cargoContent">
+				<p class="title">电子邮件</p>
+				<input type="text" name="order">
+				<p class="tips">*必需填写</p>
+			</div>
+			<div class="cargoContent">
+				<p class="title">手机号码</p>
+				<input type="text" name="order">
+				<p class="tips">*必需填写</p>
+			</div>
+			<div class="cargoContent">
+				<p class="title">订单号</p>
+				<input type="text" name="order">
+				<p class="tips">*必需填写</p>
+			</div>
+			<p class="topic">客户信息</p>
+			<div class="cargoContent">
+				<p class="title">客户姓名</p>
+				<select><option ng-repeat="data in customer" value="{{data.id}}" ng-bind="data.name"></option></select>
+				<p class="tips">*必需填写</p>
+			</div>
+			<div class="cargoContent">
+				<p class="title">电子邮箱</p>
+				<input type="text" name="order">
+				<p class="tips">*必需填写</p>
+			</div>
+			<div class="cargoContent">
+				<p class="title">手机号码</p>
+				<input type="text" name="order">
+				<p class="tips">*必需填写</p>
+			</div>
 		</div>
 	</ion-content>
 </ion-view>
