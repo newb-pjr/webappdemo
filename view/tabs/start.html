@@ -31,17 +31,23 @@
 			<div class="row cargoContent">
 				<div class="col">
 					<p class="title">一级品类</p>
-					<input type="text" name="name">
+					<select ng-model="selectFir" ng-init="selectFir='0'" ng-change="findSecClass(selectFir)">
+						<option value="0">请选择</option>
+						<option ng-repeat="data in categorysFir" value="{{data.cat_id}}" ng-bind="data.cat_name"></option>
+					</select>
 					<p class="tips">*必需填写</p>
 				</div>
 				<div class="col">
 					<p class="title">二级品类</p>
-					<input type="text" name="num">
-					<p class="tips">*必需填写</p>
+					<select ng-model="selectSec" ng-init="selectSec='0'">
+						<option value="0">请选择</option>
+						<option ng-repeat="data in categorysSec" value="{{data.cat_id}}" ng-bind="data.cat_name"></option>
+					</select>
+					<p class="tips">*必需填写</p>{{selectSec}}
 				</div>
 				<div class="col">
 					<p class="title">三级品类</p>
-					<input type="text" name="unit">
+					<select ng-model="selectThi" ng-init="selectThi='148'"><option ng-repeat="data in categorysThi" value="{{data.cat_id}}" ng-bind="data.cat_name"></option></select>
 					<p class="tips">*必需填写</p>
 				</div>
 			</div>

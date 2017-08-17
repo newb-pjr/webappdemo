@@ -1,4 +1,4 @@
-angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFactory','agencyFactory','customerFactory', function($scope,expressFactory,agencyFactory,customerFactory){
+angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFactory','agencyFactory','customerFactory','categorysFactory', function($scope,expressFactory,agencyFactory,customerFactory,categorysFactory){
 	expressFactory.requestExpress();
 	$scope.$on('Order.getExpressUpdated',function(){
 		$scope.express = expressFactory.getExpress();
@@ -13,6 +13,21 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	$scope.$on('User.getCustomerUpdated',function(){
 		$scope.customer = customerFactory.getCustomer();
 	})
+
+	categorysFactory.requestCategorys();
+	$scope.$on('Order.getCategorysUpdated',function(){
+		$scope.categorysFir = categorysFactory.getFirstCategorys();
+		$scope.categorysSec = categorysFactory.getSecondCategorys();
+		$scope.categorysThi = categorysFactory.getThirdCategorys();
+	})
+	$scope.findSecClass = function(id){
+		categorysFactory.findSecondCategorys(id);
+		$scope.categorysSec = categorysFactory.outputSecondCategorys();
+		$scope.selectSec = 0;
+	}
+	
+
+
 	$scope.list = [{
 		id: 0,
 		name: '有运单号'

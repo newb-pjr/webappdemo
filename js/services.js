@@ -208,3 +208,44 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		}
 	}
 }])
+.factory('categorysFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var data;
+	var result;
+	var resource = $resource(api+'/order/categorys', {}, {
+		qurey: {
+			method: 'get',
+		},
+		timeout: 20000
+	})
+
+	return {
+		requestCategorys: function(){
+			resource.qurey(function(resp){
+				if(resp.state==1001){
+					data = resp.data;
+					$rootScope.$broadcast('Order.getCategorysUpdated');
+				}
+			})
+		},
+		getFirstCategorys: function(){
+			return data;
+		},
+		getSecondCategorys: function(){
+			return data[0]._child;
+		},
+		getThirdCategorys: function(){
+			return data[0]._child[0]._child;
+		},
+		findSecondCategorys: function(id){
+			for(var i=0; i<data.length; i++){
+				if(data[i].cat_id==id){
+					return result = data[i]._child;
+				}
+			}
+		},
+		outputSecondCategorys: function(){
+			return result;
+		}
+	}
+}])
