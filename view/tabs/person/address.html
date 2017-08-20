@@ -12,10 +12,10 @@
 					<img ng-src="{{data.is_default===0?'img/address-1.png':'img/address-2.png'}}" ng-click="setDefault(data.address_id)" />默认地址
 				</div>
 				<div class="handle">
-					<a href="javascript:void(0)">
+					<a href="javascript:void(0)" ng-click="showModal(data)">
 						<i class="icon ion-edit"></i>编辑
 					</a>
-					<a href="javascript:void(0)">
+					<a href="javascript:void(0)" ng-click="delAddress(data.address_id)">
 						<i class="icon ion-trash-a"></i>删除
 					</a>
 				</div>

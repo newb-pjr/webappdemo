@@ -101,6 +101,8 @@ angular.module("app.services",[]).factory('Storage', [function(){
 .factory('getCityFactory', ['$resource','ENV','$rootScope', function($resource,ENV,$rootScope){
 	var api = ENV.api;
 	var data;
+	var areaData;
+	var resultSec = [];
 	var resource = $resource(api+'/user/get_city', {}, {
 		qurey: {
 			method: 'get',
@@ -117,10 +119,23 @@ angular.module("app.services",[]).factory('Storage', [function(){
 			})
 		},
 		getCountry: function(){
+			areaData = data;
 			return data[0];	
 		},
-		getArea: function(){
-			return data[1];
+		findArea: function(id){
+			resultSec = [];
+			if(id){
+				angular.forEach(data[1],function(data){
+					if(data.parentid == id){
+						resultSec.push(data);
+					}
+				})
+			}else{
+				resultSec = [];
+			}
+		},
+		outputArea: function(){
+			return resultSec;
 		}
 	}
 }])
@@ -211,7 +226,8 @@ angular.module("app.services",[]).factory('Storage', [function(){
 .factory('categorysFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
 	var api = ENV.api;
 	var data;
-	var result;
+	var resultSec;
+	var resultThi;
 	var resource = $resource(api+'/order/categorys', {}, {
 		qurey: {
 			method: 'get',
@@ -231,21 +247,100 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		getFirstCategorys: function(){
 			return data;
 		},
-		getSecondCategorys: function(){
-			return data[0]._child;
-		},
-		getThirdCategorys: function(){
-			return data[0]._child[0]._child;
-		},
 		findSecondCategorys: function(id){
-			for(var i=0; i<data.length; i++){
-				if(data[i].cat_id==id){
-					return result = data[i]._child;
+			if(id){
+				for(var i=0; i<data.length; i++){
+					if(data[i].cat_id==id){
+						return resultSec = data[i]._child;
+					}
 				}
+			}else{
+				return resultSec = "";
+			}
+		},
+		findThirdCategorys: function(id){
+			if(id){
+				for(var i=0; i<resultSec.length; i++){
+					if(resultSec[i].cat_id==id){
+						return resultThi = resultSec[i]._child;
+					}
+				}
+			}else{
+				return resultThi = "";
 			}
 		},
 		outputSecondCategorys: function(){
-			return result;
+			return resultSec;
+		},
+		outputThirdCategorys: function(){
+			return resultThi;
+		}
+	}
+}])
+.factory('saveAddressFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var city = "undefined";
+	var district = "undefined";
+	var status = false;
+	var resource = $resource(api+"/user/save_address", {}, {
+		qurey:{
+			method: "post",
+			timeout: 20000
+		}
+	})
+
+	return {
+		saveAddress: function(addressObj){
+			resource.qurey({
+				user_id:userID,
+				id:addressObj.id,
+				consignee:addressObj.consignee,
+				mobile:addressObj.phone,
+				country:addressObj.getCountry.id,
+				province:addressObj.getArea.id,
+				city:city,
+				district:district,
+				address:addressObj.detail
+			},function(resp){
+				alert(resp.msg)
+				if(resp.state == 1100){
+					status = true;
+				}
+				$rootScope.$broadcast('User.saveAddressUpdated');
+			})
+		},
+		getStatus: function(){
+			return status;
+		}
+	}
+}])
+.factory('delAddressFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var isDelete = false;
+	var resource = $resource(api+'/user/del_address', {}, {
+		qurey: {
+			method: "post",
+			timeout: 20000
+		}
+	})
+
+	return {
+		deleteAddress: function(id){
+			resource.qurey({
+				user_id:userID,
+				id:id
+			},function(resp){
+				alert(resp.msg);
+				if(resp.state==1009){
+					isDelete = true;
+					$rootScope.$broadcast('User.deleteAddressUpdated');
+				}
+			})
+		},
+		getDelAddress: function(){
+			return isDelete;
 		}
 	}
 }])

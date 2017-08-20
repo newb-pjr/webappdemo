@@ -17,15 +17,15 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	categorysFactory.requestCategorys();
 	$scope.$on('Order.getCategorysUpdated',function(){
 		$scope.categorysFir = categorysFactory.getFirstCategorys();
-		$scope.categorysSec = categorysFactory.getSecondCategorys();
-		$scope.categorysThi = categorysFactory.getThirdCategorys();
 	})
 	$scope.findSecClass = function(id){
 		categorysFactory.findSecondCategorys(id);
 		$scope.categorysSec = categorysFactory.outputSecondCategorys();
-		$scope.selectSec = 0;
 	}
-	
+	$scope.findThiClass = function(id){
+		categorysFactory.findThirdCategorys(id);
+		$scope.categorysThi = categorysFactory.outputThirdCategorys();
+	}
 
 
 	$scope.list = [{
@@ -85,7 +85,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	}]
 
 }])
-.controller('addressCtrl', ['$scope','$ionicModal','addressFactory','setDefaultFactory','getCityFactory', function($scope,$ionicModal,addressFactory,setDefaultFactory,getCityFactory){
+.controller('addressCtrl', ['$scope','$ionicModal','addressFactory','setDefaultFactory','getCityFactory','saveAddressFactory','delAddressFactory', function($scope,$ionicModal,addressFactory,setDefaultFactory,getCityFactory,saveAddressFactory,delAddressFactory){
 	$ionicModal.fromTemplateUrl('view/tabs/person/addAddress.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
@@ -93,20 +93,77 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		$scope.modal = modal;
 	})
 	
-	$scope.showModal = function(){
+	$scope.showModal = function(addressObj){
+		if(addressObj){
+			$scope.address = {
+				id:addressObj.address_id,
+				consignee:addressObj.consignee,
+				phone:addressObj.mobile,
+				detail:addressObj.address,
+			}
+		}else{
+			$scope.address = {
+				id:"",
+				consignee:"",
+				phone:"",
+				detail:""
+			}
+		}
 		$scope.modal.show();
 		getCityFactory.getCity();
 		$scope.$on('User.getCityUpdated',function(){
 			$scope.country = getCityFactory.getCountry();
-			$scope.area = getCityFactory.getArea();
+			// $scope.area = getCityFactory.getArea();
 		})
+		$scope.selectCountry = function(id){
+			getCityFactory.findArea(id);
+			$scope.area = getCityFactory.outputArea();
+		}
 	}
 	$scope.hideModal = function(){
+		$scope.area = "";
 		$scope.modal.hide();
 	}
+
+	$scope.address = {
+		id:"",
+		consignee:"",
+		phone:"",
+		getCountry:"",
+		getArea:"",
+		detail:"",
+		default:""
+	}
+
+	$scope.save = function(){
+		saveAddressFactory.saveAddress($scope.address);
+	}
+	$scope.$on('User.saveAddressUpdated',function(){
+		if(saveAddressFactory.getStatus()){
+			addressFactory.getAllList();
+			$scope.modal.hide();
+		}
+	})
+	
 	$scope.$on('$destroy', function() {
     	$scope.modal.remove();
   	})
+
+	$scope.consigneeInvalidHandler = function(message){
+		alert(message);
+	}
+	$scope.phoneInvalidHandler = function(message){
+		alert(message);
+	}
+	$scope.countryInvalidHandler = function(message){
+		alert(message);
+	}
+	$scope.areaInvalidHandler = function(message){
+		alert(message);
+	}
+	$scope.detailInvalidHandler = function(message){
+		alert(message);
+	}
 
 	addressFactory.getAllList();
 	$scope.$on('User.addressUpdated',function(){
@@ -120,6 +177,16 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 			addressFactory.getAllList();
 		}
 	})
+
+	$scope.delAddress = function(id){
+		delAddressFactory.deleteAddress(id);
+	}
+	$scope.$on('User.deleteAddressUpdated',function(){
+		if(delAddressFactory.getDelAddress()){
+			addressFactory.getAllList();
+		}
+	})
+
 }])
 .controller('registerCtrl', ['$scope', function($scope){
 		$scope.validationInvalidHandler = function(message){

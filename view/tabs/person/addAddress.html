@@ -1,51 +1,51 @@
-<div class="modal">
+<form class="modal" name="form">
 	<ion-header-bar class="modalHead bar-positive" align-title="center">
 		<div class="buttons">
 			<botton class="button button-clear" ng-click="hideModal()"><i class="icon ion-ios-arrow-back"></i></botton>
 		</div>
 		<span class="title title-center">添加新地址</span>
 		<div class="buttons">
-			<botton class="button button-clear" ng-click="save()">保存</botton>
+			<botton class="button button-clear" validation-submit="form" ng-click="save()">保存</botton>
 		</div>
 	</ion-header-bar>
 	<ion-content>
 		<div class="list">
 			<label class="item item-input">
 				<span class="input-label">收货人</span>
-				<input type="text" name="">
+				<input type="text" name="consignee" validator="required" ng-model="address.consignee" invalid-callback="consigneeInvalidHandler('收货人不能为空')">
 			</label>
 			<label class="item item-input">
 				<span class="input-label">联系电话</span>
-				<input type="text" name="">
+				<input type="text" name="phone" validator="number" ng-model="address.phone" invalid-callback="phoneInvalidHandler('联系电话输入有误')">
 			</label>
 			<label class="item item-input item-select">
 				<div class="input-label">国家</div>
-				<select>
-					<option ng-repeat="data in country" ng-bind="data.title" value="{{data.id}}"></option>
+				<select ng-model="address.getCountry" name="country" validator="required" invalid-callback="countryInvalidHandler('请选择国家')" ng-change="selectCountry(address.getCountry.id)" ng-options="data.title for data in country">
+					<option value="">请选择</option>
 				</select>
 			</label>
 			<label class="item item-input item-select">
 				<div class="input-label">所在地区</div>
-				<select>
-					<option ng-repeat="data in area" ng-bind="data.title" value="{{data.id}}"></option>
+				<select ng-model="address.getArea" name="area" validator="required" invalid-callback="areaInvalidHandler('请选择所在地区')" ng-options="data.title for data in area">
+					<option value="">请选择</option>
 				</select>
 			</label>
-			<label class="item item-input item-select">
+			<!-- <label class="item item-input item-select">
 				<div class="input-label">街道</div>
 				<select>
 					<option>中国</option>
 					<option>美国</option>
 				</select>
-			</label>
+			</label> -->
 			<label class="item item-input">
-				<textarea placeholder="请填写详细地址，不少于5个字"></textarea>
+				<textarea placeholder="请填写详细地址，不少于5个字" name="detail" ng-model="address.detail" validator="required" invalid-callback="detailInvalidHandler('详细地址不能为空')"></textarea>
 			</label>
 		</div>
 		<div class="list">
 			<div class="item item-toggle">
 				<span class="default">设为默认</span>
 				<label class="toggle toggle-positive">
-					<input type="checkbox">
+					<input type="checkbox" ng-model="address.default">
 					<div class="track">
 						<div class="handle"></div>
 					</div>
@@ -53,4 +53,4 @@
 			</div>
 		</div>
 	</ion-content>
-</div>
+</form>

@@ -187,7 +187,8 @@ angular.module("app",['ionic','app.config','app.controller','app.directive','app
 		},
 		required: function(value){
 			return !!value;
-		}
+		},
+		number: /^\d+$/
 	}
 
 	var defaultMsg = {
@@ -202,8 +203,11 @@ angular.module("app",['ionic','app.config','app.controller','app.directive','app
 		required: {
 			success: '',
 			error: '不能为空'
+		},
+		number: {
+			success: '',
+			error: '只能输入数字'
 		}
-
 	}
 
 	$validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
