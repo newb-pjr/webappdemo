@@ -50,7 +50,11 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	// $scope.result = $scope.length*$scope.width*$scope.height/6000;
 	// console.log($scope.result);
 }])
-.controller('packageCtrl', ['$scope','$state','$rootScope','Storage','$state', function($scope,$state,$rootScope,Storage,$state){
+.controller('packageCtrl', ['$scope','Storage','$state','$rootScope','recordBillFactory', function($scope,Storage,$state,$rootScope,recordBillFactory){
+	recordBillFactory.requestRecord();
+	$scope.$on('Order.recordBillUpdated',function(){
+		$scope.record = recordBillFactory.getRecord();
+	})
 
 	$scope.goBack = function(){
 		$state.go('tabs.start');
@@ -62,7 +66,6 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	$scope.$on('$ionicView.enter', function () {
   // 显示 tabs
 	  $rootScope.tabsHide = '';
-	  console.log(233333)
 	});
 }])
 .controller('orderCtrl', ['$scope', function($scope){

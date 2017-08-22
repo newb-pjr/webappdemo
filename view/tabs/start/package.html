@@ -23,13 +23,12 @@
 		</div>
 	</div>
 	<ion-content has-subheader="true" class="has-subheader has-tabs">
-		{{tabsHide}}
 		<ion-list class="listContent">
-			<ion-item>
+			<ion-item ng-repeat="data in record">
 				<ion-checkbox>
 					<div class="row selectTopic">
-						<div class="col col-50">运单号:10112450000</div>
-						<div class="col col-25">顺丰快递</div>
+						<div class="col col-50" ng-bind="'运单号:'+data.kdBillCode"></div>
+						<div class="col col-25" ng-bind="data.kdCompany"></div>
 						<div class="col col-25">
 							<div class="right">
 								<a href="javascript:void(0)" class="check">查看</a><i class="icon ion-ios-arrow-right"></i>
@@ -39,81 +38,14 @@
 				</ion-checkbox>
 				<div class="row row-center cargo">
 					<div class="col col-40 padding-none">
-						<div class="cargoDetail">
-							<p class="cargoName">衣服土门墩衣服土</p>
-							<p class="cargoInfo">尺寸：10cmx10cmx2cm</p>
-							<p class="cargoInfo">数量：10件</p>
-						</div>
-						<div class="cargoDetail">
-							<p class="cargoName">衣服土门墩衣服土</p>
-							<p class="cargoInfo">尺寸：10cmx10cmx2cm</p>
-							<p class="cargoInfo">数量：10件</p>
+						<div class="cargoDetail" ng-repeat=" detail in data.ShopBasic">
+							<p class="cargoName" ng-bind="detail.Goods"></p>
+							<p class="cargoInfo" ng-bind="'尺寸：'+(data.Size?data.Size:'')"></p>
+							<p class="cargoInfo" ng-bind="'数量：'+detail.Number+detail.Unit"></p>
 						</div>
 					</div>
-					<div class="col col-20">未到库</div>
-					<div class="col col-20">未上架</div>
-					<div class="col col-10"></div>
-					<div class="col col-10"><a href="javascript:void(0)">删除</a></div>
-				</div>
-			</ion-item>
-			<ion-item>
-				<ion-checkbox>
-					<div class="row selectTopic">
-						<div class="col col-50">运单号:10112450000</div>
-						<div class="col col-25">顺丰快递</div>
-						<div class="col col-25">
-							<div class="right">
-								<a href="javascript:void(0)" class="check">查看</a><i class="icon ion-ios-arrow-right"></i>
-							</div>
-						</div>
-					</div>
-				</ion-checkbox>
-				<div class="row row-center cargo">
-					<div class="col col-40 padding-none">
-						<div class="cargoDetail">
-							<p class="cargoName">衣服土门墩衣服土</p>
-							<p class="cargoInfo">尺寸：10cmx10cmx2cm</p>
-							<p class="cargoInfo">数量：10件</p>
-						</div>
-						<div class="cargoDetail">
-							<p class="cargoName">衣服土门墩衣服土</p>
-							<p class="cargoInfo">尺寸：10cmx10cmx2cm</p>
-							<p class="cargoInfo">数量：10件</p>
-						</div>
-					</div>
-					<div class="col col-20"><p>2017-04-08</p><p>17:45:08</p></div>
-					<div class="col col-20"><p>2017-04-08</p><p>17:45:08</p></div>
-					<div class="col col-10"></div>
-					<div class="col col-10"><a href="javascript:void(0)">删除</a></div>
-				</div>
-			</ion-item>
-			<ion-item>
-				<ion-checkbox>
-					<div class="row selectTopic">
-						<div class="col col-50">运单号:10112450000</div>
-						<div class="col col-25">顺丰快递</div>
-						<div class="col col-25">
-							<div class="right">
-								<a href="javascript:void(0)" class="check">查看</a><i class="icon ion-ios-arrow-right"></i>
-							</div>
-						</div>
-					</div>
-				</ion-checkbox>
-				<div class="row row-center cargo">
-					<div class="col col-40 padding-none">
-						<div class="cargoDetail">
-							<p class="cargoName">衣服土门墩衣服土</p>
-							<p class="cargoInfo">尺寸：10cmx10cmx2cm</p>
-							<p class="cargoInfo">数量：10件</p>
-						</div>
-						<div class="cargoDetail">
-							<p class="cargoName">衣服土门墩衣服土</p>
-							<p class="cargoInfo">尺寸：10cmx10cmx2cm</p>
-							<p class="cargoInfo">数量：10件</p>
-						</div>
-					</div>
-					<div class="col col-20"><p>2017-04-08</p><p>17:45:08</p></div>
-					<div class="col col-20"><p>2017-04-08</p><p>17:45:08</p></div>
+					<div class="col col-20" ng-bind="data.inplaceTime?data.inplaceTime:'未到库'"></div>
+					<div class="col col-20" ng-bind="data.State"></div>
 					<div class="col col-10"></div>
 					<div class="col col-10"><a href="javascript:void(0)">删除</a></div>
 				</div>

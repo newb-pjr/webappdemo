@@ -389,3 +389,33 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		}
 	}
 }])
+.factory('recordBillFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var data;
+	var resource = $resource(api+'/order/query_bill_code', {}, {
+		qurey: {
+			method: "get",
+			params: {
+				user_id:"@userID"
+			},
+			timeout: 20000
+		}
+	})
+
+	return {
+		requestRecord: function(){
+			resource.qurey({
+				user_id:userID
+			},function(resp){
+				if(resp.state==1001){
+					data = resp.data;
+				}
+				$rootScope.$broadcast('Order.recordBillUpdated');
+			})
+		},
+		getRecord: function(){
+			return data;
+		}
+	}
+}])
