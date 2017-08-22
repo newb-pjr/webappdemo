@@ -344,3 +344,48 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		}
 	}
 }])
+.factory('tatalFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var data;
+	var resource = $resource(api+'/order/total_info', {}, {
+		qurey: {
+			method: "get",
+			params: {
+				user_id:"@userID"
+			},
+			timeout: 20000
+		}
+	})
+
+	return {
+		getTatal: function(){
+			resource.qurey({
+				user_id:userID
+			},function(resp){
+				if(resp.state==1001){
+					data = resp.data;
+				}
+				$rootScope.$broadcast('Order.totalInfoUpdated');
+			})
+		},
+		getArrived: function(){
+			if(data.has_arrived==""){
+				data.has_arrived = 0;
+			}
+			return data.has_arrived;
+		},
+		getNoArrived: function(){
+			if(data.not_arrived==""){
+				data.not_arrived = 0;
+			}
+			return data.not_arrived;
+		},
+		getWaitDelivery: function(){
+			if(data.elivery==""){
+				data.elivery = 0;
+			}
+			return data.elivery
+		}
+	}
+}])

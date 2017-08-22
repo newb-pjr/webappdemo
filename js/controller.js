@@ -212,6 +212,13 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		loginFactory.login($scope.user.username,$scope.user.password);
 	}
 }])
-.controller('personCtrl', ['$scope','Storage', function($scope,Storage){
+.controller('personCtrl', ['$scope','Storage','tatalFactory', function($scope,Storage,tatalFactory){
 	$scope.username = Storage.get('user').user_name;
+
+	tatalFactory.getTatal();
+	$scope.$on('Order.totalInfoUpdated',function(){
+		$scope.arrived = tatalFactory.getArrived();
+		$scope.noArrived = tatalFactory.getNoArrived();
+		$scope.delivery = tatalFactory.getWaitDelivery();
+	})
 }])
