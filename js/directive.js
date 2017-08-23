@@ -32,4 +32,27 @@ angular.module("app.directive",[]).directive('tabsHide', ['$rootScope', function
 			}
 		}
 	};
+}])
+.directive('getCheckedValue', ['$rootScope', function($rootScope){
+	return {
+		restrict: 'AE',
+		scope: {
+			ngModel: '='
+		},
+		link: function(scope, iElm, iAttrs, ngController) {
+			scope.$on('Order.recordBillUpdated',function(){
+				for(var i=0; i<$rootScope.record.length; i++){
+					$rootScope.record[i].checked = false;
+				}
+			})
+			iElm.bind('click',function(){
+				console.log($rootScope.record)
+				// for(var i=0; i<$rootScope.record.length; i++){
+				// 	$rootScope.record[i].checked = true;
+				// }
+				
+			})
+			
+		}
+	};
 }]);

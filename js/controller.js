@@ -53,8 +53,35 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 .controller('packageCtrl', ['$scope','Storage','$state','$rootScope','recordBillFactory', function($scope,Storage,$state,$rootScope,recordBillFactory){
 	recordBillFactory.requestRecord();
 	$scope.$on('Order.recordBillUpdated',function(){
-		$scope.record = recordBillFactory.getRecord();
+		$rootScope.record = recordBillFactory.getRecord();
+
 	})
+	
+	// $scope.selectAll = function(state){
+	// 	if(state){
+	// 		for(var i=0; i<$rootScope.record.length; i++){
+	// 			$rootScope.record[i].checked = true;
+	// 		}
+	// 	}else{
+	// 		for(var i=0; i<$rootScope.record.length; i++){
+	// 			$rootScope.record[i].checked = false;
+	// 		}
+	// 	}
+	// }
+	// $scope.selected = function(state){
+	// 	if(state){
+	// 		for(var i=0; i<$scope.record.length; i++){
+	// 			if($scope.record[i].checked){
+	// 				$scope.selectedAll = true;
+	// 			}else{
+	// 				$scope.selectedAll = false;
+	// 				return false;
+	// 			}
+	// 		}
+	// 	}else{
+	// 		$scope.selectedAll = false;
+	// 	}
+	// }
 
 	$scope.goBack = function(){
 		$state.go('tabs.start');
