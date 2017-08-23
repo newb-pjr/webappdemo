@@ -1,4 +1,4 @@
-angular.module("app",['ionic','app.config','app.controller','app.directive','app.services','validation','ngResource']).config(['$ionicConfigProvider','$stateProvider','$urlRouterProvider','$validationProvider','$httpProvider',function($ionicConfigProvider,$stateProvider,$urlRouterProvider,$validationProvider,$httpProvider) {
+angular.module("app",['ionic','app.config','app.controller','app.directive','app.services','app.filter','validation','ngResource']).config(['$ionicConfigProvider','$stateProvider','$urlRouterProvider','$validationProvider','$httpProvider',function($ionicConfigProvider,$stateProvider,$urlRouterProvider,$validationProvider,$httpProvider) {
 	$ionicConfigProvider.platform.ios.tabs.style('standard');
 	$ionicConfigProvider.platform.ios.tabs.position('bottom');
 	$ionicConfigProvider.platform.android.tabs.style('standard');
