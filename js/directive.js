@@ -37,20 +37,29 @@ angular.module("app.directive",[]).directive('tabsHide', ['$rootScope', function
 	return {
 		restrict: 'AE',
 		scope: {
-			ngModel: '='
+			ngModel: '=',
+			data: '='
 		},
 		link: function(scope, iElm, iAttrs, ngController) {
-			scope.$on('Order.recordBillUpdated',function(){
-				for(var i=0; i<$rootScope.record.length; i++){
-					$rootScope.record[i].checked = false;
-				}
-			})
+			// scope.$on('Order.recordBillUpdated',function(){
+			// 	console.log(scope.data)
+			// 	for(var i=0; i<scope.data.length; i++){
+			// 		scope.data[i].checked = false;
+			// 	}
+			// })
 			iElm.bind('click',function(){
-				console.log($rootScope.record)
-				// for(var i=0; i<$rootScope.record.length; i++){
-				// 	$rootScope.record[i].checked = true;
-				// }
-				
+				console.log(scope.data)
+				if(scope.ngModel){
+					for(var i=0; i<scope.data.length; i++){
+						scope.data[i].checked = true;
+					}
+					console.log(scope.ngModel)
+				}else{
+					for(var i=0; i<scope.data.length; i++){
+						scope.data[i].checked = false;
+					}
+				}
+									
 			})
 			
 		}

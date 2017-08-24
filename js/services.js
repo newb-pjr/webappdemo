@@ -153,7 +153,7 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		requestExpress: function(){
 			resource.qurey(function(resp){
 				if(resp.state==1001){
-					data = resp.data;
+					data = resp.data.KdComInfo;
 					$rootScope.$broadcast('Order.getExpressUpdated');
 				}
 			})

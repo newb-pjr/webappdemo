@@ -25,7 +25,7 @@
 	<ion-content has-subheader="true" class="has-subheader has-tabs">
 		<ion-list class="listContent">
 			<ion-item ng-repeat="data in record">
-				<ion-checkbox ng-model="data.checked" ng-change="selected(data.checked)">
+				<ion-checkbox ng-model="data.checked" ng-change="selected(data.checked)">{{data.checked}}
 					<div class="row selectTopic">
 						<div class="col col-50" ng-bind="'运单号:'+data.kdBillCode"></div>
 						<div class="col col-25" ng-bind="data.kdCompany"></div>
@@ -55,7 +55,7 @@
 	<ion-footer-bar class="footer" ng-class="{'footerBottom':true}">
 		<div class="row">
 			<div class="col">
-				<ion-checkbox ng-model="selectedAll" ng-change="selectAll(selectedAll)" get-checked-value>全选</ion-checkbox>
+				<ion-checkbox ng-model="selectedAll" ng-change="selectAll(selectedAll)" data="record" get-checked-value>全选</ion-checkbox>
 				<div class="packageSub">
 					<a href="#/tabs/pay" class="packageBtn">申请打包</a>
 					<p>*货品必需填写内容才可打包</p>

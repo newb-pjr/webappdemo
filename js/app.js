@@ -211,7 +211,7 @@ angular.module("app",['ionic','app.config','app.controller','app.directive','app
 	}
 
 	$validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
-	$validationProvider.showErrorMessage = false;
+	// $validationProvider.showErrorMessage = false;
 	$validationProvider.setValidMethod('submit-only');
 
 }])

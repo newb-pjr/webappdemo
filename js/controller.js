@@ -1,4 +1,4 @@
-angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFactory','agencyFactory','customerFactory','categorysFactory', function($scope,expressFactory,agencyFactory,customerFactory,categorysFactory){
+angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFactory','agencyFactory','customerFactory','categorysFactory','Storage', function($scope,expressFactory,agencyFactory,customerFactory,categorysFactory,Storage){
 	expressFactory.requestExpress();
 	$scope.$on('Order.getExpressUpdated',function(){
 		$scope.express = expressFactory.getExpress();
@@ -40,6 +40,34 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	$scope.index=function(idx){
 		$scope.selectId = idx;
 	}
+
+	$scope.$watch('hasOrder.ShopBasic.price',function(newVal){
+		$scope.hasOrder.ShopBasic.money = $scope.hasOrder.ShopBasic.price*$scope.hasOrder.ShopBasic.nums || 0;
+		
+	})
+	$scope.$watch('hasOrder.ShopBasic.nums',function(newVal){
+		$scope.hasOrder.ShopBasic.money = $scope.hasOrder.ShopBasic.price*$scope.hasOrder.ShopBasic.nums || 0;
+	})
+	$scope.hasOrder = {
+		kdBillcode:"",
+		kdCom:"",
+		ShopBasic:[{
+			title:"",
+			selectFir:"",
+			selectSec:"",
+			selectThi:"",
+			brank:"",
+			nums:"",
+			unit:"",
+			price:"",
+			money:""
+		}],
+		intro:""
+	}
+	$scope.addOrder = function(dataObj){
+		console.log(dataObj)
+		Storage.set("order",dataObj)
+	}
 }])
 .controller('infoCtrl', ['$scope', function($scope){
 	
@@ -53,8 +81,10 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 .controller('packageCtrl', ['$scope','Storage','$state','$rootScope','recordBillFactory', function($scope,Storage,$state,$rootScope,recordBillFactory){
 	recordBillFactory.requestRecord();
 	$scope.$on('Order.recordBillUpdated',function(){
-		$rootScope.record = recordBillFactory.getRecord();
-
+		$scope.record = recordBillFactory.getRecord();
+		for(var i=0; i<$scope.record.length; i++){
+			$scope.record[i].checked = false;
+		}
 	})
 	
 	// $scope.selectAll = function(state){
