@@ -25,7 +25,7 @@
 			</div>
 			<div class="cargoContent">
 				<p class="title">快递公司</p>
-				<select ng-model="hasOrder.kdCom" ng-init="hasOrder.kdCom='1'" name="hasOrder_kdCom"><option ng-repeat="data in express" value="{{data.ID}}" ng-bind="data.kd_com"></option></select>
+				<select ng-model="hasOrder.kdCom" name="hasOrder_kdCom"><option ng-repeat="data in express" value="{{data.kd_com}}" ng-bind="data.kd_com"></option></select>
 				<p class="tips">*必需填写</p>
 			</div>
 			<div class="row cargoContent">
@@ -88,7 +88,7 @@
 			<div class="cargoBtn">
 				<div class="row cargoBtnContent">
 					<div class="col">
-						<a href="javascript:void(0)" class="highlight" validation-submit="hasOrderNum" ng-click="addOrder(hasOrder)">增加货件</a>
+						<a href="javascript:void(0)" class="highlight" validation-submit="hasOrderNum" ng-click="addOrder(hasOrder,hasOrder.ShopBasic.selectFir.cat_name,hasOrder.ShopBasic.selectSec.cat_name,hasOrder.ShopBasic.selectThi.cat_name)">增加货件</a>
 					</div>
 					<div class="col">
 						<a href="javascript:void(0)">删除货件</a>

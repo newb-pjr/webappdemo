@@ -111,6 +111,7 @@ angular.module("app",['ionic','app.config','app.controller','app.directive','app
 			views: {
 				'tab-start': {
 					templateUrl: 'view/tabs/start/checked.html',
+					controller: 'checkCtrl'
 				}
 			}
 		})

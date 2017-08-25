@@ -2,6 +2,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	expressFactory.requestExpress();
 	$scope.$on('Order.getExpressUpdated',function(){
 		$scope.express = expressFactory.getExpress();
+		$scope.hasOrder.kdCom = $scope.express[0].kd_com;
 	})
 
 	agencyFactory.requestAgency();
@@ -51,7 +52,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	$scope.hasOrder = {
 		kdBillcode:"",
 		kdCom:"",
-		ShopBasic:[{
+		ShopBasic:{
 			title:"",
 			selectFir:"",
 			selectSec:"",
@@ -61,13 +62,19 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 			unit:"",
 			price:"",
 			money:""
-		}],
+		},
 		intro:""
 	}
-	$scope.addOrder = function(dataObj){
-		console.log(dataObj)
-		Storage.set("order",dataObj)
+	$scope.addOrder = function(dataObj,c1,c2,c3){
+		var order = Storage.get("order") || [];
+		dataObj.ShopBasic.selectFir = c1;
+		dataObj.ShopBasic.selectSec = c2;
+		dataObj.ShopBasic.selectThi = c3;
+		order.push(dataObj);
+		Storage.set("order",order)
 	}
+
+
 }])
 .controller('infoCtrl', ['$scope', function($scope){
 	
@@ -281,4 +288,18 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		$scope.noArrived = tatalFactory.getNoArrived();
 		$scope.delivery = tatalFactory.getWaitDelivery();
 	})
+}])
+.controller('checkCtrl', ['$scope','Storage', function($scope,Storage){
+	$scope.order = Storage.get("order");
+	$scope.delOrder = function(num,$event){
+		$event.stopPropagation();
+		console.log(num)
+		// for(var i=0; i<$scope.order; i++){
+		// 	if($scope.order[i].kdBillcode == num){
+		// 		$scope.order.splice(i, 1);
+		// 	}
+		// }
+		// Storage.set("order",$scope.order);
+		// $scope.order = Storage.get("order");
+	}
 }])

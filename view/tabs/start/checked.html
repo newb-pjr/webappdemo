@@ -21,49 +21,26 @@
 			</div>
 		</div>
 		<ion-list>
-			<ion-checkbox class="listContent">
+			<ion-checkbox class="listContent" ng-repeat="data in order">
 				<div class="row row-center content">
 					<div class="col col-30 firstItem">
-						<p>顺丰快递</p>
-						<p>445075167</p>
+						<p ng-bind="data.kdCom"></p>
+						<p ng-bind="data.kdBillcode"></p>
 					</div>
 					<div class="col col-20">
-						<p class="cargoName">阿勒地芝蓉压实</p>
+						<p class="cargoName" ng-bind="data.ShopBasic.title"></p>
 					</div>
 					<div class="col col-10">
-						<p>30</p>
+						<p ng-bind="data.ShopBasic.nums"></p>
 					</div>
 					<div class="col col-10">
-						<p>件</p>
+						<p ng-bind="data.ShopBasic.unit"></p>
 					</div>
 					<div class="col col-20">
-						
+						<p ng-bind="data.intro"></p>
 					</div>
 					<div class="col col-10">
-						<a href="javascript:void(0)">删除</a>
-					</div>
-				</div>
-			</ion-checkbox>
-			<ion-checkbox class="listContent">
-				<div class="row row-center content">
-					<div class="col col-30 firstItem">
-						<p>顺丰快递</p>
-						<p>445075167</p>
-					</div>
-					<div class="col col-20">
-						<p class="cargoName">阿勒地芝蓉压实</p>
-					</div>
-					<div class="col col-10">
-						<p>30</p>
-					</div>
-					<div class="col col-10">
-						<p>件</p>
-					</div>
-					<div class="col col-20">
-						
-					</div>
-					<div class="col col-10">
-						<a href="javascript:void(0)">删除</a>
+						<a href="javascript:void(0)" ng-click="delOrder(data.kdBillcode,$event)">删除</a>
 					</div>
 				</div>
 			</ion-checkbox>
