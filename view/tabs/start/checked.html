@@ -21,11 +21,13 @@
 			</div>
 		</div>
 		<ion-list>
-			<ion-checkbox class="listContent" ng-repeat="data in order">
+			<ion-item ng-repeat="data in order" class="listContent">
 				<div class="row row-center content">
 					<div class="col col-30 firstItem">
-						<p ng-bind="data.kdCom"></p>
-						<p ng-bind="data.kdBillcode"></p>
+						<ion-checkbox>
+							<p ng-bind="data.kdCom"></p>
+							<p ng-bind="data.kdBillcode"></p>
+						</ion-checkbox>
 					</div>
 					<div class="col col-20">
 						<p class="cargoName" ng-bind="data.ShopBasic.title"></p>
@@ -40,10 +42,10 @@
 						<p ng-bind="data.intro"></p>
 					</div>
 					<div class="col col-10">
-						<a href="javascript:void(0)" ng-click="delOrder(data.kdBillcode,$event)">删除</a>
+						<a href="javascript:void(0)" ng-click="delOrder(data.ShopBasic.title);">删除</a>
 					</div>
 				</div>
-			</ion-checkbox>
+			</ion-item>
 		</ion-list>
 	</ion-content>
 	<ion-footer-bar align-title="left" class="cargoFooter">

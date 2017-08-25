@@ -419,3 +419,45 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		}
 	}
 }])
+.factory('saveOrderFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var dataArr = Storage.get('order');
+	var ShopBasic = [];
+	var result = false;
+	var resource = $resource(api+'/order/save_jiyun', {}, {
+		qurey: {
+			method: "post",
+			timeout: 20000
+		}
+	})
+
+	return {
+		submitOrderInfo: function(){
+			for(var i=0; i<dataArr.length; i++){
+				ShopBasic.push(dataArr[i].ShopBasic);
+			}
+			console.log(ShopBasic)
+			if(dataArr){
+				resource.qurey({
+					kdBillcode:dataArr[0].kdBillcode,
+					kdCom:dataArr[0].kdCom,
+					user_id:userID,
+					ShopBasic:ShopBasic,
+					intro:dataArr[0].intro
+				},function(resp){
+					alert(resp.msg);
+					if(resp.state==1009){
+						result = true;
+					}
+					$rootScope.$broadcast('Order.saveOrderUpdated');
+				})
+			}else{
+				alert("没有要登记的货品");
+			}
+		},
+		getSaveResult: function(){
+			return result;
+		}
+	}
+}])

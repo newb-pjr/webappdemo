@@ -1,4 +1,4 @@
-angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFactory','agencyFactory','customerFactory','categorysFactory','Storage', function($scope,expressFactory,agencyFactory,customerFactory,categorysFactory,Storage){
+angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFactory','agencyFactory','customerFactory','categorysFactory','Storage','saveOrderFactory', function($scope,expressFactory,agencyFactory,customerFactory,categorysFactory,Storage,saveOrderFactory){
 	expressFactory.requestExpress();
 	$scope.$on('Order.getExpressUpdated',function(){
 		$scope.express = expressFactory.getExpress();
@@ -66,7 +66,14 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		intro:""
 	}
 	$scope.addOrder = function(dataObj,c1,c2,c3){
-		var order = Storage.get("order") || [];
+		var order = Storage.get("order");
+		if(order){
+			if(order[0].kdBillcode != dataObj.kdBillcode){
+				order = [];
+			}
+		}else{
+			order = [];
+		}
 		dataObj.ShopBasic.selectFir = c1;
 		dataObj.ShopBasic.selectSec = c2;
 		dataObj.ShopBasic.selectThi = c3;
@@ -74,7 +81,12 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		Storage.set("order",order)
 	}
 
-
+	$scope.saveCargo = function(){
+		saveOrderFactory.submitOrderInfo();
+	}
+	// $scope.$on('Order.saveOrderUpdated',function(){
+	// 	saveOrderFactory.
+	// })
 }])
 .controller('infoCtrl', ['$scope', function($scope){
 	
@@ -291,15 +303,13 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 }])
 .controller('checkCtrl', ['$scope','Storage', function($scope,Storage){
 	$scope.order = Storage.get("order");
-	$scope.delOrder = function(num,$event){
-		$event.stopPropagation();
-		console.log(num)
-		// for(var i=0; i<$scope.order; i++){
-		// 	if($scope.order[i].kdBillcode == num){
-		// 		$scope.order.splice(i, 1);
-		// 	}
-		// }
-		// Storage.set("order",$scope.order);
-		// $scope.order = Storage.get("order");
+	$scope.delOrder = function(name){
+		for(var i=0; i<$scope.order.length; i++){
+			if($scope.order[i].ShopBasic.title == name){
+				$scope.order.splice(i, 1);
+			}
+		}
+		Storage.set("order",$scope.order);
+		$scope.order = Storage.get("order");
 	}
 }])
