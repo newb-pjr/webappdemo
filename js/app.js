@@ -128,7 +128,8 @@ angular.module("app",['ionic','app.config','app.controller','app.directive','app
 			url: '/pay',
 			views: {
 				'tab-start': {
-					templateUrl: 'view/tabs/start/pay.html'
+					templateUrl: 'view/tabs/start/pay.html',
+					controller: 'payCtrl'
 				}
 			}
 		})

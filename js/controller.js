@@ -313,3 +313,14 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		$scope.order = Storage.get("order");
 	}
 }])
+.controller('payCtrl', ['$scope','addressFactory','carriageFactory', function($scope,addressFactory,carriageFactory){
+	addressFactory.getAllList();
+	$scope.$on('User.addressUpdated',function(){
+		$scope.defaultAddress = addressFactory.getDefaultAddress();
+	})
+
+	carriageFactory.requestCarriage();
+	$scope.$on('Order.carriageUpdated',function(){
+		$scope.carriage = carriageFactory.getCarriage();
+	})
+}])

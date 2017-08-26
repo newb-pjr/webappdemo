@@ -62,6 +62,13 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		},
 		getList: function(){
 			return data;
+		},
+		getDefaultAddress: function(){
+			for(var i=0; i<data.length; i++){
+				if(data[i].is_default==1){
+					return data[i];
+				}
+			}
 		}
 	}
 }])
@@ -75,9 +82,9 @@ angular.module("app.services",[]).factory('Storage', [function(){
 			params: {
 				user_id: '@userID',
 				id: '@addressID'
-			}
-		},
-		timeout: 20000
+			},
+			timeout: 20000
+		}
 	})
 
 	return {
@@ -106,9 +113,9 @@ angular.module("app.services",[]).factory('Storage', [function(){
 	var resource = $resource(api+'/user/get_city', {}, {
 		qurey: {
 			method: 'get',
-			isArray: true
-		},
-		timeout: 20000
+			isArray: true,
+			timeout: 20000
+		}
 	})
 
 	return {
@@ -145,8 +152,8 @@ angular.module("app.services",[]).factory('Storage', [function(){
 	var resource = $resource(api+'/order/kd_com', {}, {
 		qurey: {
 			method: 'get',
-		},
-		timeout: 20000
+			timeout: 20000
+		}
 	})
 
 	return {
@@ -172,9 +179,9 @@ angular.module("app.services",[]).factory('Storage', [function(){
 			method: 'post',
 			params: {
 				user_id: '@userID'
-			}
-		},
-		timeout: 20000
+			},
+			timeout: 20000
+		}
 	})
 
 	return {
@@ -202,9 +209,9 @@ angular.module("app.services",[]).factory('Storage', [function(){
 			method: 'post',
 			params: {
 				user_id: '@userID'
-			}
-		},
-		timeout: 20000
+			},
+			timeout: 20000
+		}
 	})
 
 	return {
@@ -231,8 +238,8 @@ angular.module("app.services",[]).factory('Storage', [function(){
 	var resource = $resource(api+'/order/categorys', {}, {
 		qurey: {
 			method: 'get',
-		},
-		timeout: 20000
+			timeout: 20000
+		}
 	})
 
 	return {
@@ -458,6 +465,30 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		},
 		getSaveResult: function(){
 			return result;
+		}
+	}
+}])
+.factory('carriageFactory',  ['$resource','ENV','$rootScope', function($resource,ENV,$rootScope){
+	var api = ENV.api;
+	var data;
+	var resource = $resource(api+'/order/query_good', {}, {
+		qurey: {
+			method: "get",
+			timeout: 20000
+		}
+	})
+
+	return {
+		requestCarriage: function(){
+			resource.qurey(function(resp){
+				if(resp.state==1001){
+					data = resp.data;
+				}
+				$rootScope.$broadcast('Order.carriageUpdated');
+			})
+		},
+		getCarriage: function(){
+			return data;
 		}
 	}
 }])

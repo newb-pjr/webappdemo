@@ -2,11 +2,11 @@
 	<ion-content class="pay">
 		<div class="personInfo padding">
 			<div>
-				<span>收货人：李小姐</span>
-				<span>电话：1500896070</span>
+				<span ng-bind="'收货人：'+defaultAddress.consignee"></span>
+				<span ng-bind="'电话：'+defaultAddress.mobile"></span>
 				<div class="clear"></div>
 			</div>
-			<p>收货地址：广东省佛山市季华四路68号财政大厦2408室</p>
+			<p ng-bind="'收货地址：'+defaultAddress.country_name+defaultAddress.address_detail+defaultAddress.address"></p>
 		</div>
 		<div class="row selectTopic">
 			<div class="col col-50">运单号:10112450000</div>
@@ -40,6 +40,16 @@
 				<p>16:20:39</p>
 			</div>
 			<div class="col col-10">$300</div>
+		</div>
+		<div class="list">
+			<label class="item item-input item-select personInfo padding border-none">
+			    <div class="input-label">
+			      运送方式：
+			    </div>
+			    <select ng-options="data.Name for data in carriage">
+			      <option value="">请选择</option>
+			    </select>
+		  </label>
 		</div>
 		<div class="personInfo padding border-none">运送方式：国际运输方式</div>
 		<div class="personInfo padding border-none">派送方式：派送到家</div>
