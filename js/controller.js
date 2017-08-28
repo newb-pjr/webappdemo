@@ -54,9 +54,9 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		kdCom:"",
 		ShopBasic:{
 			title:"",
-			selectFir:"",
-			selectSec:"",
-			selectThi:"",
+			cate_one:"",
+			cate_two:"",
+			cate_three:"",
 			brank:"",
 			nums:"",
 			unit:"",
@@ -67,16 +67,16 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	}
 	$scope.addOrder = function(dataObj,c1,c2,c3){
 		var order = Storage.get("order");
-		if(order){
+		if(!!order.length){
 			if(order[0].kdBillcode != dataObj.kdBillcode){
 				order = [];
 			}
 		}else{
 			order = [];
 		}
-		dataObj.ShopBasic.selectFir = c1;
-		dataObj.ShopBasic.selectSec = c2;
-		dataObj.ShopBasic.selectThi = c3;
+		dataObj.ShopBasic.cate_one = c1;
+		dataObj.ShopBasic.cate_two = c2;
+		dataObj.ShopBasic.cate_three = c3;
 		order.push(dataObj);
 		Storage.set("order",order)
 	}
@@ -97,7 +97,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	// $scope.result = $scope.length*$scope.width*$scope.height/6000;
 	// console.log($scope.result);
 }])
-.controller('packageCtrl', ['$scope','Storage','$state','$rootScope','recordBillFactory', function($scope,Storage,$state,$rootScope,recordBillFactory){
+.controller('packageCtrl', ['$scope','Storage','$state','$rootScope','recordBillFactory','deleteCargo', function($scope,Storage,$state,$rootScope,recordBillFactory,deleteCargo){
 	recordBillFactory.requestRecord();
 	$scope.$on('Order.recordBillUpdated',function(){
 		$scope.record = recordBillFactory.getRecord();
@@ -106,6 +106,14 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		}
 	})
 	
+	$scope.delCargo = function(id){
+		deleteCargo.delCargo(id);
+	}
+	$scope.$on('Order.delCargoUpdated',function(){
+		if(deleteCargo.getDelResult){
+			recordBillFactory.requestRecord();
+		}
+	})
 	// $scope.selectAll = function(state){
 	// 	if(state){
 	// 		for(var i=0; i<$rootScope.record.length; i++){

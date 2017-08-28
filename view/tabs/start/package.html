@@ -25,20 +25,22 @@
 	<ion-content has-subheader="true" class="has-subheader has-tabs">
 		<ion-list class="listContent">
 			<ion-item ng-repeat="data in record">
-				<ion-checkbox ng-model="data.checked" ng-change="selected(data.checked)">{{data.checked}}
-					<div class="row selectTopic">
-						<div class="col col-50" ng-bind="'运单号:'+data.kdBillCode"></div>
-						<div class="col col-25" ng-bind="data.kdCompany"></div>
-						<div class="col col-25">
-							<div class="right">
-								<a href="javascript:void(0)" class="check">查看</a><i class="icon ion-ios-arrow-right"></i>
-							</div>
+				<div class="row selectTopic">
+					<div class="col col-50">
+						<ion-checkbox ng-model="data.checked" ng-change="selected(data.checked)">
+							<p ng-bind="'运单号:'+data.kdBillCode"></p>
+						</ion-checkbox>
+					</div>
+					<div class="col col-25" ng-bind="data.kdCompany"></div>
+					<div class="col col-25">
+						<div class="right">
+							<a href="javascript:void(0)" class="check">删除</a><i class="icon ion-ios-arrow-right"></i>
 						</div>
 					</div>
-				</ion-checkbox>
+				</div>
 				<div class="row row-center cargo">
 					<div class="col col-40 padding-none">
-						<div class="cargoDetail" ng-repeat=" detail in data.ShopBasic">
+						<div class="cargoDetail" ng-repeat="detail in data.ShopBasic">
 							<p class="cargoName" ng-bind="detail.Goods"></p>
 							<p class="cargoInfo" ng-bind="'尺寸：'+(data.Size?data.Size:'')"></p>
 							<p class="cargoInfo" ng-bind="'数量：'+detail.Number+detail.Unit"></p>
@@ -47,7 +49,11 @@
 					<div class="col col-20"><pre ng-bind="data.inplaceTime|timeFormat"></pre></div>
 					<div class="col col-20" ng-bind="data.State"></div>
 					<div class="col col-10"></div>
-					<div class="col col-10"><a href="javascript:void(0)">删除</a></div>
+					<div class="col col-10">
+						<div class="delete" ng-repeat="detail in data.ShopBasic" ng-if="data.ShopBasic.length!=1?true:false">
+							<a href="javascript:void(0)" ng-click="delCargo(detail.ID)">删除</a>
+						</div>
+					</div>
 				</div>
 			</ion-item>
 		</ion-list>

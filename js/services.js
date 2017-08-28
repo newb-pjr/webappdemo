@@ -160,7 +160,7 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		requestExpress: function(){
 			resource.qurey(function(resp){
 				if(resp.state==1001){
-					data = resp.data.KdComInfo;
+					data = resp.data;
 					$rootScope.$broadcast('Order.getExpressUpdated');
 				}
 			})
@@ -377,22 +377,22 @@ angular.module("app.services",[]).factory('Storage', [function(){
 			})
 		},
 		getArrived: function(){
-			if(data.has_arrived==""){
-				data.has_arrived = 0;
+			if(data.Arrive==""){
+				data.Arrive = 0;
 			}
-			return data.has_arrived;
+			return data.Arrive;
 		},
 		getNoArrived: function(){
-			if(data.not_arrived==""){
-				data.not_arrived = 0;
+			if(data.NoArrive==""){
+				data.NoArrive = 0;
 			}
-			return data.not_arrived;
+			return data.NoArrive;
 		},
 		getWaitDelivery: function(){
-			if(data.elivery==""){
-				data.elivery = 0;
+			if(data.WaitReceiving==""){
+				data.WaitReceiving = 0;
 			}
-			return data.elivery
+			return data.WaitReceiving;
 		}
 	}
 }])
@@ -441,11 +441,13 @@ angular.module("app.services",[]).factory('Storage', [function(){
 
 	return {
 		submitOrderInfo: function(){
+			result = false;
+			dataArr = Storage.get('order');
 			for(var i=0; i<dataArr.length; i++){
 				ShopBasic.push(dataArr[i].ShopBasic);
 			}
 			console.log(ShopBasic)
-			if(dataArr){
+			if(!!dataArr.length){
 				resource.qurey({
 					kdBillcode:dataArr[0].kdBillcode,
 					kdCom:dataArr[0].kdCom,
@@ -489,6 +491,36 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		},
 		getCarriage: function(){
 			return data;
+		}
+	}
+}])
+.factory('deleteCargo', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var result = false;
+	var resource = $resource(api+'/order/delete_jy_goods', {}, {
+		qurey: {
+			method: "post",
+			timeout: 20000
+		}
+	})
+
+	return {
+		delCargo: function(id){
+			result = false;
+			resource.qurey({
+				user_id:userID,
+				id:id
+			},function(resp){
+				alert(resp.msg);
+				if(resp.state==1015){
+					result = true;
+				}
+				$rootScope.$broadcast('Order.delCargoUpdated');
+			})
+		},
+		getDelResult: function(){
+			return result;
 		}
 	}
 }])

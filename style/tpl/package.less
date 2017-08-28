@@ -46,6 +46,19 @@
 				padding-left: 30px;
 			}
 			.selectTopic{
+				.lh(26);
+				border-bottom: 1px solid @borderBotttomColor;
+				.item-checkbox{
+					border:0;
+					.h(30);
+					.checkbox{
+						padding-left: 0px;
+						top: 58%;
+					}
+					.item-content{
+						.lh(30);
+					}
+				}
 				.fs(14);
 				color: @startColor;
 				.right{
@@ -60,6 +73,7 @@
 				}
 			}
 			.cargo{
+				margin-top: 0px;
 				padding: 0 5px 0 0;
 				text-align: center;
 				.fs(14);
@@ -85,9 +99,16 @@
 						color: @cargoGrayColor;
 					}
 				}
-				a{
-					color: @mainColor;
-					text-decoration: none;
+				.delete{
+					.lh(60);
+					border-bottom: 1px solid @appBgColor;
+					&:last-child{
+						border-bottom: none;
+					}
+					a{
+						color: @mainColor;
+						text-decoration: none;
+					}
 				}
 				.padding-none{
 					padding: 0;

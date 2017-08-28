@@ -31,21 +31,21 @@
 			<div class="row cargoContent">
 				<div class="col">
 					<p class="title">一级品类</p>
-					<select ng-model="hasOrder.ShopBasic.selectFir" ng-change="findSecClass(hasOrder.ShopBasic.selectFir.cat_id)" ng-options="data.cat_name for data in categorysFir" validator="required" name="hasOrder_cateOne">
+					<select ng-model="hasOrder.ShopBasic.cate_one" ng-change="findSecClass(hasOrder.ShopBasic.cate_one.cat_id)" ng-options="data.cat_name for data in categorysFir" validator="required" name="hasOrder_cateOne">
 						<option value="">请选择</option>
 					</select>
 					<p class="tips">*必需填写</p>
 				</div>
 				<div class="col">
 					<p class="title">二级品类</p>
-					<select ng-model="hasOrder.ShopBasic.selectSec" ng-change="findThiClass(hasOrder.ShopBasic.selectSec.cat_id)" ng-options="data.cat_name for data in categorysSec" validator="required" name="hasOrder_cateTwo">
+					<select ng-model="hasOrder.ShopBasic.cate_two" ng-change="findThiClass(hasOrder.ShopBasic.cate_two.cat_id)" ng-options="data.cat_name for data in categorysSec" validator="required" name="hasOrder_cateTwo">
 						<option value="">请选择</option>
 					</select>
 					<p class="tips">*必需填写</p>
 				</div>
 				<div class="col">
 					<p class="title">三级品类</p>
-					<select ng-model="hasOrder.ShopBasic.selectThi" ng-options="data.cat_name for data in categorysThi" validator="required" name="hasOrder_cateThree">
+					<select ng-model="hasOrder.ShopBasic.cate_three" ng-options="data.cat_name for data in categorysThi" validator="required" name="hasOrder_cateThree">
 						<option value="">请选择</option>
 					</select>
 					<p class="tips">*必需填写</p>
