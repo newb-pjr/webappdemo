@@ -494,7 +494,7 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		}
 	}
 }])
-.factory('deleteCargo', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+.factory('deleteCargoFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
 	var api = ENV.api;
 	var userID = Storage.get('user').user_id;
 	var result = false;
@@ -521,6 +521,73 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		},
 		getDelResult: function(){
 			return result;
+		}
+	}
+}])
+.factory('delAllCargoFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var result = false;
+	var resource = $resource(api+'/order/delete_jy', {}, {
+		qurey: {
+			method: "post",
+			timeout: 20000
+		}
+	})
+
+	return {
+		delAllCargo: function(id){
+			result = false;
+			resource.qurey({
+				user_id:userID,
+				id:id
+			},function(resp){
+				alert(resp.msg);
+				if(resp.state==1015){
+					result = true;
+				}
+				$rootScope.$broadcast('Order.delAllCargoUpdated');
+			})
+		},
+		getDelResult: function(){
+			return result;
+		}
+	}
+}])
+.factory('warehouseListFactory', ['$resource','ENV','$rootScope', function($resource,ENV,$rootScope){
+	var api = ENV.api;
+	var data;
+	var resource = $resource(api+'/order/house', {}, {
+		qurey: {
+			method: "get",
+			timeout: 20000
+		}
+	})
+
+	return {
+		requestWarehouseList: function(){
+			resource.qurey(function(resp){
+				if(resp.state==1001){
+					data = resp.data;
+				}
+				$rootScope.$broadcast('Order.warehouseListUpdated');
+			})
+		},
+		getList: function(){
+			return data;
+		},
+		firstWarehouseName: function(){
+			return data[0].HouseName;
+		},
+		firstWarehouse: function(){
+			return data[0];
+		},
+		getWarehouseDet: function(id){
+			for(var i=0; i<data.length; i++){
+				if(data[i].ID == id){
+					return data[i];
+				}
+			}
 		}
 	}
 }])

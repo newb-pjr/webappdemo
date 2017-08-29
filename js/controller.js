@@ -1,4 +1,4 @@
-angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFactory','agencyFactory','customerFactory','categorysFactory','Storage','saveOrderFactory', function($scope,expressFactory,agencyFactory,customerFactory,categorysFactory,Storage,saveOrderFactory){
+angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFactory','agencyFactory','customerFactory','categorysFactory','Storage','saveOrderFactory','warehouseListFactory','$ionicActionSheet', function($scope,expressFactory,agencyFactory,customerFactory,categorysFactory,Storage,saveOrderFactory,warehouseListFactory,$ionicActionSheet){
 	expressFactory.requestExpress();
 	$scope.$on('Order.getExpressUpdated',function(){
 		$scope.express = expressFactory.getExpress();
@@ -84,6 +84,30 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	$scope.saveCargo = function(){
 		saveOrderFactory.submitOrderInfo();
 	}
+
+	var sheetButtons = [];
+	var warehouseList;
+	warehouseListFactory.requestWarehouseList();
+	$scope.$on('Order.warehouseListUpdated',function(){
+		$scope.warehouse = warehouseListFactory.firstWarehouseName();
+		$scope.warehouseDetail = warehouseListFactory.firstWarehouse();
+		warehouseList = warehouseListFactory.getList();
+		for(var i=0; i<warehouseList.length; i++){
+			sheetButtons.push({text:warehouseList[i].HouseName})
+		}
+	})
+
+	$scope.warehouseSheet = function(){
+		$ionicActionSheet.show({
+			buttons: sheetButtons,
+			cancelText: '取消',
+			buttonClicked: function(index){
+				$scope.warehouseDetail = warehouseListFactory.getWarehouseDet(warehouseList[index].ID);
+				$scope.warehouse = warehouseList[index].HouseName;
+				return true;
+			}
+		})
+	}
 	// $scope.$on('Order.saveOrderUpdated',function(){
 	// 	saveOrderFactory.
 	// })
@@ -97,7 +121,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	// $scope.result = $scope.length*$scope.width*$scope.height/6000;
 	// console.log($scope.result);
 }])
-.controller('packageCtrl', ['$scope','Storage','$state','$rootScope','recordBillFactory','deleteCargo', function($scope,Storage,$state,$rootScope,recordBillFactory,deleteCargo){
+.controller('packageCtrl', ['$scope','Storage','$state','$rootScope','recordBillFactory','deleteCargoFactory','delAllCargoFactory', function($scope,Storage,$state,$rootScope,recordBillFactory,deleteCargoFactory,delAllCargoFactory){
 	recordBillFactory.requestRecord();
 	$scope.$on('Order.recordBillUpdated',function(){
 		$scope.record = recordBillFactory.getRecord();
@@ -107,10 +131,19 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	})
 	
 	$scope.delCargo = function(id){
-		deleteCargo.delCargo(id);
+		deleteCargoFactory.delCargo(id);
 	}
 	$scope.$on('Order.delCargoUpdated',function(){
-		if(deleteCargo.getDelResult){
+		if(deleteCargoFactory.getDelResult()){
+			recordBillFactory.requestRecord();
+		}
+	})
+
+	$scope.delAll = function(id){
+		delAllCargoFactory.delAllCargo(id);
+	}
+	$scope.$on('Order.delAllCargoUpdated',function(){
+		if(delAllCargoFactory.getDelResult()){
 			recordBillFactory.requestRecord();
 		}
 	})

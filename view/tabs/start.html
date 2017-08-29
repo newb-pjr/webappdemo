@@ -1,16 +1,19 @@
 <ion-view view-title="开始集运" hide-back-button="true">
+	<ion-nav-buttons side="right">
+	    <button class="button button-clear" ng-click="warehouseSheet()" ng-bind="warehouse"></button>
+    </ion-nav-buttons>
 	<ion-content class="start">
 		<div class="padding content">
 			<p class="title">cherry 的集运地址 (新地址)</p>
 			<p class="row">
 				<span class="col col-20">收货地址:</span>
-				<span class="col col-80">广东省东莞市虎门镇新镇新镇新镇新联社区武时亿cherry0809(2026280827)</span>
+				<span class="col col-80" ng-bind="warehouseDetail.Address"></span>
 			</p>
 			<p class="row">
-				<span class="col col-50">收件人: 武时亿2026280827</span>
-				<span class="col col-50">联系电话: 13532580699</span>
+				<span class="col col-50" ng-bind="'收件人: '+warehouseDetail.Person"></span>
+				<span class="col col-50" ng-bind="'联系电话: '+warehouseDetail.Phone"></span>
 			</p>
-			<p><span>邮政编码: 523000</span></p>
+			<p><span ng-bind="'邮政编码: '+warehouseDetail.ZipCode"></span></p>
 		</div>
 		<div class="padding select">
 			<ul>
@@ -88,7 +91,7 @@
 			<div class="cargoBtn">
 				<div class="row cargoBtnContent">
 					<div class="col">
-						<a href="javascript:void(0)" class="highlight" validation-submit="hasOrderNum" ng-click="addOrder(hasOrder,hasOrder.ShopBasic.selectFir.cat_name,hasOrder.ShopBasic.selectSec.cat_name,hasOrder.ShopBasic.selectThi.cat_name)">增加货件</a>
+						<a href="javascript:void(0)" class="highlight" validation-submit="hasOrderNum" ng-click="addOrder(hasOrder,hasOrder.ShopBasic.cate_one.cat_name,hasOrder.ShopBasic.cate_two.cat_name,hasOrder.ShopBasic.cate_three.cat_name)">增加货件</a>
 					</div>
 					<div class="col">
 						<a href="javascript:void(0)">删除货件</a>
