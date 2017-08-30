@@ -66,7 +66,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		intro:""
 	}
 	$scope.addOrder = function(dataObj,c1,c2,c3){
-		var order = Storage.get("order");
+		var order = Storage.get("order") || [];
 		if(!!order.length){
 			if(order[0].kdBillcode != dataObj.kdBillcode){
 				order = [];
@@ -185,7 +185,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	  $rootScope.tabsHide = '';
 	});
 }])
-.controller('orderCtrl', ['$scope', function($scope){
+.controller('orderCtrl', ['$scope','$state', function($scope,$state){
 	$scope.topTabs = [{
 		id: 'all',
 		name: '所有订单',
@@ -204,6 +204,10 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		isActive: false
 	}]
 
+	$scope.goBack = function(){
+		history.go(-1)
+		// $state.go('tabs.person');
+	}
 }])
 .controller('addressCtrl', ['$scope','$ionicModal','addressFactory','setDefaultFactory','getCityFactory','saveAddressFactory','delAddressFactory', function($scope,$ionicModal,addressFactory,setDefaultFactory,getCityFactory,saveAddressFactory,delAddressFactory){
 	$ionicModal.fromTemplateUrl('view/tabs/person/addAddress.html', {

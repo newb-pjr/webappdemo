@@ -429,9 +429,10 @@ angular.module("app.services",[]).factory('Storage', [function(){
 .factory('saveOrderFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
 	var api = ENV.api;
 	var userID = Storage.get('user').user_id;
-	var dataArr = Storage.get('order');
-	var ShopBasic = [];
-	var result = false;
+	var dataArr;
+	var ShopBasic;
+	var result;
+	var data;
 	var resource = $resource(api+'/order/save_jiyun', {}, {
 		qurey: {
 			method: "post",
@@ -441,23 +442,31 @@ angular.module("app.services",[]).factory('Storage', [function(){
 
 	return {
 		submitOrderInfo: function(){
+			data = "";
 			result = false;
-			dataArr = Storage.get('order');
-			for(var i=0; i<dataArr.length; i++){
-				ShopBasic.push(dataArr[i].ShopBasic);
-			}
-			console.log(ShopBasic)
+			dataArr = Storage.get('order') || [];
+			ShopBasic = [];
 			if(!!dataArr.length){
-				resource.qurey({
-					kdBillcode:dataArr[0].kdBillcode,
-					kdCom:dataArr[0].kdCom,
-					user_id:userID,
-					ShopBasic:ShopBasic,
-					intro:dataArr[0].intro
-				},function(resp){
+				data += 'kdBillcode='+encodeURIComponent(dataArr[0].kdBillcode);
+				data += '&kdCom='+encodeURIComponent(dataArr[0].kdCom);
+				data += '&user_id='+encodeURIComponent(userID);
+				data += '&intro='+encodeURIComponent(dataArr[0].intro);
+				for(var i=0; i<dataArr.length; i++){
+					data += '&ShopBasic['+i+'][title]='+encodeURIComponent(dataArr[i].ShopBasic.title);
+					data += '&ShopBasic['+i+'][cate_one]='+encodeURIComponent(dataArr[i].ShopBasic.cate_one);
+					data += '&ShopBasic['+i+'][cate_two]='+encodeURIComponent(dataArr[i].ShopBasic.cate_two);
+					data += '&ShopBasic['+i+'][cate_three]='+encodeURIComponent(dataArr[i].ShopBasic.cate_three);
+					data += '&ShopBasic['+i+'][brank]='+encodeURIComponent(dataArr[i].ShopBasic.brank);
+					data += '&ShopBasic['+i+'][nums]='+encodeURIComponent(dataArr[i].ShopBasic.nums);
+					data += '&ShopBasic['+i+'][unit]='+encodeURIComponent(dataArr[i].ShopBasic.unit);
+					data += '&ShopBasic['+i+'][price]='+encodeURIComponent(dataArr[i].ShopBasic.price);
+					data += '&ShopBasic['+i+'][money]='+encodeURIComponent(dataArr[i].ShopBasic.money);
+				}
+				resource.qurey(data,function(resp){
 					alert(resp.msg);
 					if(resp.state==1009){
 						result = true;
+						Storage.remove('order');
 					}
 					$rootScope.$broadcast('Order.saveOrderUpdated');
 				})

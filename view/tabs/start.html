@@ -112,44 +112,128 @@
 				<a href="#/tabs/package" class="cargoSub grayColor">登记记录</a>
 			</div>
 		</form>
-		<div class="cargoInfo padding" ng-if="selectId==1">
+		<form name="noOrderNum" class="cargoInfo padding" ng-if="selectId==1">
 			<p class="topic">供应商信息</p>
 			<div class="cargoContent">
 				<p class="title">供应商名称</p>
-				<select><option ng-repeat="data in agency" value="{{data.id}}" ng-bind="data.name"></option></select>
+				<select ng-model="noOrder.agence_name" ng-init="noOrder.agence_name='3'">
+					<option ng-repeat="data in agency" value="{{data.id}}" ng-bind="data.name"></option>
+				</select>
 				<p class="tips">*必需填写</p>
 			</div>
 			<div class="cargoContent">
 				<p class="title">电子邮件</p>
-				<input type="text" name="order">
+				<input type="text" name="order" ng-model="noOrder.agence_email">
 				<p class="tips">*必需填写</p>
 			</div>
 			<div class="cargoContent">
 				<p class="title">手机号码</p>
-				<input type="text" name="order">
+				<input type="text" name="order" ng-model="noOrder.agence_mobile">
 				<p class="tips">*必需填写</p>
 			</div>
 			<div class="cargoContent">
 				<p class="title">订单号</p>
-				<input type="text" name="order">
+				<input type="text" name="order" ng-model="noOrder.agence_order_no">
 				<p class="tips">*必需填写</p>
 			</div>
 			<p class="topic">客户信息</p>
 			<div class="cargoContent">
 				<p class="title">客户姓名</p>
-				<select><option ng-repeat="data in customer" value="{{data.id}}" ng-bind="data.name"></option></select>
+				<select ng-model="noOrder.customer_name" ng-init="noOrder.customer_name='4'">
+					<option ng-repeat="data in customer" value="{{data.id}}" ng-bind="data.name"></option>
+				</select>
 				<p class="tips">*必需填写</p>
 			</div>
 			<div class="cargoContent">
 				<p class="title">电子邮箱</p>
-				<input type="text" name="order">
+				<input type="text" name="order" ng-model="noOrder.customer_email">
 				<p class="tips">*必需填写</p>
 			</div>
 			<div class="cargoContent">
 				<p class="title">手机号码</p>
-				<input type="text" name="order">
+				<input type="text" name="order" ng-model="noOrder.customer_mobile">
 				<p class="tips">*必需填写</p>
 			</div>
-		</div>
+			<div class="row cargoContent">
+				<div class="col">
+					<p class="title">一级品类</p>
+					<select ng-model="noOrder.ShopBasic.cate_one" ng-change="findSecClass(noOrder.ShopBasic.cate_one.cat_id)" ng-options="data.cat_name for data in categorysFir" validator="required" name="hasOrder_cateOne">
+						<option value="">请选择</option>
+					</select>
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col">
+					<p class="title">二级品类</p>
+					<select ng-model="noOrder.ShopBasic.cate_two" ng-change="findThiClass(noOrder.ShopBasic.cate_two.cat_id)" ng-options="data.cat_name for data in categorysSec" validator="required" name="hasOrder_cateTwo">
+						<option value="">请选择</option>
+					</select>
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col">
+					<p class="title">三级品类</p>
+					<select ng-model="noOrder.ShopBasic.cate_three" ng-options="data.cat_name for data in categorysThi" validator="required" name="hasOrder_cateThree">
+						<option value="">请选择</option>
+					</select>
+					<p class="tips">*必需填写</p>
+				</div>
+			</div>
+			<div class="row cargoContent">
+				<div class="col col-50">
+					<p class="title">品名</p>
+					<input type="text" validator="required" ng-model="noOrder.ShopBasic.title" name="hasOrder_title">
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col col-25">
+					<p class="title">数量</p>
+					<input type="text" validator="required,number" ng-model="noOrder.ShopBasic.nums" name="hasOrder_nums">
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col col-25">
+					<p class="title">单位</p>
+					<input type="text" validator="required" ng-model="noOrder.ShopBasic.unit" name="hasOrder_unit">
+					<p class="tips">*必需填写</p>
+				</div>
+			</div>
+			<div class="row cargoContent">
+				<div class="col">
+					<p class="title">品牌</p>
+					<input type="text" validator="required" ng-model="noOrder.ShopBasic.brank" name="hasOrder_brank">
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col">
+					<p class="title">价格</p>
+					<input type="text" validator="required,number" ng-model="noOrder.ShopBasic.price" name="hasOrder_price">
+					<p class="tips">*必需填写</p>
+				</div>
+				<div class="col">
+					<p class="title">总金额</p>
+					<input type="text" name="unit" validator="required,number" ng-model="noOrder.ShopBasic.money" disabled="disabled" name="hasOrder_money">
+					<p class="tips">*必需填写</p>
+				</div>
+			</div>
+			<div class="cargoBtn">
+				<div class="row cargoBtnContent">
+					<div class="col">
+						<a href="javascript:void(0)" class="highlight" validation-submit="hasOrderNum" ng-click="addOrder(noOrder,noOrder.ShopBasic.cate_one.cat_name,noOrder.ShopBasic.cate_two.cat_name,noOrder.ShopBasic.cate_three.cat_name)">增加货件</a>
+					</div>
+					<div class="col">
+						<a href="javascript:void(0)">删除货件</a>
+					</div>
+					<div class="col">
+						<a href="#/tabs/check">查看全部</a>
+					</div>
+				</div>
+			</div>
+			<div class="cargoContent">
+				<p class="title">备注</p>
+				<textarea ng-model="noOrder.intro" name="hasOrder_intro"></textarea>
+				<p class="tips">*如果是国际转运，请输入货品内容及价格。</p>
+				<p class="tips">例: 衣服x1,$350; 手机套x2,$200;</p>
+			</div>
+			<div class="btnGroup">
+				<a href="javascript:void(0)" class="cargoSub" ng-click="saveCargo()">登记货品</a>
+				<a href="#/tabs/package" class="cargoSub grayColor">登记记录</a>
+			</div>
+		</form>
 	</ion-content>
 </ion-view>
