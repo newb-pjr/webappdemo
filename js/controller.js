@@ -49,6 +49,14 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	$scope.$watch('hasOrder.ShopBasic.nums',function(newVal){
 		$scope.hasOrder.ShopBasic.money = $scope.hasOrder.ShopBasic.price*$scope.hasOrder.ShopBasic.nums || 0;
 	})
+	$scope.$watch('noOrder.ShopBasic.price',function(newVal){
+		$scope.noOrder.ShopBasic.money = $scope.noOrder.ShopBasic.price*$scope.noOrder.ShopBasic.nums || 0;
+		
+	})
+	$scope.$watch('noOrder.ShopBasic.nums',function(newVal){
+		$scope.noOrder.ShopBasic.money = $scope.noOrder.ShopBasic.price*$scope.noOrder.ShopBasic.nums || 0;
+	})
+
 	$scope.hasOrder = {
 		kdBillcode:"",
 		kdCom:"",
@@ -65,14 +73,39 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		},
 		intro:""
 	}
-	$scope.addOrder = function(dataObj,c1,c2,c3){
+	$scope.noOrder = {
+		agence_name:"",
+		agence_email:"",
+		agence_mobile:"",
+		agence_order_no:"",
+		customer_name:"",
+		customer_email:"",
+		customer_mobile:"",
+		ShopBasic:{
+			title:"",
+			cate_one:"",
+			cate_two:"",
+			cate_three:"",
+			brank:"",
+			nums:"",
+			unit:"",
+			price:"",
+			money:""
+		},
+		intro:""
+	}
+	$scope.addOrder = function(id,dataObj,c1,c2,c3){
 		var order = Storage.get("order") || [];
-		if(!!order.length){
-			if(order[0].kdBillcode != dataObj.kdBillcode){
-				order = [];
+		if(id==0){
+			if(!!order.length){
+				if(!!order[0].kdBillcode){
+					if(order[0].kdBillcode != dataObj.kdBillcode){
+						order = [];
+					}
+				}else{
+					order = [];
+				}
 			}
-		}else{
-			order = [];
 		}
 		dataObj.ShopBasic.cate_one = c1;
 		dataObj.ShopBasic.cate_two = c2;
@@ -107,6 +140,18 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 				return true;
 			}
 		})
+	}
+
+	$scope.getAgenceDet = function(id){
+		agencyFactory.getDetail(id);
+		$scope.noOrder.agence_mobile = agencyFactory.getAgencyMobile();
+		$scope.noOrder.agence_email = agencyFactory.getAgencyEmail();
+	}
+
+	$scope.getCustomerDet = function(id){
+		customerFactory.getDetail(id);
+		$scope.noOrder.customer_mobile = customerFactory.getCustomerMobile();
+		$scope.noOrder.customer_email = customerFactory.getCustomerEmail();
 	}
 	// $scope.$on('Order.saveOrderUpdated',function(){
 	// 	saveOrderFactory.

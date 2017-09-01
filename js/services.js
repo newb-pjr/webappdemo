@@ -173,6 +173,7 @@ angular.module("app.services",[]).factory('Storage', [function(){
 .factory('agencyFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
 	var api = ENV.api;
 	var data;
+	var detail;
 	var userID = Storage.get('user').user_id;
 	var resource = $resource(api+'/user/agency_list', {}, {
 		qurey: {
@@ -197,12 +198,38 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		},
 		getAgency: function(){
 			return data;
+		},
+		getDetail: function(id){
+			if(id){
+				for(var i=0; i<data.length; i++){
+					if(data[i].id == id){
+						detail = data[i];
+					}
+				}
+			}else{
+				detail = "";
+			}
+		},
+		getAgencyMobile: function(){
+			if(detail){
+				return detail.mobile;
+			}else{
+				return detail;
+			}
+		},
+		getAgencyEmail: function(){
+			if(detail){
+				return detail.email;
+			}else{
+				return detail;
+			}
 		}
 	}
 }])
 .factory('customerFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
 	var api = ENV.api;
 	var data;
+	var detail;
 	var userID = Storage.get('user').user_id;
 	var resource = $resource(api+'/user/customer_list', {}, {
 		qurey: {
@@ -227,6 +254,31 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		},
 		getCustomer: function(){
 			return data;
+		},
+		getDetail: function(id){
+			if(id){
+				for(var i=0; i<data.length; i++){
+					if(data[i].id == id){
+						detail = data[i];
+					}
+				}
+			}else{
+				detail = "";
+			}
+		},
+		getCustomerMobile: function(){
+			if(detail){
+				return detail.mobile;
+			}else{
+				return detail;
+			}
+		},
+		getCustomerEmail: function(){
+			if(detail){
+				return detail.email;
+			}else{
+				return detail;
+			}
 		}
 	}
 }])

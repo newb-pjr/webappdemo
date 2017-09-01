@@ -190,7 +190,8 @@ angular.module("app",['ionic','app.config','app.controller','app.directive','app
 		required: function(value){
 			return !!value;
 		},
-		number: /^\d+$/
+		number: /^\d+$/,
+		email: /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/
 	}
 
 	var defaultMsg = {
@@ -209,6 +210,10 @@ angular.module("app",['ionic','app.config','app.controller','app.directive','app
 		number: {
 			success: '',
 			error: '只能输入数字'
+		},
+		email: {
+			success: '',
+			error: '格式不对'
 		}
 	}
 
