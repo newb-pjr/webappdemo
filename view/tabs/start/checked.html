@@ -2,7 +2,7 @@
 	<ion-content class="showContent">
 		<div class="row title">
 			<div class="col col-30">
-				快递单号
+				快递单号/运单号
 			</div>
 			<div class="col col-20">
 				货物品名
@@ -25,8 +25,8 @@
 				<div class="row row-center content">
 					<div class="col col-30 firstItem">
 						<ion-checkbox>
-							<p ng-bind="data.kdCom"></p>
-							<p ng-bind="data.kdBillcode"></p>
+							<p ng-bind="data.kdCom?data.kdCom:data.agence_name"></p>
+							<p ng-bind="data.kdBillcode?data.kdBillcode:data.agence_order_no"></p>
 						</ion-checkbox>
 					</div>
 					<div class="col col-20">

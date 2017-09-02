@@ -107,6 +107,19 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 				}
 			}
 		}
+		if(id==1){
+			if(!!order.length){
+				if(!!order[0].agence_order_no){
+					if(order[0].agence_order_no != dataObj.agence_order_no){
+						order = [];
+					}
+				}else{
+					order = [];
+				}
+			}
+			dataObj.agence_name = dataObj.agence_name.name;
+			dataObj.customer_name = dataObj.customer_name.name;
+		}
 		dataObj.ShopBasic.cate_one = c1;
 		dataObj.ShopBasic.cate_two = c2;
 		dataObj.ShopBasic.cate_three = c3;
