@@ -1,9 +1,9 @@
 <ion-view view-title="开始集运" hide-back-button="true">
-	<ion-nav-buttons side="right">
+	<!-- <ion-nav-buttons side="right">
 	    <button class="button button-clear" ng-click="warehouseSheet()" ng-bind="warehouse"></button>
-    </ion-nav-buttons>
+    </ion-nav-buttons> -->
 	<ion-content class="start">
-		<div class="padding content">
+		<!-- <div class="padding content">
 			<p class="title">cherry 的集运地址 (新地址)</p>
 			<p class="row">
 				<span class="col col-20">收货地址:</span>
@@ -14,7 +14,7 @@
 				<span class="col col-50" ng-bind="'联系电话: '+warehouseDetail.Phone"></span>
 			</p>
 			<p><span ng-bind="'邮政编码: '+warehouseDetail.ZipCode"></span></p>
-		</div>
+		</div> -->
 		<div class="padding select">
 			<ul>
 				<li ng-repeat="listData in list" class="{{selectId==listData.id?'active':''}}" ng-click="index($index)" ng-bind="listData.name"></li>

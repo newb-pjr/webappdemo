@@ -1,4 +1,4 @@
 angular.module("app.config",[]).constant('ENV', {
-	'api': 'http://syu3191000001.my3w.com/api',
-	'imgUrl': 'http://syu3191000001.my3w.com/dict/img'
+	'api': 'http://jy.e2mu.com/api',
+	'imgUrl': 'http://jy.e2mu.com/dict/img'
 });

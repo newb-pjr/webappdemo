@@ -652,3 +652,40 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		}
 	}
 }])
+.factory('orderFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var page = 1;
+	var state = 0;
+	var data;
+	var resource = $resource(api+'/order/get_order_list', {}, {
+		qurey: {
+			method: "get",
+			params: {
+				user_id:"@userID",
+				page:"@page",
+				state:"@state"
+			},
+			timeout: 20000
+		}
+	})
+
+	return {
+		requestOrderList: function(){
+			resource.qurey({
+				user_id:userID,
+				page:page,
+				state:state
+			},function(resp){
+				if(resp.state==1001){
+					console.log(resp.data.data);
+					data = resp.data.data;
+					$rootScope.$broadcast('Order.OrderListUpdated');
+				}
+			})
+		},
+		getOrderList: function(){
+			return data;
+		}
+	}
+}])

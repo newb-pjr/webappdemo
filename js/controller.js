@@ -243,29 +243,30 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	  $rootScope.tabsHide = '';
 	});
 }])
-.controller('orderCtrl', ['$scope','$state', function($scope,$state){
+.controller('orderCtrl', ['$scope','$state','orderFactory', function($scope,$state,orderFactory){
 	$scope.topTabs = [{
 		id: 'all',
 		name: '所有订单',
 		isActive: true
 	},{
 		id: 'onRoad',
-		name: '未到达货品',
+		name: '未发货',
 		isActive: false
 	},{
 		id: 'arrive',
-		name: '已到达货品',
+		name: '已发货',
 		isActive: false
 	},{
 		id: 'takeOver',
-		name: '待收货',
+		name: '已签收',
 		isActive: false
 	}]
 
-	$scope.goBack = function(){
-		history.go(-1)
-		// $state.go('tabs.person');
-	}
+	orderFactory.requestOrderList();
+	$scope.$on('Order.OrderListUpdated',function(){
+		$orderList = orderFactory.getOrderList();
+	})
+	
 }])
 .controller('addressCtrl', ['$scope','$ionicModal','addressFactory','setDefaultFactory','getCityFactory','saveAddressFactory','delAddressFactory', function($scope,$ionicModal,addressFactory,setDefaultFactory,getCityFactory,saveAddressFactory,delAddressFactory){
 	$ionicModal.fromTemplateUrl('view/tabs/person/addAddress.html', {
