@@ -689,3 +689,60 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		}
 	}
 }])
+.factory('goodListFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var data;
+	var resource = $resource(api+'/order/good_list', {}, {
+		qurey: {
+			method: "get",
+			params: {
+				user_id:"@userID"
+			},
+			timeout: 20000
+		}
+	})
+
+	return {
+		requestGoodList: function(){
+			resource.qurey({
+				user_id:userID
+			},function(resp){
+				if(resp.state==1001){
+					data = resp.data;
+					$rootScope.$broadcast('Order.GoodListUpdated');
+				}
+			})
+		},
+		getGoodList: function(){
+			return data;
+		}
+	}
+}])
+.factory('delGoodFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var data;
+	var result;
+	var resource = $resource(api+'/order/del_goods', {}, {
+		qurey: {
+			method: "post",
+			timeout: 20000
+		}
+	})
+
+	return {
+		delGood: function(id){
+			result = false;
+			resource.qurey({
+				id:id,
+				user_id:userID
+			},function(resp){
+				result = true;
+			})
+		},
+		getDelResult: function(){
+			return result;
+		}
+	}
+}])

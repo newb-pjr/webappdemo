@@ -14,15 +14,15 @@
 				单位
 			</div>
 			<div class="col col-20">
-				备注
+				价格
 			</div>
 			<div class="col col-10">
 				操作
 			</div>
 		</div>
 		<ion-list>
-			<ion-item ng-repeat="data in order" class="listContent">
-				<div class="row row-center content">
+			<ion-item ng-repeat="list in goodList" class="listContent">
+				<!-- <div class="row row-center content">
 					<div class="col col-30 firstItem">
 						<ion-checkbox>
 							<p ng-bind="data.kdCom?data.kdCom:data.agence_name"></p>
@@ -44,7 +44,35 @@
 					<div class="col col-10">
 						<a href="javascript:void(0)" ng-click="delOrder(data.ShopBasic.title);">删除</a>
 					</div>
-				</div>
+				</div> -->
+					<div class="row row-center content">
+						<div class="col col-30 firstItem">
+							<ion-checkbox>
+								<p ng-bind="list.kd_com"></p>
+								<p ng-bind="list.shipping_no"></p>
+							</ion-checkbox>
+						</div>
+						<div class="col col-70">
+							<div class="row detailItem" ng-repeat="data in list.good_list">
+								<div class="col col-25">
+									<p class="cargoName" ng-bind="data.title"></p>
+								</div>
+								<div class="col col-20">
+									<p ng-bind="data.nums"></p>
+								</div>
+								<div class="col col-10">
+									<p ng-bind="data.unit"></p>
+								</div>
+								<div class="col col-30">
+									<p ng-bind="data.money"></p>
+								</div>
+								<div class="col col-15">
+									<a href="javascript:void(0)" ng-click="delOrder(data.id);">删除</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
 			</ion-item>
 		</ion-list>
 	</ion-content>

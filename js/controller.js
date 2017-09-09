@@ -264,7 +264,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 
 	orderFactory.requestOrderList();
 	$scope.$on('Order.OrderListUpdated',function(){
-		$orderList = orderFactory.getOrderList();
+		$scope.orderList = orderFactory.getOrderList();
 	})
 	
 }])
@@ -405,7 +405,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		$scope.delivery = tatalFactory.getWaitDelivery();
 	})
 }])
-.controller('checkCtrl', ['$scope','Storage', function($scope,Storage){
+.controller('checkCtrl', ['$scope','Storage','goodListFactory', function($scope,Storage,goodListFactory){
 	$scope.order = Storage.get("order");
 	$scope.delOrder = function(name){
 		for(var i=0; i<$scope.order.length; i++){
@@ -416,6 +416,11 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		Storage.set("order",$scope.order);
 		$scope.order = Storage.get("order");
 	}
+
+	goodListFactory.requestGoodList();
+	$scope.$on('Order.GoodListUpdated',function(){
+		$scope.goodList = goodListFactory.getGoodList();
+	})
 }])
 .controller('payCtrl', ['$scope','addressFactory','carriageFactory', function($scope,addressFactory,carriageFactory){
 	addressFactory.getAllList();
