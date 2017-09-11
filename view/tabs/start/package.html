@@ -27,7 +27,7 @@
 			<ion-item ng-repeat="data in record">
 				<div class="row selectTopic">
 					<div class="col col-50">
-						<ion-checkbox ng-model="data.checked" ng-change="selected(data.checked)">
+						<ion-checkbox ng-model="data.checked" ng-change="selected(data.checked)" data="record" index="$index">
 							<p ng-bind="'运单号:'+data.kdBillCode"></p>
 						</ion-checkbox>
 					</div>

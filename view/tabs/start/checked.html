@@ -45,44 +45,40 @@
 						<a href="javascript:void(0)" ng-click="delOrder(data.ShopBasic.title);">删除</a>
 					</div>
 				</div> -->
-					<div class="row row-center content">
-						<div class="col col-30 firstItem">
-							<ion-checkbox>
-								<p ng-bind="list.kd_com"></p>
-								<p ng-bind="list.shipping_no"></p>
-							</ion-checkbox>
-						</div>
-						<div class="col col-70">
-							<div class="row detailItem" ng-repeat="data in list.good_list">
-								<div class="col col-25">
-									<p class="cargoName" ng-bind="data.title"></p>
-								</div>
-								<div class="col col-20">
-									<p ng-bind="data.nums"></p>
-								</div>
-								<div class="col col-10">
-									<p ng-bind="data.unit"></p>
-								</div>
-								<div class="col col-30">
-									<p ng-bind="data.money"></p>
-								</div>
-								<div class="col col-15">
-									<a href="javascript:void(0)" ng-click="delOrder(data.id);">删除</a>
-								</div>
+				<div class="row row-center content">
+					<div class="col col-30 firstItem">
+						<ion-checkbox single-checked index="$index" data="goodList" ng-model="list.checked" ng-checked="list.checked">
+							<p ng-bind="list.kd_com"></p>
+							<p ng-bind="list.shipping_no"></p>
+						</ion-checkbox>
+					</div>
+					<div class="col col-70">
+						<div class="row detailItem" ng-repeat="data in list.good_list">
+							<div class="col col-25">
+								<p class="cargoName" ng-bind="data.title"></p>
+							</div>
+							<div class="col col-20">
+								<p ng-bind="data.nums"></p>
+							</div>
+							<div class="col col-10">
+								<p ng-bind="data.unit"></p>
+							</div>
+							<div class="col col-30">
+								<p ng-bind="data.money"></p>
+							</div>
+							<div class="col col-15">
+								<a href="javascript:void(0)" ng-click="delGood(data.id);">删除</a>
 							</div>
 						</div>
 					</div>
-
+				</div>
 			</ion-item>
 		</ion-list>
 	</ion-content>
 	<ion-footer-bar align-title="left" class="cargoFooter">
 		<div class="bottom row">
 			<div class="col">
-				<ion-checkbox>全选</ion-checkbox>
-			</div>
-			<div class="col">
-				<a href="javascript:void(0)" class="delectBtn">删除</a>
+				<a href="javascript:void(0)" class="delectBtn" ng-click="submitGood()">提交登记</a>
 			</div>
 		</div>
 	</ion-footer-bar>

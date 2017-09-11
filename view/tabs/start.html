@@ -87,11 +87,18 @@
 					<input type="text" validator="required,number" ng-model="hasOrder.ShopBasic.money" disabled="disabled" name="hasOrder_money">
 					<p class="tips">*必需填写</p>
 				</div>
+				<div class="col">
+					<p class="title">特殊商品</p>
+					<select ng-model="hasOrder.goods_type" name="hasOrder_goods_type">
+						<option value="">请选择</option>
+						<option ng-repeat="data in special" ng-bind="data.name" value="{{data.name}}"></option>
+					</select>
+				</div>
 			</div>
 			<div class="cargoBtn">
 				<div class="row cargoBtnContent">
 					<div class="col">
-						<a href="javascript:void(0)" class="highlight" validation-submit="hasOrderNum" ng-click="addOrder(0,hasOrder,hasOrder.ShopBasic.cate_one.cat_name,hasOrder.ShopBasic.cate_two.cat_name,hasOrder.ShopBasic.cate_three.cat_name)">增加货件</a>
+						<a href="javascript:void(0)" class="highlight" validation-submit="hasOrderNum" ng-click="addOrder()">增加货件</a>
 					</div>
 					<div class="col">
 						<a href="javascript:void(0)">删除货件</a>
@@ -108,8 +115,7 @@
 				<p class="tips">例: 衣服x1,$350; 手机套x2,$200;</p>
 			</div>
 			<div class="btnGroup">
-				<a href="javascript:void(0)" class="cargoSub" ng-click="saveCargo()">登记货品</a>
-				<a href="#/tabs/package" class="cargoSub grayColor">登记记录</a>
+				<a href="#/tabs/package" class="cargoSub">登记记录</a>
 			</div>
 		</form>
 		<form name="noOrderNum" class="cargoInfo padding" ng-if="selectId==1">

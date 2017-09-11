@@ -47,7 +47,7 @@ angular.module("app.directive",[]).directive('tabsHide', ['$rootScope', function
 			// 		scope.data[i].checked = false;
 			// 	}
 			// })
-			iElm.bind('click',function(){
+			iElm.bind('change',function(){
 				console.log(scope.data)
 				if(scope.ngModel){
 					for(var i=0; i<scope.data.length; i++){
@@ -60,6 +60,33 @@ angular.module("app.directive",[]).directive('tabsHide', ['$rootScope', function
 					}
 				}
 									
+			})
+			
+		}
+	};
+}])
+.directive('singleChecked', ['$rootScope', function($rootScope){
+	return {
+		restrict: 'AE',
+		scope: {
+			ngModel: '=',
+			data: '=',
+			index: '='
+		},
+		link: function(scope, iElm, iAttrs, ngController) {
+			iElm.bind('change',function(){
+				for(var i=0; i<scope.data.length; i++){
+					scope.data[i].checked = false;
+				}
+				// if(scope.ngModel){
+				// 	for(var i=0; i<scope.data.length; i++){
+				// 		if(scope.index!=i){
+				// 			scope.data[i].checked = false;
+				// 		}
+				// 	}
+				// 		console.log(scope.data);
+				// }
+				
 			})
 			
 		}

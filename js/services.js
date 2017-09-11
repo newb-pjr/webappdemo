@@ -481,11 +481,9 @@ angular.module("app.services",[]).factory('Storage', [function(){
 .factory('saveOrderFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
 	var api = ENV.api;
 	var userID = Storage.get('user').user_id;
-	var dataArr;
-	var ShopBasic;
 	var result;
 	var data;
-	var resource = $resource(api+'/order/save_jiyun', {}, {
+	var resource = $resource(api+'/order/save_goods', {}, {
 		qurey: {
 			method: "post",
 			timeout: 20000
@@ -493,38 +491,31 @@ angular.module("app.services",[]).factory('Storage', [function(){
 	})
 
 	return {
-		submitOrderInfo: function(){
+		submitOrderInfo: function(dataObj){
 			data = "";
 			result = false;
-			dataArr = Storage.get('order') || [];
-			ShopBasic = [];
-			if(!!dataArr.length){
-				data += 'kdBillcode='+encodeURIComponent(dataArr[0].kdBillcode);
-				data += '&kdCom='+encodeURIComponent(dataArr[0].kdCom);
-				data += '&user_id='+encodeURIComponent(userID);
-				data += '&intro='+encodeURIComponent(dataArr[0].intro);
-				for(var i=0; i<dataArr.length; i++){
-					data += '&ShopBasic['+i+'][title]='+encodeURIComponent(dataArr[i].ShopBasic.title);
-					data += '&ShopBasic['+i+'][cate_one]='+encodeURIComponent(dataArr[i].ShopBasic.cate_one);
-					data += '&ShopBasic['+i+'][cate_two]='+encodeURIComponent(dataArr[i].ShopBasic.cate_two);
-					data += '&ShopBasic['+i+'][cate_three]='+encodeURIComponent(dataArr[i].ShopBasic.cate_three);
-					data += '&ShopBasic['+i+'][brank]='+encodeURIComponent(dataArr[i].ShopBasic.brank);
-					data += '&ShopBasic['+i+'][nums]='+encodeURIComponent(dataArr[i].ShopBasic.nums);
-					data += '&ShopBasic['+i+'][unit]='+encodeURIComponent(dataArr[i].ShopBasic.unit);
-					data += '&ShopBasic['+i+'][price]='+encodeURIComponent(dataArr[i].ShopBasic.price);
-					data += '&ShopBasic['+i+'][money]='+encodeURIComponent(dataArr[i].ShopBasic.money);
+			data += 'kdBillcode='+encodeURIComponent(dataObj.kdBillcode);
+			data += '&kdCom='+encodeURIComponent(dataObj.kdCom);
+			data += '&user_id='+encodeURIComponent(userID);
+			data += '&intro='+encodeURIComponent(dataObj.intro);
+			data += '&is_has='+encodeURIComponent(dataObj.is_has);
+			data += '&goods_type='+encodeURIComponent(dataObj.goods_type);
+			data += '&ShopBasic[0][title]='+encodeURIComponent(dataObj.ShopBasic.title);
+			data += '&ShopBasic[0][cate_one]='+encodeURIComponent(dataObj.ShopBasic.cate_one);
+			data += '&ShopBasic[0][cate_two]='+encodeURIComponent(dataObj.ShopBasic.cate_two);
+			data += '&ShopBasic[0][cate_three]='+encodeURIComponent(dataObj.ShopBasic.cate_three);
+			data += '&ShopBasic[0][brank]='+encodeURIComponent(dataObj.ShopBasic.brank);
+			data += '&ShopBasic[0][nums]='+encodeURIComponent(dataObj.ShopBasic.nums);
+			data += '&ShopBasic[0][unit]='+encodeURIComponent(dataObj.ShopBasic.unit);
+			data += '&ShopBasic[0][price]='+encodeURIComponent(dataObj.ShopBasic.price);
+			data += '&ShopBasic[0][money]='+encodeURIComponent(dataObj.ShopBasic.money);
+			resource.qurey(data,function(resp){
+				alert(resp.msg);
+				if(resp.state==1009){
+					result = true;
 				}
-				resource.qurey(data,function(resp){
-					alert(resp.msg);
-					if(resp.state==1009){
-						result = true;
-						Storage.remove('order');
-					}
-					$rootScope.$broadcast('Order.saveOrderUpdated');
-				})
-			}else{
-				alert("没有要登记的货品");
-			}
+				$rootScope.$broadcast('Order.saveOrderUpdated');
+			})
 		},
 		getSaveResult: function(){
 			return result;
@@ -738,7 +729,11 @@ angular.module("app.services",[]).factory('Storage', [function(){
 				id:id,
 				user_id:userID
 			},function(resp){
-				result = true;
+				alert(resp.msg);
+				if(resp.state==1015){
+					result = true;
+				}
+				$rootScope.$broadcast('Order.delGoodUpdated');
 			})
 		},
 		getDelResult: function(){
@@ -746,3 +741,33 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		}
 	}
 }])
+// .factory('goodSubmitFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+// 	var api = ENV.api;
+// 	var userID = Storage.get('user').user_id;
+// 	var result;
+// 	var resource = $resource(api+'/order/goods_submit', {}, {
+// 		qurey: {
+// 			method: "post",
+// 			timeout: 20000
+// 		}
+// 	})
+
+// 	return {
+// 		subGood: function(id){
+// 			result = false;
+// 			resource.qurey({
+// 				id:id,
+// 				user_id:userID
+// 			},function(resp){
+// 				alert(resp.msg);
+// 				if(){
+// 					result = true;
+// 					$rootScope.$broadcast('Order.subGoodUpdated');
+// 				}
+// 			})
+// 		},
+// 		getSubmitResult: function(){
+// 			return result;
+// 		}
+// 	}
+// }])

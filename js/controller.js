@@ -60,6 +60,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	$scope.hasOrder = {
 		kdBillcode:"",
 		kdCom:"",
+		is_has:0,
 		ShopBasic:{
 			title:"",
 			cate_one:"",
@@ -71,7 +72,8 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 			price:"",
 			money:""
 		},
-		intro:""
+		intro:"",
+		goods_type:""
 	}
 	$scope.noOrder = {
 		agence_name:"",
@@ -94,42 +96,49 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		},
 		intro:""
 	}
-	$scope.addOrder = function(id,dataObj,c1,c2,c3){
-		var order = Storage.get("order") || [];
-		if(id==0){
-			if(!!order.length){
-				if(!!order[0].kdBillcode){
-					if(order[0].kdBillcode != dataObj.kdBillcode){
-						order = [];
-					}
-				}else{
-					order = [];
-				}
-			}
-		}
-		if(id==1){
-			if(!!order.length){
-				if(!!order[0].agence_order_no){
-					if(order[0].agence_order_no != dataObj.agence_order_no){
-						order = [];
-					}
-				}else{
-					order = [];
-				}
-			}
-			dataObj.agence_name = dataObj.agence_name.name;
-			dataObj.customer_name = dataObj.customer_name.name;
-		}
-		dataObj.ShopBasic.cate_one = c1;
-		dataObj.ShopBasic.cate_two = c2;
-		dataObj.ShopBasic.cate_three = c3;
-		order.push(dataObj);
-		Storage.set("order",order)
+	// $scope.addOrder = function(id,dataObj,c1,c2,c3){
+	// 	var order = Storage.get("order") || [];
+	// 	if(id==0){
+	// 		if(!!order.length){
+	// 			if(!!order[0].kdBillcode){
+	// 				if(order[0].kdBillcode != dataObj.kdBillcode){
+	// 					order = [];
+	// 				}
+	// 			}else{
+	// 				order = [];
+	// 			}
+	// 		}
+	// 	}
+	// 	if(id==1){
+	// 		if(!!order.length){
+	// 			if(!!order[0].agence_order_no){
+	// 				if(order[0].agence_order_no != dataObj.agence_order_no){
+	// 					order = [];
+	// 				}
+	// 			}else{
+	// 				order = [];
+	// 			}
+	// 		}
+	// 		dataObj.agence_name = dataObj.agence_name.name;
+	// 		dataObj.customer_name = dataObj.customer_name.name;
+	// 	}
+	// 	dataObj.ShopBasic.cate_one = c1;
+	// 	dataObj.ShopBasic.cate_two = c2;
+	// 	dataObj.ShopBasic.cate_three = c3;
+	// 	order.push(dataObj);
+	// 	Storage.set("order",order)
+	// }
+
+	$scope.addOrder = function(){
+		$scope.hasOrder.ShopBasic.cate_one = $scope.hasOrder.ShopBasic.cate_one.cat_name;
+		$scope.hasOrder.ShopBasic.cate_two = $scope.hasOrder.ShopBasic.cate_two.cat_name;
+		$scope.hasOrder.ShopBasic.cate_three = $scope.hasOrder.ShopBasic.cate_three.cat_name;
+		saveOrderFactory.submitOrderInfo($scope.hasOrder);
 	}
 
-	$scope.saveCargo = function(){
-		saveOrderFactory.submitOrderInfo();
-	}
+	// $scope.saveCargo = function(){
+	// 	saveOrderFactory.submitOrderInfo();
+	// }
 
 	var sheetButtons = [];
 	var warehouseList;
@@ -166,6 +175,23 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		$scope.noOrder.customer_mobile = customerFactory.getCustomerMobile();
 		$scope.noOrder.customer_email = customerFactory.getCustomerEmail();
 	}
+
+	$scope.special = [{
+		id:0,
+		name:"电子"
+	},{
+		id:1,
+		name:"液体"
+	},{
+		id:2,
+		name:"零食"
+	},{
+		id:3,
+		name:"易碎物品"
+	},{
+		id:4,
+		name:"贵重物品"
+	}]
 	// $scope.$on('Order.saveOrderUpdated',function(){
 	// 	saveOrderFactory.
 	// })
@@ -405,7 +431,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		$scope.delivery = tatalFactory.getWaitDelivery();
 	})
 }])
-.controller('checkCtrl', ['$scope','Storage','goodListFactory', function($scope,Storage,goodListFactory){
+.controller('checkCtrl', ['$scope','Storage','goodListFactory','delGoodFactory', function($scope,Storage,goodListFactory,delGoodFactory){
 	$scope.order = Storage.get("order");
 	$scope.delOrder = function(name){
 		for(var i=0; i<$scope.order.length; i++){
@@ -421,6 +447,24 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	$scope.$on('Order.GoodListUpdated',function(){
 		$scope.goodList = goodListFactory.getGoodList();
 	})
+
+	$scope.delGood = function(id){
+		delGoodFactory.delGood(id);
+	}
+	$scope.$on('Order.delGoodUpdated',function(){
+		if(delGoodFactory.getDelResult()){
+			goodListFactory.requestGoodList();
+		}
+	})
+
+	$scope.submitGood = function(){
+		for(var i=0; i<$scope.goodList.length; i++){
+		console.log($scope.goodList[i].checked)
+			if($scope.goodList[i].checked){
+				console.log(123123123)
+			}
+		}
+	}
 }])
 .controller('payCtrl', ['$scope','addressFactory','carriageFactory', function($scope,addressFactory,carriageFactory){
 	addressFactory.getAllList();
