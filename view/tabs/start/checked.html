@@ -47,7 +47,7 @@
 				</div> -->
 				<div class="row row-center content">
 					<div class="col col-30 firstItem">
-						<ion-checkbox single-checked index="$index" data="goodList" ng-model="list.checked" ng-checked="list.checked">
+						<ion-checkbox ng-model="list.checked" ng-change="singleChecked($index,list.checked)">
 							<p ng-bind="list.kd_com"></p>
 							<p ng-bind="list.shipping_no"></p>
 						</ion-checkbox>

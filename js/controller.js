@@ -209,9 +209,6 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 	recordBillFactory.requestRecord();
 	$scope.$on('Order.recordBillUpdated',function(){
 		$scope.record = recordBillFactory.getRecord();
-		for(var i=0; i<$scope.record.length; i++){
-			$scope.record[i].checked = false;
-		}
 	})
 	
 	$scope.delCargo = function(id){
@@ -231,31 +228,39 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 			recordBillFactory.requestRecord();
 		}
 	})
-	// $scope.selectAll = function(state){
-	// 	if(state){
-	// 		for(var i=0; i<$rootScope.record.length; i++){
-	// 			$rootScope.record[i].checked = true;
-	// 		}
-	// 	}else{
-	// 		for(var i=0; i<$rootScope.record.length; i++){
-	// 			$rootScope.record[i].checked = false;
-	// 		}
-	// 	}
-	// }
-	// $scope.selected = function(state){
-	// 	if(state){
-	// 		for(var i=0; i<$scope.record.length; i++){
-	// 			if($scope.record[i].checked){
-	// 				$scope.selectedAll = true;
-	// 			}else{
-	// 				$scope.selectedAll = false;
-	// 				return false;
-	// 			}
-	// 		}
-	// 	}else{
-	// 		$scope.selectedAll = false;
-	// 	}
-	// }
+	$scope.selectAll = function(state){
+		if(state){
+			for(var i=0; i<$scope.record.length; i++){
+				if($scope.record[i].State==="已上架"){
+					$scope.record[i].checked = true;
+				}
+			}
+		}else{
+			for(var i=0; i<$scope.record.length; i++){
+				if($scope.record[i].State==="已上架"){
+					$scope.record[i].checked = false;
+				}
+			}
+		}
+	}
+	$scope.selected = function(state){
+		if(state){
+			for(var i=0; i<$scope.record.length; i++){
+				if($scope.record[i].State==="已上架"){
+					if($scope.record[i].checked){
+						$scope.selectedAll = true;
+					}else{
+						$scope.selectedAll = false;
+						break;
+					}
+				}
+			}
+		}else{
+			$scope.selectedAll = false;
+		}
+	}
+
+	
 
 	$scope.goBack = function(){
 		$state.go('tabs.start');
@@ -431,7 +436,7 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		$scope.delivery = tatalFactory.getWaitDelivery();
 	})
 }])
-.controller('checkCtrl', ['$scope','Storage','goodListFactory','delGoodFactory', function($scope,Storage,goodListFactory,delGoodFactory){
+.controller('checkCtrl', ['$scope','Storage','goodListFactory','delGoodFactory','goodSubmitFactory', function($scope,Storage,goodListFactory,delGoodFactory,goodSubmitFactory){
 	$scope.order = Storage.get("order");
 	$scope.delOrder = function(name){
 		for(var i=0; i<$scope.order.length; i++){
@@ -457,14 +462,23 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		}
 	})
 
-	$scope.submitGood = function(){
-		for(var i=0; i<$scope.goodList.length; i++){
-		console.log($scope.goodList[i].checked)
-			if($scope.goodList[i].checked){
-				console.log(123123123)
+	$scope.singleChecked = function(idx,state){
+		if(state){
+			for(var i=0; i<$scope.goodList.length; i++){
+				if(idx!=i){
+					$scope.goodList[i].checked = false;
+				}
 			}
 		}
 	}
+	$scope.submitGood = function(){
+		goodSubmitFactory.getGoodID($scope.goodList);
+	}
+	$scope.$on('Order.subGoodUpdated',function(){
+		if(goodSubmitFactory.getSubmitResult()){
+			goodListFactory.requestGoodList();
+		}
+	})
 }])
 .controller('payCtrl', ['$scope','addressFactory','carriageFactory', function($scope,addressFactory,carriageFactory){
 	addressFactory.getAllList();

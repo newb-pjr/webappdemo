@@ -741,33 +741,47 @@ angular.module("app.services",[]).factory('Storage', [function(){
 		}
 	}
 }])
-// .factory('goodSubmitFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
-// 	var api = ENV.api;
-// 	var userID = Storage.get('user').user_id;
-// 	var result;
-// 	var resource = $resource(api+'/order/goods_submit', {}, {
-// 		qurey: {
-// 			method: "post",
-// 			timeout: 20000
-// 		}
-// 	})
+.factory('goodSubmitFactory', ['$resource','ENV','$rootScope','Storage', function($resource,ENV,$rootScope,Storage){
+	var api = ENV.api;
+	var userID = Storage.get('user').user_id;
+	var id;
+	var result;
+	var resource = $resource(api+'/order/goods_submit', {}, {
+		qurey: {
+			method: "post",
+			timeout: 20000
+		}
+	})
 
-// 	return {
-// 		subGood: function(id){
-// 			result = false;
-// 			resource.qurey({
-// 				id:id,
-// 				user_id:userID
-// 			},function(resp){
-// 				alert(resp.msg);
-// 				if(){
-// 					result = true;
-// 					$rootScope.$broadcast('Order.subGoodUpdated');
-// 				}
-// 			})
-// 		},
-// 		getSubmitResult: function(){
-// 			return result;
-// 		}
-// 	}
-// }])
+	return {
+		getGoodID: function(dataObj){
+			id = "";
+			for(var i=0; i<dataObj.length; i++){
+				if(!!dataObj[i].checked){
+					id = dataObj[i].id;
+					this.subGood(id);
+					break;
+				}
+			}
+			if(!id){
+				alert("请勾选一项来打包");
+			}
+		},
+		subGood: function(id){
+			result = false;
+			resource.qurey({
+				id:id,
+				user_id:userID
+			},function(resp){
+				alert(resp.msg);
+				if(resp.state==1009){
+					result = true;
+					$rootScope.$broadcast('Order.subGoodUpdated');
+				}
+			})
+		},
+		getSubmitResult: function(){
+			return result;
+		}
+	}
+}])
