@@ -662,14 +662,13 @@ angular.module("app.services",[]).factory('Storage', [function(){
 	})
 
 	return {
-		requestOrderList: function(){
+		requestOrderList: function(state){
 			resource.qurey({
 				user_id:userID,
 				page:page,
 				state:state
 			},function(resp){
 				if(resp.state==1001){
-					console.log(resp.data.data);
 					data = resp.data.data;
 					$rootScope.$broadcast('Order.OrderListUpdated');
 				}

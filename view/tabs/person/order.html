@@ -5,7 +5,7 @@
       </button>
     </ion-nav-buttons> -->
 	<div class="tabs-striped tabs-top tabs-color-positive">
-		<div top-tabs tab-list="topTabs"></div>
+		<div top-tabs tab-list="topTabs" select-click="sClick(id,name)"></div>
 	</div>
 	<ion-content class="has-tabs has-tabs-top orderContent">
 		<div class="orderMain" ng-repeat="data in orderList">
@@ -14,32 +14,30 @@
 				<span ng-bind="data.Order_Time"></span>
 				<div class="clear"></div>
 			</div>
-			<div class="row row-center orderDetail">
+			<div class="row row-center orderDetail" ng-repeat="detail in data.OrderDetial">
 				<div class="col col-30">
 					<img src="img/order-1.jpg">
-					<p>1244667989</p>
+					<p ng-bind="detail.BillCode"></p>
 				</div>
 				<div class="col col-30">
-					<div class="orderCargo" ng-repeat="detail in data.OrderDetial">
-						<p class="orderName">春夏新款女装春女装春夏新款女</p>
-						<p class="orderNum">数量：2件</p>
+					<div class="orderCargo" ng-repeat="list in detail.ShopBasic">
+						<p class="orderName" ng-bind="list.Goods"></p>
+						<p class="orderNum" ng-bind="'数量：'+list.Number"></p>
 					</div>
 				</div>
-				<div class="col col-10">
-					200kg
-				</div>
+				<div class="col col-10" ng-bind="detail.MaxWeight+'kg'"></div>
 				<div class="col col-10">
 					$300
 				</div>
 				<div class="col col-20">
-					<p>配送中</p>
+					<p ng-bind="data.SentState"></p>
 					<a href="javascript:void(0)">订单详情</a>
 				</div>
 			</div>
 			<div class="orderFooter padding">
 				<div class="orderSum">
-					<span>共1件货品</span>
-					<span>合计:$300</span>
+					<span ng-bind="'共'+1+'件货品'"></span>
+					<span ng-bind="'合计:'+data.PayFree"></span>
 				</div>
 				<div class="orderHandle">
 					<a href="javascript:void(0)">联系客服</a>

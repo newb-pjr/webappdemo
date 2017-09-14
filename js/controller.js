@@ -276,21 +276,17 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 }])
 .controller('orderCtrl', ['$scope','$state','orderFactory', function($scope,$state,orderFactory){
 	$scope.topTabs = [{
-		id: 'all',
+		id: '0',
 		name: '所有订单',
-		isActive: true
 	},{
-		id: 'onRoad',
+		id: '1',
 		name: '未发货',
-		isActive: false
 	},{
-		id: 'arrive',
+		id: '2',
 		name: '已发货',
-		isActive: false
 	},{
-		id: 'takeOver',
+		id: '9',
 		name: '已签收',
-		isActive: false
 	}]
 
 	orderFactory.requestOrderList();
@@ -298,6 +294,9 @@ angular.module("app.controller",[]).controller('startCtrl', ['$scope','expressFa
 		$scope.orderList = orderFactory.getOrderList();
 	})
 	
+	$scope.sClick = function(id){
+		orderFactory.requestOrderList(id);
+	}
 }])
 .controller('addressCtrl', ['$scope','$ionicModal','addressFactory','setDefaultFactory','getCityFactory','saveAddressFactory','delAddressFactory', function($scope,$ionicModal,addressFactory,setDefaultFactory,getCityFactory,saveAddressFactory,delAddressFactory){
 	$ionicModal.fromTemplateUrl('view/tabs/person/addAddress.html', {

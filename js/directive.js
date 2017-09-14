@@ -23,12 +23,14 @@ angular.module("app.directive",[]).directive('tabsHide', ['$rootScope', function
 		replace: true,
 		templateUrl: 'view/tabs/person/topTabs.html',
 		scope: {
-			tabList: '='
+			tabList: '=',
+			selectClick: '&'
 		},
 		link: function(scope){
-			scope.selectId = 'all';
+			scope.selectId = '0';
 			scope.select = function(items){
 				scope.selectId = items.id;
+				scope.selectClick(items);
 			}
 		}
 	};
