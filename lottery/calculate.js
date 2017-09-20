@@ -74,3 +74,5 @@ class Calculate{
 		})(arr,size,[])
 	}
 }
+
+export default Calculate;
