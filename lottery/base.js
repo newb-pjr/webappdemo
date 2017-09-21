@@ -72,4 +72,57 @@ class Base{
 		$cur.toggleClass('btn-boll-active');
 		self.getCount();
 	}
+
+	changePlayNav(e){
+		let self = this;
+		let $cur = $(e.currentTarget);
+		$cur.addClass('active').siblings().removeClass('active');
+		self.cur_play = $cur.attr('desc').toLocaleLowerCase();
+		$('#zx_sm span').html(self.play_list.get(self.cur_play).tip);
+		$('.boll-list .btn-boll').removeClass('btn-boll-active');
+		self.getCount();
+	}
+
+	assistHandle(e){
+		e.preventDefault();
+		let self = this;
+		let $cur = $(e.currentTarget);
+		let index = $cur.index();
+		$('.boll-list .btn-boll').removeClass('btn-boll-active');
+		if(index === 0){
+			$('.boll-list .btn-boll').addClass('btn-boll-active');
+		}
+		if(index === 1){
+			$('.boll-list .btn-boll').each(function(index,item){
+				if(item.textContent-5>0){
+					$(item).addClass('btn-boll-active');
+				}
+			})
+		}
+		if(index === 2){
+			$('.boll-list .btn-boll').each(function(index,item){
+				if(item.textContent-6<0){
+					$(item).addClass('btn-boll-active');
+				}
+			})
+		}
+		if(index === 3){
+			$('.boll-list .btn-boll').each(function(index,item){
+				if(item.textContent%2==1){
+					$(item).addClass('btn-boll-active');
+				}
+			})
+		}
+		if(index === 4){
+			$('.boll-list .btn-boll').each(function(index,item){
+				if(item.textContent%2==0){
+					$(item).addClass('btn-boll-active');
+				}
+			})
+		}
+		if(index === 5){
+			$('.boll-list .btn-boll').removeClass('btn-boll-active');
+		}
+		self.getCount();
+	}
 }
