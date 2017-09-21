@@ -6,7 +6,7 @@ class Calculate{
 		if(exist && play_name.at(0)==='r'){
 			count = Calculate.combine(arr,play_name.split('')[1]);
 		}
-		return count;
+		return count.length;
 	}
 
 	computeBonus(active,play_name){

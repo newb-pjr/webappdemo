@@ -125,4 +125,33 @@ class Base{
 		}
 		self.getCount();
 	}
+
+	getName(){
+		return this.name;
+	}
+
+	addCode(){
+		let self = this;
+		let $active = $('.boll-list .btn-boll-active').text().match(/\d{2}/g);
+		let active = $active?$active.length:0;
+		let count = self.computeBets(active,self.cur_play);
+		if(count){
+			addCodeItem($active.join(''),self.cur_play,self.play_list.get(self.cur_play).name,count)
+		}
+	}
+
+	addCodeItem(code,type,typeName,count){
+		let self = this;
+		const tpl = `
+			<li codes="${type}|${code}" bonus="${count*2}" count="${count}">
+				<div class="code">
+					<b>${typeName}${count===1?'单式':'复式'}</b>
+					<b class="em">${code}</b>
+					[${count}注,<em class="code-list-money">${count*2}</em>元]
+				</div>
+			</li>
+		`;
+		$(self.cart_el).append(tpl);
+		self.getTotal();
+	}
 }
