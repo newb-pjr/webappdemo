@@ -5,7 +5,7 @@ import Interface from './lottery/interface.js';
 import $ from 'jquery';
 
 const copyProperties = function(target,source){
-	for(let key of reflect.ownKeys){
+	for(let key of Reflect.ownKeys(source)){
 		if(key!=="name"&&key!=="prototype"&&key!=="constructor"){
 			let desc = Object.getOwnPropertyDescriptor(source,key);
 			Object.defineProperty(target,key,desc)
@@ -54,7 +54,8 @@ class Lottery extends mix(Base,Timer,Calculate,Interface){
 			self.end_time = res.end_time;
 			self.state = res.state;
 			$(self.issue_el).text(res.issue);
-			self.countdown(res.end_time,function(time){
+			self.countDown(res.end_time,function(time){
+				console.log(time)
 				$(self.countdown_el).html(time);
 			},function(){
 				setTimeout(function(){
@@ -76,7 +77,7 @@ class Lottery extends mix(Base,Timer,Calculate,Interface){
 		$('.boll-list').on('click','.btn-boll',self.toggleCodeActive.bind(self));
 		$('#confirm_sel_code').on('click',self.addCode.bind(self));
 		$('.dxjo').on('click','li',self.assistHandle.bind(self));
-		$('qkmethod').on('click','.btn-middle',self.getRandomCode.bind(self));
+		$('.qkmethod').on('click','.btn-middle',self.getRandomCode.bind(self));
 	}
 }
 

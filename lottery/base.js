@@ -41,7 +41,7 @@ class Base{
 
 	initNumber(){
 		for(let i=1; i<12; i++){
-			this.number.add((''+i),padStart(2,'0'));
+			this.number.add((''+i).padStart(2,'0'));
 		}
 	}
 
@@ -133,7 +133,7 @@ class Base{
 		let active = $active?$active.length:0;
 		let count = self.computeBets(active,self.cur_play);
 		if(count){
-			addCodeItem($active.join(''),self.cur_play,self.play_list.get(self.cur_play).name,count)
+			self.addCodeItem($active.join(' '),self.cur_play,self.play_list.get(self.cur_play).name,count)
 		}
 	}
 
@@ -184,7 +184,7 @@ class Base{
 	getTotal(){
 		let count = 0;
 		$('.codelist li').each(function(index,item){
-			count += $(item).attr('count');
+			count += $(item).attr('count')*1;
 		})
 		$('#count').text(count);
 		$('#money').text(count*2);
@@ -207,7 +207,7 @@ class Base{
 		let play = this.cur_play.match(/\d+/g)[0];
 		let num = e.currentTarget.getAttribute('count');
 		if(num==='0'){
-			$('self.cart_el').html('');
+			$(self.cart_el).html('');
 		}else{
 			for(let i=0; i<num; i++){
 				self.addCodeItem(self.getRandom(play),self.cur_play,self.play_list.get(self.cur_play).name,1);

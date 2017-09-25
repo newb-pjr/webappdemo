@@ -11,24 +11,25 @@ class Timer{
 			const m = 1000*60;
 			const s = 1000;
 			let last_d = Math.floor(last_time/d);
-			let last_h = Math.floor((last_time-(last_time*d))/h);
-			let last_m = Math.floor((last_time-(last_time*d+last_time*h))/m);
-			let last_s = Math.floor((last_time-(last_time*d+last_time*h+last_time*m))/s);
-			r = [];
+			let last_h = Math.floor((last_time-(last_d*d))/h);
+			let last_m = Math.floor((last_time-(last_d*d+last_h*h))/m);
+			let last_s = Math.floor((last_time-(last_d*d+last_h*h+last_m*m))/s);
+			let r = [];
 			if(last_d>0){
-				r.push(`<em>{$last_d}</em>天`);
+				r.push(`<em>${last_d}</em>天`);
 			}
 			if(r.length>0||last_h>0){
-				r.push(`<em>{$last_h}</em>时`);
+				r.push(`<em>${last_h}</em>时`);
 			}
 			if(r.length>0||last_m>0){
-				r.push(`<em>{$last_m}</em>分`);
+				r.push(`<em>${last_m}</em>分`);
 			}
 			if(r.length>0||last_s>0){
-				r.push(`<em>{$last_s}</em>秒`);
+				r.push(`<em>${last_s}</em>秒`);
 			}
 			last_time = r.join('');
-			update(self,r.join(''));
+			// console.log(last_d,last_h,last_m,last_s,last_time)
+			update(r.join(''));
 			setTimeout(function(){
 				self.countDown(end,update,handle);
 			}, 1000)

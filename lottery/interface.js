@@ -50,7 +50,6 @@ class Interface{
 				},
 				dataType:'json',
 				success:function(resp){
-					self.setState(resp.data);
 					resolve.call(self,resp);
 				},
 				error:function(err){
