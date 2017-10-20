@@ -1,19 +1,22 @@
 <template>
-	<div class="slide-show">
+	<div class="slide-show" @mouseover="clearInv" @mouseout="runInv">
     <div class="slide-img">
-      <a :href="slides[0].href">
-        <img :src="slides[0].src">
-         
-        
+      <a :href="slides[slideIndex].href">
+      	 <transition name="slide-trans">
+          <img v-if="isShow" :src="slides[slideIndex].src">
+        </transition>
+        <transition name="slide-trans-old">
+          <img v-if="!isShow" :src="slides[slideIndex].src">
+        </transition>
       </a>
     </div>
-    <h2>{{slides[0].title}}</h2>
+    <h2>{{slides[slideIndex].title}}</h2>
     <ul class="slide-pages">
-      <li>&lt;</li>
-      <li v-for="(item,index) in slides">
-        <a >{{index+1}}</a>
+      <li @click="choose(prev)">&lt;</li>
+      <li v-for="(item,index) in slides" @click="choose(index)">
+        <a :class="{'on':index===slideIndex}">{{index+1}}</a>
       </li>
-      <li >&gt;</li>
+      <li @click="choose(next)">&gt;</li>
     </ul>
   </div>
 </template>
@@ -23,15 +26,53 @@ export default {
 		slides:{
 			type: Array,
 			default: []
+		},
+		invTime:{
+			type: Number,
+			default: 1000
 		}
 	},
 	data () {
 		return {
-			
+			slideIndex: 0,
+			isShow: true
+		}
+	},
+	computed: {
+		prev () {
+			if(this.slideIndex === 0){
+				return this.slides.length - 1
+			}else{
+				return this.slideIndex - 1
+			}
+		},
+		next () {
+			if(this.slideIndex === this.slides.length - 1){
+				return 0
+			}else{
+				return this.slideIndex + 1
+			}
+		}
+	},
+	methods:{
+		choose (index) {
+			this.isShow = false
+			setTimeout(() => {
+				this.isShow = true
+				this.slideIndex = index
+			}, 10);
+		},
+		runInv () {
+			this.inv = setInterval(()=>{
+				this.choose(this.next)
+			}, this.invTime)
+		},
+		clearInv () {
+			clearInterval(this.inv)
 		}
 	},
 	mounted () {
-		console.log(this.slides)
+		this.runInv()
 	}
 }
 </script>

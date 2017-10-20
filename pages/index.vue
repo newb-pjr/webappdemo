@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="index-right">
-     <slide-show :slides="slides"></slide-show>
+     <slide-show :slides="slides" :invTime="invTime"></slide-show>
       <div class="index-board-list">
        <div class="index-board-item" v-for="(item,index) in boardList" :class="[{'line-last':index%2!==0},'index-board-'+item.id]">
          <div class="index-board-item-inner">
@@ -38,14 +38,17 @@
        </div>
       </div>
     </div>
+    <my-dialog :dialogShow="dialogShow"></my-dialog>
   </div>
 </template>
 
 <script>
 import slideShow from '../components/slideShow'
+import dialog from '../components/base/dialog'
 export default {
   components: {
-    slideShow
+    slideShow,
+    myDialog: dialog
   },
   created () {
     this.$http.get('api/getNewsList').then((resp) => {
@@ -56,6 +59,8 @@ export default {
   },
   data () {
     return {
+      dialogShow: true,
+      invTime: 2000,
       slides: [
         {
           src: require('../assets/slideShow/pic1.jpg'),
