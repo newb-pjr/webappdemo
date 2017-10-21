@@ -4,7 +4,7 @@
       <div class="dialog-cover" @click="closeDialog"></div>
         <div class="dialog-content"  >
           <p class="dialog-close" @click="closeDialog">x</p>
-          <slot></slot>
+          <slot>empty</slot>
         </div>
     </div>
   </div>

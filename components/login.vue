@@ -25,6 +25,7 @@
   </div>
 </template>
 <script>
+import dialog from './base/dialog'
 export default {
 	
 }

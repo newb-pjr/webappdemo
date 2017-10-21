@@ -5,7 +5,7 @@
         <img src="../assets/logo.png">
         <div class="head-nav">
           <ul class="nav-list">
-            <li >登录</li>
+            <li @click="login">登录</li>
             <li class="nav-pile">|</li>
             <li >注册</li>
             <li  class="nav-pile">|</li>
@@ -22,12 +22,29 @@
     <div class="app-foot">
       <p>© 2016 fishenal MIT</p>
     </div>
-   
+    <log-dialog :dialog-show="loginShow">asd</log-dialog>
   </div>
 </template>
 
 <script>
-
+import dialog from './base/dialog'
+export default {
+  components:{
+    logDialog: dialog
+  },
+  data () {
+    return {
+      dialogShow: true,
+      loginShow: false
+    }
+  },
+  methods: {
+    login () {
+      console.log(123)
+      this.loginShow = true
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

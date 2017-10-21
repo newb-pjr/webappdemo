@@ -38,17 +38,14 @@
        </div>
       </div>
     </div>
-    <my-dialog :dialogShow="dialogShow"></my-dialog>
   </div>
 </template>
 
 <script>
 import slideShow from '../components/slideShow'
-import dialog from '../components/base/dialog'
 export default {
   components: {
-    slideShow,
-    myDialog: dialog
+    slideShow
   },
   created () {
     this.$http.get('api/getNewsList').then((resp) => {
@@ -59,7 +56,6 @@ export default {
   },
   data () {
     return {
-      dialogShow: true,
       invTime: 2000,
       slides: [
         {
