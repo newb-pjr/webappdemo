@@ -1,11 +1,13 @@
 <template>
 	<div>
-    <div class="dialog-wrap" v-if="setDialogShow">
-      <div class="dialog-cover" @click="closeDialog"></div>
-        <div class="dialog-content"  >
-          <p class="dialog-close" @click="closeDialog">x</p>
-          <slot>empty</slot>
-        </div>
+    <div class="dialog-wrap">
+      <div class="dialog-cover" @click="closeDialog" v-if="dialogShow"></div>
+        <transition name="drop">
+          <div class="dialog-content" v-if="dialogShow">
+            <p class="dialog-close" @click="closeDialog">x</p>
+            <slot>empty</slot>
+          </div>
+        </transition>
     </div>
   </div>
 </template>
@@ -19,30 +21,27 @@ export default {
 	},
 	data () {
 		return {
-			setDialogShow: this.dialogShow
+			setDialogShow: false
 		}
 	},
 	methods:{
 		closeDialog () {
-			this.setDialogShow = false
+			this.$emit('close-dialog')
 		}
 	}
 }
 </script>
 <style scoped>
-.drop-enter-active {
+.drop-enter{
+  transform: translateY(-500px);
+}
+.drop-enter-active{
   transition: all .5s ease;
 }
-.drop-leave-active {
+.drop-leave-active{
+  transform: translateY(-500px);
   transition: all .3s ease;
 }
-.drop-enter {
-  transform: translateY(-500px);
-}
-.drop-leave-active {
-  transform: translateY(-500px);
-}
-
 .dialog-wrap {
   position: fixed;
   width: 100%;

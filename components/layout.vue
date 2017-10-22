@@ -2,14 +2,19 @@
    <div>
     <div class="app-head">
       <div class="app-head-inner">
-        <img src="../assets/logo.png">
+        <router-link :to="{path:'/'}">
+          <img src="../assets/logo.png">
+        </router-link>
         <div class="head-nav">
-          <ul class="nav-list">
-            <li @click="login">登录</li>
-            <li class="nav-pile">|</li>
-            <li >注册</li>
+          <ul class="nav-list" >
+            <li v-if="!logShow">{{name}}</li>
+            <li class="nav-pile" v-if="!logShow">|</li>
+            <li @click="login" v-if="logShow">登录</li>
+            <li @click="logout" v-if="!logShow">退出</li>
+            <li class="nav-pile" v-if="logShow">|</li>
+            <li v-if="logShow">注册</li>
             <li  class="nav-pile">|</li>
-            <li >关于</li>
+            <li @click="about">关于</li>
           </ul>
         </div>  
       </div>
@@ -22,26 +27,47 @@
     <div class="app-foot">
       <p>© 2016 fishenal MIT</p>
     </div>
-    <log-dialog :dialog-show="loginShow">asd</log-dialog>
+    <my-dialog :dialog-show="aboutShow" @close-dialog="close('aboutShow')">本报告在调研数据的基础上，采用定性与定量相结合的方式深入分析了专车市场发展的驱动因素与阻碍因素、专车市场背后的产业格局、专车企业的竞争格局、用户对专车市场的依赖程度、专车对其他交通工具运力的补充效应等，通过这五个章节的研究反映专车市场的发展态势和面临的问题。报告力求客观、深入、准确地反映中国专车市场发展情况，为政府、企事业单位和社会各界提供决策依据。</my-dialog>
+    <my-dialog :dialog-show="loginShow" @close-dialog="close('loginShow')">
+      <login @has-login="loginInfo"></login>
+    </my-dialog>
   </div>
 </template>
 
 <script>
 import dialog from './base/dialog'
+import login from './login'
 export default {
   components:{
-    logDialog: dialog
+    myDialog: dialog,
+    login
   },
   data () {
     return {
-      dialogShow: true,
-      loginShow: false
+      loginShow: false,
+      aboutShow: false,
+      logShow: true,
+      name: ''
     }
   },
   methods: {
     login () {
-      console.log(123)
       this.loginShow = true
+    },
+    about () {
+      this.aboutShow = true
+    },
+    close (attr) {
+      this[attr] = false
+    },
+    loginInfo (data) {
+      this.logShow = false
+      this.name = data.username
+      this.loginShow = false
+      console.log(data)
+    },
+    logout () {
+      this.logShow = true
     }
   }
 }
