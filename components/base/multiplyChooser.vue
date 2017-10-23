@@ -21,7 +21,7 @@ export default {
 	data () {
 		return {
 			multiplyData: new Set(),
-			index: false
+			index: []
 			// nowIndexes: [0],
 			// asd: false
 		}
@@ -33,16 +33,18 @@ export default {
 			}else{
 				this.multiplyData.add(idx)
 			}
-			// this.index = !this.index
+			this.index = []
 		},
 		toggleShow (idx) {
-			console.log(this.multiplyData)
-			if(this.multiplyData.has(idx)){
-				return this.index = true
-			}else{
-				return this.index = false
+			console.log(this.index)
+			return this.multiplyData.has(idx)
+			// return this.multiplyData.has(idx)
+			// if(this.multiplyData.has(idx)){
+			// 	return this.index = true
+			// }else{
+			// 	return this.index = false
 
-			}
+			// }
 		}
 	// 	toggleSelection (index) {
  //      if (this.nowIndexes.indexOf(index) === -1) {
