@@ -17,7 +17,7 @@
                   产品类型：
               </div>
               <div class="sales-board-line-right">
-              	<v-selection :type="buyTypes"></v-selection>
+              	<v-selection :data-list="buyTypes" @on-select="getSelection"></v-selection>
               </div>
           </div>
           <div class="sales-board-line">
@@ -25,7 +25,7 @@
                   有效时间：
               </div>
               <div class="sales-board-line-right">
-                  
+                <v-selection :data-list="periodList" @on-select="getSelection"></v-selection>
               </div>
           </div>
           <div class="sales-board-line">
@@ -33,7 +33,7 @@
                   产品版本：
               </div>
               <div class="sales-board-line-right">
-                 
+                <v-selection :data-list="versionList" @on-select="getSelection"></v-selection>
               </div>
           </div>
           <div class="sales-board-line">
@@ -80,12 +80,41 @@
 </template>
 <script>
 import vSelection from '../../components/base/selection'
+import vchooser from '../../components/base/chooser'
 export default {
 	components: {
 		vSelection
 	},
 	data () {
 		return {
+      versionList: [
+        {
+          label: '客户版',
+          value: 0
+        },
+        {
+          label: '代理商版',
+          value: 1
+        },
+        {
+          label: '专家版',
+          value: 2
+        }
+      ],
+      periodList: [
+        {
+          label: '半年',
+          value: 0
+        },
+        {
+          label: '一年',
+          value: 1
+        },
+        {
+          label: '三年',
+          value: 2
+        }
+      ],
 			buyTypes: [
 	        {
 	          label: '入门版',
@@ -101,7 +130,12 @@ export default {
 	        }
 	      ],
 		}
-	}
+	},
+  methods: {
+    getSelection (data) {
+      console.log(data)
+    }
+  }
 }
 </script>
 <style scoped>

@@ -1,12 +1,12 @@
 <template>
 	<div class="selection-component">
-      <div class="selection-show">
+      <div class="selection-show" @click="toggleSelection">
         <span>{{selectName}}</span>
         <div class="arrow"></div>
       </div>
-      <div class="selection-list">
+      <div class="selection-list" v-if="isShowSelection">
         <ul>
-          <li v-for="list in type" @click="fill(list.label)">{{list.label}}</li>
+          <li v-for="list in dataList" @click="fill(list)">{{list.label}}</li>
         </ul>
       </div>
     </div>
@@ -14,7 +14,7 @@
 <script>
 export default {
 	props: {
-		type: {
+		dataList: {
 			type: Array,
 			default: [{
 				label: '',
@@ -24,13 +24,19 @@ export default {
 	},
 	data () {
 		return {
-			selectName: this.type[0].label
+			selectName: this.dataList[0].label,
+      isShowSelection: false
 		}
 	},
 	methods: {
-		fill (name) {
-			this.selectName = name
-		}
+		fill (obj) {
+			this.selectName = obj.label
+      this.isShowSelection = false
+      this.$emit('on-select',obj)
+		},
+    toggleSelection () {
+      this.isShowSelection = !this.isShowSelection
+    }
 	}
 }
 </script>

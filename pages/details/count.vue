@@ -10,6 +10,7 @@
                   产品类型：
               </div>
               <div class="sales-board-line-right">
+                <v-chooser :data-list="buyTypes" @on-chooser="chooser"></v-chooser>
               </div>
           </div>
           <div class="sales-board-line">
@@ -17,6 +18,7 @@
                   适用地区：
               </div>
               <div class="sales-board-line-right">
+                <v-selection :data-list="districts"></v-selection>
               </div>
           </div>
           <div class="sales-board-line">
@@ -242,7 +244,63 @@
 </template>
 </template>
 <script>
-	
+import vSelection from '../../components/base/selection'
+import vChooser from '../../components/base/chooser'
+export default {
+  components: {
+    vSelection,
+    vChooser
+  },
+  data () {
+    return {
+       buyTypes: [
+        {
+          label: '红色版',
+          value: 0
+        },
+        {
+          label: '绿色版',
+          value: 1
+        },
+        {
+          label: '紫色版',
+          value: 2
+        }
+      ],
+      districts: [
+        {
+          label: '北京',
+          value: 0
+        },
+        {
+          label: '上海',
+          value: 1
+        },
+        {
+          label: '广州',
+          value: 2
+        },
+        {
+          label: '天津',
+          value: 3
+        },
+        {
+          label: '武汉',
+          value: 4
+        },
+        {
+          label: '重庆',
+          value: 5
+        },
+      ]
+    }
+  },
+  methods: {
+    chooser (data) {
+      console.log(data)
+    }
+  }
+}
 </script>
 <style>
 	
