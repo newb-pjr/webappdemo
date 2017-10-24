@@ -10,6 +10,7 @@
                   购买数量：
               </div>
               <div class="sales-board-line-right">
+                <v-counter :min="minNumber" :max="maxNumber" @on-change="getNumber"></v-counter>
               </div>
           </div>
           <div class="sales-board-line">
@@ -17,7 +18,7 @@
                   媒介：
               </div>
               <div class="sales-board-line-right">
-                <multiply-chooser :multiply-chooser-data="versionList"></multiply-chooser>
+                <multiply-chooser :multiply-chooser-data="versionList" @on-mul-chooser="dataBack"></multiply-chooser>
               </div>
           </div>
           <div class="sales-board-line">
@@ -57,12 +58,16 @@
 </template>
 <script>
 import multiplyChooser from '../../components/base/multiplyChooser'
+import vCounter from '../../components/base/counter'
 export default {
   components: {
-    multiplyChooser
+    multiplyChooser,
+    vCounter
   },
   data () {
     return {
+      minNumber: 5,
+      maxNumber: 15,
       versionList: [
         {
           label: '纸质报告',
@@ -81,6 +86,16 @@ export default {
           value: 3
         }
       ]
+    }
+  },
+  methods: {
+    dataBack (data) {
+      for(let item of data){
+        console.log(item)
+      }
+    },
+    getNumber (data) {
+      console.log(data)
     }
   }
 }

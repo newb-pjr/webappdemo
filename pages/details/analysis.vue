@@ -10,6 +10,7 @@
                   购买数量：
               </div>
               <div class="sales-board-line-right">
+                <v-counter :min="minNumber" :max="maxNumber" @on-change="getNumber"></v-counter>
               </div>
           </div>
           <div class="sales-board-line">
@@ -80,13 +81,16 @@
 </template>
 <script>
 import vSelection from '../../components/base/selection'
-import vchooser from '../../components/base/chooser'
+import vCounter from '../../components/base/counter'
 export default {
 	components: {
-		vSelection
+		vSelection,
+    vCounter
 	},
 	data () {
 		return {
+      minNumber: 1,
+      maxNumber: 10,
       versionList: [
         {
           label: '客户版',
@@ -133,6 +137,9 @@ export default {
 	},
   methods: {
     getSelection (data) {
+      console.log(data)
+    },
+    getNumber (data) {
       console.log(data)
     }
   }

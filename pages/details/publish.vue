@@ -10,6 +10,7 @@
                   购买数量：
               </div>
               <div class="sales-board-line-right">
+                <v-counter :min="minNumber" :max="maxNumber" @on-change="getNumber"></v-counter>
               </div>
           </div>
           <div class="sales-board-line">
@@ -17,6 +18,7 @@
                   行业：
               </div>
               <div class="sales-board-line-right">
+                <v-mul-chooser :multiplyChooserData="tradeList"></v-mul-chooser>
               </div>
           </div>
           <div class="sales-board-line">
@@ -24,6 +26,7 @@
                   产品版本：
               </div>
               <div class="sales-board-line-right">
+                <v-chooser :dataList="versionList"></v-chooser>
               </div>
           </div>
           <div class="sales-board-line">
@@ -248,6 +251,62 @@
   </div>
 </template>
 <script>
+import vCounter from '../../components/base/counter'
+import vChooser from '../../components/base/chooser'
+import vMulChooser from '../../components/base/multiplyChooser'
+export default {
+  components: {
+    vCounter,
+    vChooser,
+    vMulChooser
+  },
+  data () {
+    return {
+      minNumber: 1,
+      maxNumber: 10,
+      tradeList: [
+        {
+          label: '出版业',
+          value: 0
+        },
+        {
+          label: '媒体',
+          value: 1
+        },
+        {
+          label: '金融',
+          value: 2
+        },
+        {
+          label: '互联网',
+          value: 3
+        },
+        {
+          label: '游戏',
+          value: 4
+        }
+      ],
+      versionList: [
+        {
+          label: '初级版',
+          value: 0
+        },
+        {
+          label: '中级版',
+          value: 1
+        },
+        {
+          label: '高级版',
+          value: 2
+        },
+        {
+          label: '专家版',
+          value: 3
+        }
+      ]
+    }
+  }
+}
 	
 </script>
 <style>

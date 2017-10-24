@@ -33,18 +33,18 @@ export default {
 			}else{
 				this.multiplyData.add(idx)
 			}
+			let dataObj = new Set()
+			for(let item of this.multiplyData){
+				dataObj.add(this.multiplyChooserData[item])
+			}
+
+			this.$emit('on-mul-chooser',dataObj)
 			this.index = []
 		},
 		toggleShow (idx) {
-			console.log(this.index)
+			this.index = this.index
 			return this.multiplyData.has(idx)
-			// return this.multiplyData.has(idx)
-			// if(this.multiplyData.has(idx)){
-			// 	return this.index = true
-			// }else{
-			// 	return this.index = false
-
-			// }
+			
 		}
 	// 	toggleSelection (index) {
  //      if (this.nowIndexes.indexOf(index) === -1) {
