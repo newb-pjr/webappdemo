@@ -95,8 +95,13 @@
             <td>{{ price }}</td>
           </tr>
         </table>
-       
-      </my-dialog>
+        <h3 class="buy-dialog-title">请选择银行</h3>
+        <banker-chooser @choose-bank="getBank"></banker-chooser>
+         <div class="button buy-dialog-btn" @click="subBuy">
+          确认购买
+        </div>
+      </my-dialog>   
+      <check-order></check-order>  
   </div>
 </template>
 <script>
@@ -105,6 +110,8 @@ import vCounter from '../../components/base/counter'
 import vChooser from '../../components/base/chooser'
 import vMulChooser from '../../components/base/multiplyChooser'
 import dialog from '../../components/base/dialog'
+import bankerChooser from '../../components/bankerChooser'
+import checkOrder from '../../components/checkOrder'
 
 export default {
 	components: {
@@ -112,10 +119,13 @@ export default {
     vCounter,
     vChooser,
     vMulChooser,
-    myDialog: dialog
+    myDialog: dialog,
+    bankerChooser,
+    checkOrder
 	},
 	data () {
 		return {
+      bankId: null,
       isDialogShow: false,
       buyNum: 0,
       buyType: {},
@@ -178,6 +188,7 @@ export default {
       for(let item of this.version){
         versionArr.add(item.value)
       }
+      // console.log(versionArr,Array.from(versionArr))
       this.$http.post('../api/getPrice',{
         buyNum: this.buyNum,
         buyTypes: this.buyType.value,
@@ -194,13 +205,33 @@ export default {
     },
     closeDialog () {
       this.isDialogShow = false
+    },
+    getBank (data) {
+      this.bankId = data.id
+    },
+    subBuy () {
+      let versionArr = new Set()
+      for(let item of this.version){
+        versionArr.add(item.value)
+      }
+      this.$http.post('../api/createOrder',{
+        buyNum: this.buyNum,
+        buyTypes: this.buyType.value,
+        period: this.period.value,
+        version: Array.from(versionArr),
+        bankID: this.bankId
+      }).then((resp)=>{
+        console.log(resp.data.orderId)
+      },(err)=>{
+        console.log(err)
+      })
     }
   },
   mounted () {
     this.buyNum = 1
     this.buyType = this.buyTypes[0]
     this.period = this.periodList[0]
-    this.version = Array.from(new Set().add(this.versionList[0]))
+    this.version = new Set().add(this.versionList[0])
     this.getPrice()
   }
 }
