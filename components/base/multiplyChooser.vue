@@ -20,7 +20,7 @@ export default {
 	},
 	data () {
 		return {
-			multiplyData: new Set(),
+			multiplyData: new Set([0]),
 			index: []
 			// nowIndexes: [0],
 			// asd: false

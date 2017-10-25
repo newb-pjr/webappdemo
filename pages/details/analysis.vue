@@ -10,7 +10,7 @@
                   购买数量：
               </div>
               <div class="sales-board-line-right">
-                <v-counter :min="minNumber" :max="maxNumber" @on-change="getNumber"></v-counter>
+                <v-counter :min="minNumber" :max="maxNumber" @on-change="getChangeData('buyNum',$event)"></v-counter>
               </div>
           </div>
           <div class="sales-board-line">
@@ -18,7 +18,7 @@
                   产品类型：
               </div>
               <div class="sales-board-line-right">
-              	<v-selection :data-list="buyTypes" @on-select="getSelection"></v-selection>
+              	<v-selection :data-list="buyTypes" @on-select="getChangeData('buyType',$event)"></v-selection>
               </div>
           </div>
           <div class="sales-board-line">
@@ -26,7 +26,7 @@
                   有效时间：
               </div>
               <div class="sales-board-line-right">
-                <v-selection :data-list="periodList" @on-select="getSelection"></v-selection>
+                <v-chooser :data-list="periodList" @on-chooser="getChangeData('period',$event)"></v-chooser>
               </div>
           </div>
           <div class="sales-board-line">
@@ -34,7 +34,7 @@
                   产品版本：
               </div>
               <div class="sales-board-line-right">
-                <v-selection :data-list="versionList" @on-select="getSelection"></v-selection>
+                <v-mul-chooser :multiply-chooser-data="versionList" @on-mul-chooser="getChangeData('version',$event)"></v-mul-chooser>
               </div>
           </div>
           <div class="sales-board-line">
@@ -48,7 +48,7 @@
           <div class="sales-board-line">
               <div class="sales-board-line-left">&nbsp;</div>
               <div class="sales-board-line-right">
-                  <div class="button" @click="showPayDialog">
+                  <div class="button" @click="buyDialog">
                     立即购买
                   </div>
               </div>
@@ -76,19 +76,52 @@
           <li>用户所在地理区域分布状况等</li>
         </ul>
       </div>
-     
+      <my-dialog :dialog-show="isDialogShow" @close-dialog="closeDialog">
+        <table class="buy-dialog-table">
+          <tr>
+            <th>购买数量</th>
+            <th>产品类型</th>
+            <th>有效时间</th>
+            <th>产品版本</th>
+            <th>总价</th>
+          </tr>
+          <tr>
+            <td>{{ buyNum }}</td>
+            <td>{{ buyType.label }}</td>
+            <td>{{ period.label }}</td>
+            <td>
+              <span v-for="item in version">{{ item.label }}</span>
+            </td>
+            <td>{{ price }}</td>
+          </tr>
+        </table>
+       
+      </my-dialog>
   </div>
 </template>
 <script>
 import vSelection from '../../components/base/selection'
 import vCounter from '../../components/base/counter'
+import vChooser from '../../components/base/chooser'
+import vMulChooser from '../../components/base/multiplyChooser'
+import dialog from '../../components/base/dialog'
+
 export default {
 	components: {
 		vSelection,
-    vCounter
+    vCounter,
+    vChooser,
+    vMulChooser,
+    myDialog: dialog
 	},
 	data () {
 		return {
+      isDialogShow: false,
+      buyNum: 0,
+      buyType: {},
+      period: {},
+      version: new Set(),
+      price: 0,
       minNumber: 1,
       maxNumber: 10,
       versionList: [
@@ -136,12 +169,39 @@ export default {
 		}
 	},
   methods: {
-    getSelection (data) {
-      console.log(data)
+    getChangeData (attr,data) {
+      this[attr] = data
+      this.getPrice()
     },
-    getNumber (data) {
-      console.log(data)
+    getPrice () {
+      let versionArr = new Set()
+      for(let item of this.version){
+        versionArr.add(item.value)
+      }
+      this.$http.post('../api/getPrice',{
+        buyNum: this.buyNum,
+        buyTypes: this.buyType.value,
+        period: this.period.value,
+        version: Array.from(versionArr)
+      }).then((resp)=>{
+        this.price = resp.data.amount
+      },(err)=>{
+        console.log(err)
+      })
+    },
+    buyDialog () {
+      this.isDialogShow = true
+    },
+    closeDialog () {
+      this.isDialogShow = false
     }
+  },
+  mounted () {
+    this.buyNum = 1
+    this.buyType = this.buyTypes[0]
+    this.period = this.periodList[0]
+    this.version = Array.from(new Set().add(this.versionList[0]))
+    this.getPrice()
   }
 }
 </script>
