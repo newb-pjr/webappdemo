@@ -90,7 +90,7 @@
             <td>{{ buyType.label }}</td>
             <td>{{ period.label }}</td>
             <td>
-              <span v-for="item in version">{{ item.label }}</span>
+              <span v-for="item in versionArray">{{ item.label+' ' }}</span>
             </td>
             <td>{{ price }}</td>
           </tr>
@@ -101,7 +101,7 @@
           确认购买
         </div>
       </my-dialog>   
-      <check-order></check-order>  
+      <check-order :is-show-check-order="isShowCheckOrder" :order-id="orderId" @on-close-check-dialog="closeCheckDialog"></check-order>  
   </div>
 </template>
 <script>
@@ -125,6 +125,8 @@ export default {
 	},
 	data () {
 		return {
+      orderId: null,
+      isShowCheckOrder: false,
       bankId: null,
       isDialogShow: false,
       buyNum: 0,
@@ -221,10 +223,17 @@ export default {
         version: Array.from(versionArr),
         bankID: this.bankId
       }).then((resp)=>{
-        console.log(resp.data.orderId)
+        this.orderId = resp.data.orderId
+        this.isDialogShow = false
+        this.isShowCheckOrder = true
+
+        console.log(this.isShowCheckOrder)
       },(err)=>{
         console.log(err)
       })
+    },
+    closeCheckDialog () {
+      this.isShowCheckOrder = false
     }
   },
   mounted () {
@@ -233,6 +242,11 @@ export default {
     this.period = this.periodList[0]
     this.version = new Set().add(this.versionList[0])
     this.getPrice()
+  },
+  computed: {
+    versionArray () {
+      return Array.from(this.version)
+    }
   }
 }
 </script>
