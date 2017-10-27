@@ -9,10 +9,10 @@
 		        支付失败
 		      </div>
 	    </check-dialog>
-	    <check-dialog :dialog-show="isShowSuccessDialog" @close-dialog="closeDialog('isShowSuccessDialog')">
+	    <check-dialog :dialog-show="isShowSuccessDialog" @close-dialog="toOrderList">
 	      购买成功！
 	    </check-dialog>
-	    <check-dialog :dialog-show="isShowFailDialog" @close-dialog="closeDialog('isShowFailDialog')">
+	    <check-dialog :dialog-show="isShowFailDialog" @close-dialog="toOrderList">
 	      购买失败！
 	    </check-dialog>
 	</div>
@@ -50,6 +50,9 @@ export default {
 				this.isShowFailDialog = true
 				this.$emit('on-close-check-dialog')
 			})
+		},
+		toOrderList () {
+			this.$router.push({'path':'/orderList'})
 		}
 	}
 }
