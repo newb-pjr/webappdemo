@@ -132,6 +132,7 @@ export default {
   },
   mounted () {
     this.getTableData()
+    console.log(this.$store)
   }
 }
 </script>
