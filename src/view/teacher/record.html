@@ -1,0 +1,19 @@
+<ion-view>
+	<ion-content class="teacher-record" overflow-scroll="false">
+		<ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()"></ion-refresher>
+		<div class="padding content" ng-repeat="item in leaveList">
+			<div class="record-item padding">
+				<div class="info row row-center">
+					<div class="col col-20" ng-bind="item.className"></div>
+					<div class="col col-20" ng-bind="item.name"></div>
+					<div class="col col-50" >
+						<div ng-bind="'开始时间：'+item.beginTime"></div>
+						<div ng-bind="'结束时间：'+item.endTime"></div>
+					</div>
+					<div class="col col-10" ng-bind=" item.vacationTime+'天'"></div>
+				</div>
+			</div>
+		</div>
+		<ion-infinite-scroll on-infinite="loadMore()" ng-if="pageEnd()" distance="1%" immediate-check="false"></ion-infinite-scroll>
+	</ion-content>
+</ion-view>

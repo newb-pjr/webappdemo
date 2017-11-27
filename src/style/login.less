@@ -1,0 +1,49 @@
+.login{
+	.loginImg{
+		width: 100%;
+		height: auto;
+	}
+	.loginForm{
+		margin: 0 auto;
+		.w(300);
+		.pt(20);
+		p{
+			font-weight: bold;
+			.login-cn{
+				color: @titleColor;
+				.fs(22);
+			}
+			.login-en{
+				color: @smallTitleColor;
+				.fs(14);
+			}
+			.lh(30);
+		}
+		label{
+			background-color: @buttonColor;
+			.mb(20);
+			border: 1px solid @borderColor;
+			box-sizing: border-box;
+		}
+		.loginBtn{
+			width: 100%;
+			.h(40);
+			margin-left: 0;
+			.fs(22);
+			font-weight: bold;
+		}
+		a{
+			text-decoration: none;
+			float: right;
+			.fs(12);
+			.pt(20);
+			color: @forgetColor;
+		}
+		img{
+			.w(25);
+			.h(26);
+			.mr(12);
+		}
+	}
+}
+

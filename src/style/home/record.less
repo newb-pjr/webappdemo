@@ -1,0 +1,45 @@
+.record{
+	.content{
+		padding-bottom: 0;
+		.time{
+			.fs(12);
+			color: @fontColor;
+			margin-bottom: 0;
+			padding-bottom: 0;
+		}
+		.record-item{
+			border: 1px solid @borderColor;
+			border-radius: 5px;
+			.dateNum{
+				.fs(14);
+				span{
+					&:first-child{
+						float: left;
+					}
+					&.count{
+						float: right;
+					}
+				}
+			}
+			.handle{
+				.fs(14);
+				.pt(6);
+				span{
+					float: left;
+					color: @finishExamineColor;
+					&.wait{
+						color: @waitColor;
+					}
+				}
+				a{
+					float: right;
+					text-decoration: none;
+					color: @buttonColor;
+					background-color: @handleBgColor;
+					border-radius: 5px;
+					padding: 3px 8px; 
+				}
+			}
+		}
+	}
+}

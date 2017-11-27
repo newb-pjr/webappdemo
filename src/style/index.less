@@ -1,0 +1,93 @@
+@import 'variable.less';
+@import 'home/home.less';
+@import 'home/header.less';
+@import 'home/record.less';
+@import 'login.less';
+@import 'tab.less';
+@import 'choose-child-modal.less';
+@import 'teacher/search.less';
+@import 'teacher/record.less';
+@import 'teacher/leave.less';
+
+.fs(@px){
+	font-size: unit(@px/37.5,rem);
+}
+.h(@px){
+	height: unit(@px/37.5,rem);
+}
+.w(@px){
+	width: unit(@px/37.5,rem);
+}
+.br(@px){
+	border-radius: unit(@px/37.5,rem);
+}
+.lh(@px){
+	line-height: unit(@px/37.5,rem);
+}
+.pt(@px){
+	padding-top: unit(@px/37.5,rem);
+}
+.pb(@px){
+	padding-bottom: unit(@px/37.5,rem);
+}
+.pl(@px){
+	padding-left: unit(@px/37.5,rem);
+}
+.mt(@px){
+	margin-top: unit(@px/37.5,rem);
+}
+.mb(@px){
+	margin-bottom: unit(@px/37.5,rem);
+}
+.mr(@px){
+	margin-right: unit(@px/37.5,rem);
+}
+.ml(@px){
+	margin-left: unit(@px/37.5,rem);
+}
+.cf{
+	clear: both;
+}
+
+.tab-nav a{
+	border-right: 1px solid @borderColor;
+	max-width: 50%;
+	&.tab-item-active{
+		border-bottom: 2px solid @mainColor;
+	}
+}
+.tab-nav a:last-child{
+	border-right: 0;
+}
+.tabs-stable .tab-item.tab-item-active{
+	color: @mainColor;
+}
+.tabs-stable>.tabs, .tabs.tabs-stable .tab-item{
+	opacity: 1;
+	color: @fontColor;
+}
+.header.bar-header{
+	background-image: none;
+	height: 60px;
+	padding: 0;
+}
+.has-header{
+	top: 60px;
+}
+.bar-subheader{
+	top: 60px;
+	height: 32px;
+}
+.col-30{
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 30%;
+    -moz-box-flex: 0;
+    -moz-flex: 0 0 30%;
+    -ms-flex: 0 0 30%;
+    flex: 0 0 30%;
+    max-width: 30%;
+}
+.border-none{
+	border: 0 !important;
+	padding-bottom: 0 !important;
+}

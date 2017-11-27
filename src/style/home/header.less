@@ -1,0 +1,42 @@
+.header{
+	.row{
+		background: url('../img/bg.png') repeat-x center bottom;
+		padding-top: 0;
+		padding-bottom: 5px;
+	}
+	.avatar{
+		.w(43);
+		.h(43);
+		.br(43);
+		text-align: center;
+		margin: 0 auto;
+		display: block;
+	}
+	.info{
+		display: inline-block;
+		p{
+			margin-bottom: 0;
+			.lh(20);
+			&:first-child{
+				.pt(3);
+			}
+		}
+		span{
+			color: @fontColor;
+			&.name{
+				.fs(14)
+			}
+			&.class{
+				.fs(12);
+				float: right;
+			}
+		}
+		.Kindergarten{
+			color: @KindergartenColor;
+			.fs(12)
+		}
+	}
+	button{
+		float: right;
+	}
+}

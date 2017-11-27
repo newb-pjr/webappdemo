@@ -1,0 +1,81 @@
+<ion-view class="record tab">
+	<ion-header-bar class="bar bar-subheader">
+		<div app-tab s-click="selClick(id,name)" item="tabActive"></div>
+		<!-- <ul>
+			<li ng-repeat="item in tabs" ng-bind="item.name" ng-class="{'active':$index===selectId}" ng-click="selectClick(item)"></li>
+		</ul> -->
+	</ion-header-bar>
+	<ion-content has-subheader="true" overflow-scroll="false">
+		<ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()"></ion-refresher>
+		<div ng-if="leave">
+			<div class="padding content" ng-repeat="item in leaveList">
+				<p class="time padding" ng-bind="'提交时间：'+(item.applyTime | dateFormat)">
+				</p>
+				<div class="record-item padding">
+					<div class="dateNum">
+						<span ng-bind="'开始时间：'+item.beginTime+' 结束时间：'+item.endTime"></span>
+						<span class="count" ng-bind="item.vacationTime+'天'"></span>
+						<div class="cf"></div>
+					</div>
+					<div class="handle">
+						<span ng-if="(item.validStatus==1) && (!item.canceled)">已审核</span>
+						<span ng-if="(item.validStatus==-1) && (!item.canceled)" class="wait">未审核</span>
+						<span ng-if="(item.validStatus==-1) && (item.canceled)" class="wait">销假未审核</span>
+						<span ng-if="(item.validStatus==1) && (item.canceled)">销假已审核</span>
+						<a ng-if="(item.validStatus==1) && (!item.canceled)" href="javascript:void(0)" ng-click="cancelLeave(item.id,item.beginTime,item.endTime)">销假</a>
+						<a ng-if="(item.validStatus==-1) && (!item.canceled)" href="javascript:void(0)" ng-click="delLeave(item.id)">删除</a>
+						<div class="cf"></div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="padding content">
+				<p class="time padding" ng-bind="'提交时间：'+('2017-11-20 10:16:30' | dateFormat)">
+				<div class="record-item padding">
+					<div class="dateNum">
+						<span>2017/10/24 08:00-17:00</span>
+						<span class="count">1天</span>
+						<div class="cf"></div>
+					</div>
+					<div class="handle">
+						<span>已销假</span>
+						<a href="javascript:void(0)" ng-click="cancelLeave()">销假</a>
+						<div class="cf"></div>
+					</div>
+				</div>
+			</div> -->
+		</div>
+		<div ng-if="!leave">
+			<div class="padding content" ng-repeat="item in leaveList">
+				<p class="time padding" ng-bind="'提交时间：'+(item.applyTime | dateFormat)">
+				</p>
+				<div class="record-item padding">
+					<div class="dateNum">
+						<span ng-bind="item.beginTime+' 至 '+item.endTime"></span>
+						<span class="count" ng-bind="item.vacationTime+'天'"></span>
+						<div class="cf"></div>
+					</div>
+					<div class="handle">
+						<span ng-if="item.validStatus==1">销假已审核</span>
+						<span ng-if="item.validStatus==-1" class="wait">销假未审核</span>
+						<div class="cf"></div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="padding content">
+				<p class="time padding" ng-bind="'提交时间：'+('2017-11-20 10:16:30' | dateFormat)">
+				<div class="record-item padding">
+					<div class="dateNum">
+						<span>2017/10/24 08:00-17:00</span>
+						<span class="count">1天</span>
+						<div class="cf"></div>
+					</div>
+					<div class="handle">
+						<span>已销假</span>
+						<div class="cf"></div>
+					</div>
+				</div>
+			</div> -->
+		</div>
+		<ion-infinite-scroll on-infinite="loadMore()" ng-if="pageEnd()" distance="1%" immediate-check="false"></ion-infinite-scroll>
+	</ion-content>
+</ion-view>

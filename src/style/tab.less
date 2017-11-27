@@ -1,0 +1,26 @@
+.tab{
+	.bar{
+		background-image: none;
+		border-bottom: 2px solid @mainColor;
+	}
+	ul{
+		display: inline-block;
+		margin: 0 auto;
+		li{
+			.lh(18);
+			.w(90);
+			text-align: center;
+			.fs(16);
+			border-right: 1px solid @fontColor;
+			display: inline-block;
+
+			&.active{
+				color: @mainColor;
+			}
+			&:last-child{
+				border-right: 0;
+			}
+		}
+	}
+}
+	

@@ -1,0 +1,29 @@
+<ion-header-bar class="header">
+	<div class="row row-center padding">
+		<div class="col col-25">
+			<img ng-src="{{avatar}}" class="avatar" ng-if="hasAvatar">
+			<img src="img/default.png" class="avatar" ng-if="!hasAvatar">
+		</div>
+		<div class="col col-50">
+			<div class="info">
+				<p>
+					<span class="name" ng-bind="name"></span>
+					<span class="class" ng-bind="class"></span>
+					<div class="cf"></div>
+				</p>
+				<p class="Kindergarten" ng-bind="Kindergarten"></p>
+			</div>
+		</div>
+		<div class="col col-25">
+			<button class="button button-assertive" ng-click="logout()">退出</button>
+		</div>
+	</div>
+</ion-header-bar>
+<ion-tabs class="tabs-stable">
+	<ion-tab title="请假审批" href="#/tab-teacher/leave">
+		<ion-nav-view name="leave"></ion-nav-view>
+	</ion-tab>
+	<ion-tab title="记录查询" href="#/tab-teacher/search">
+		<ion-nav-view name="search"></ion-nav-view>
+	</ion-tab>
+</ion-tabs>

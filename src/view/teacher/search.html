@@ -1,0 +1,47 @@
+<ion-view hide-nav-view="true">
+	<ion-content class="search">
+		<div class="content padding">
+			<div class="top">
+				<span class="title">记录查询 </span>
+				<span class="title-en">Query record</span>
+			</div>
+			<div class="form-login">
+				<div class="date-input">
+					<span>开始日期：</span>
+					<div class="input" ng-click="start()" id="searchStartDate">
+						请选择
+						<!-- <input type="text" id="startDate" /> -->
+					</div>
+				</div>
+				<div class="date-input">
+					<span>结束日期：</span>
+					<div class="input" ng-click="end()" id="searchEndDate">
+						请选择
+						<!-- <input type="text" id="endDate" /> -->
+					</div>
+				</div>
+				<div class="date-input">
+					<span>查询类型：</span>
+					<div class="input select">
+						实际请假记录
+					</div>
+				</div>
+				<div class="date-input">
+					<span>选择班级：</span>
+					<div class="input select" ng-click="class()">
+						<span id="class">请选择</span>
+						<i class="icon ion-arrow-down-b"></i>
+					</div>
+				</div>
+				<!-- <div class="date-input">
+					<span>选择状态：</span>
+					<div class="input select" ng-click="status()">
+						<span id="status">请选择</span>
+						<i class="icon ion-arrow-down-b"></i>
+					</div>
+				</div> -->
+				<a href="javascript:void(0)" ng-click="subSearch()">提交</a>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

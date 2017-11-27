@@ -1,0 +1,41 @@
+<ion-view hide-nav-view="true" class="apply">
+	<ion-content ng-controller="homeCtrl">
+		
+		<!-- <div class="row row-center padding">
+			<div class="col col-25">
+				<img src="img/avatar.jpg" class="avatar">
+			</div>
+			<div class="col col-75">
+				<div class="info">
+					<p>
+						<span class="name">罗文语</span>
+						<span class="class">小一班</span>
+						<div class="cf"></div>
+					</p>
+					<p class="Kindergarten">佛山市南海区景富幼儿园</p>
+				</div>
+			</div>
+		</div> -->
+		<div class="content padding">
+			<div class="top">
+				<span class="title">请假申请 </span>
+				<span class="title-en">Leave application</span>
+			</div>
+			<div class="form-login">
+				<div class="date-input">
+					<span>开始日期：</span>
+					<div class="input" ng-click="start()" id="startDate">
+						请选择
+						<!-- <input type="text" id="startDate" /> -->
+					</div>
+				</div>
+				<div class="date-input">
+					<span>请假天数：</span>
+					<input type="text" class="numText" ng-model="dateNum" /> 天
+					<!-- <span class="dateNum" id="dateNum">0天</span> -->
+				</div>
+				<a href="javascript:void(0)" ng-click="subApply()">提交</a>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

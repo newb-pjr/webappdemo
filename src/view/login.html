@@ -1,0 +1,20 @@
+<ion-view hide-nav-view="true">
+	<ion-content class="login">
+		<img src="img/login.jpg" class="loginImg">
+		<div class="loginForm">
+			<p>
+				<span class="login-cn">用户登录 </span>
+				<span class="login-en">User login</span>
+			</p>
+			<label class="item-input-wrapper">
+			    <img src="img/user.png">
+			    <input type="text" placeholder="请输入用户名" ng-model="user.username">
+			</label>
+		    <label class="item-input-wrapper">
+			    <img src="img/lock.png">
+		   		<input type="password" placeholder="请输入密码" ng-model="user.password">
+		    </label>
+		    <button class="button button-balanced loginBtn" ng-click="loginBtn()">登录</button>
+		</div>
+	</ion-content>
+</ion-view>
