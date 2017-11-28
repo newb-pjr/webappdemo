@@ -216,7 +216,11 @@ angular.module('app.controller',[]).controller('recordCtrl', ['$scope','homeLeav
 		applyFactory.applyLeave($scope.startDate,$scope.dateNum)
 	}
 }])
-.controller('tabHomeCtrl', ['$scope','Storage','logoutFactory', function ($scope,Storage,logoutFactory) {
+.controller('tabHomeCtrl', ['$scope','Storage','logoutFactory','$state', function ($scope,Storage,logoutFactory,$state) {
+	if(!Storage.get('children') && !Storage.get('childrenArr')){
+		$state.go('login');
+		return;
+	}
 	if(!!Storage.get('children')){
 		$scope.name = Storage.get('children').yeName;
 		$scope.class = Storage.get('children').bjName;
@@ -254,7 +258,11 @@ angular.module('app.controller',[]).controller('recordCtrl', ['$scope','homeLeav
 		})
 	}
 }])
-.controller('tabTeacherCtrl', ['$scope','Storage','logoutFactory', function ($scope,Storage,logoutFactory) {
+.controller('tabTeacherCtrl', ['$scope','Storage','logoutFactory','$state', function ($scope,Storage,logoutFactory,$state) {
+	if(!Storage.get('teacher') && !Storage.get('teacherArr')){
+		$state.go('login');
+		return;
+	}
 	if(!!Storage.get('teacher')){
 		$scope.name = Storage.get('teacher').zgName;
 		$scope.class = Storage.get('teacher').bjName;

@@ -111,7 +111,8 @@ angular.module('app',['ionic','app.config','app.controller','app.directive','app
 	.state('tab-teacher',{
 		url: '/tab-teacher',
 		templateUrl: 'view/tab-teacher.html',
-		controller: 'tabTeacherCtrl'
+		controller: 'tabTeacherCtrl',
+		cache: false
 	})
 	.state('tab-teacher.search',{
 		url: '/search',

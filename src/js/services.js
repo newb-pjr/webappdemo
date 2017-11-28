@@ -111,6 +111,8 @@ angular.module('app.services',[]).factory('Storage', [function(){
 						weui.alert(resp.err);
 					}
 				})
+			}else{
+				weui.alert('用户名或密码不能为空');
 			}
 		}
 	};
@@ -209,19 +211,7 @@ angular.module('app.services',[]).factory('Storage', [function(){
 	var hasPage = true;
 	var resource = $resource(api+'/ParentVacation.ashx',{},{
 		query: {
-			method: 'get',
-			params: {
-				jtId: '@jtId',
-				yeyId: '@yeyId',
-				jzId: '@jzId',
-				token: '@token',
-				action: '@action',
-				validType: '@validType',
-				beginTime: '@beginTime',
-				endTime: '@endTime',
-				pageSize: '@pageSize',
-				page: '@page'
-			},
+			method: 'post',
 			timeout: 20000
 		}
 	})
