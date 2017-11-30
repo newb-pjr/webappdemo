@@ -1,17 +1,12 @@
-angular.module('app.controller',[]).controller('recordCtrl', ['$scope','homeLeaveFactory','cancelLeaveFactory','$ionicScrollDelegate','$timeout','delLeaveFactory', function ($scope,homeLeaveFactory,cancelLeaveFactory,$ionicScrollDelegate,$timeout,delLeaveFactory) {
+angular.module('app.controller',[]).controller('recordCtrl', ['$scope','homeLeaveFactory','cancelLeaveFactory','$timeout','delLeaveFactory', function ($scope,homeLeaveFactory,cancelLeaveFactory,$timeout,delLeaveFactory) {
 	$scope.leave = true;
 	$scope.selClick = function(id){
-		$ionicScrollDelegate.scrollTop();
 		if(id === 0){
+			homeLeaveFactory.getHomeLeaveList(1);
 			$scope.leave = true;
-			$timeout(function(){
-				homeLeaveFactory.getHomeLeaveList(1);
-			},20)
 		}else{
+			homeLeaveFactory.getHomeLeaveList(2);
 			$scope.leave = false;
-			$timeout(function(){
-				homeLeaveFactory.getHomeLeaveList(2);
-			},20)
 		}
 	}
 
@@ -73,20 +68,15 @@ angular.module('app.controller',[]).controller('recordCtrl', ['$scope','homeLeav
 		homeLeaveFactory.getHomeLeaveList(1);
 	})
 }])
-.controller('leaveCtrl', ['$scope','teacherLeaveFactory','agreeLeaveFactory','noticeCancelLeaveFactory','$ionicScrollDelegate','$timeout', function ($scope,teacherLeaveFactory,agreeLeaveFactory,noticeCancelLeaveFactory,$ionicScrollDelegate,$timeout) {
+.controller('leaveCtrl', ['$scope','teacherLeaveFactory','agreeLeaveFactory','noticeCancelLeaveFactory', function ($scope,teacherLeaveFactory,agreeLeaveFactory,noticeCancelLeaveFactory) {
 	$scope.leave = true;
 	$scope.selClick = function(id){
-		$ionicScrollDelegate.scrollTop();
 		if(id === 0){
+			teacherLeaveFactory.getTeacherLeaveList(1);
 			$scope.leave = true;
-			$timeout(function(){
-				teacherLeaveFactory.getTeacherLeaveList(1);
-			},20)
 		}else{
+			teacherLeaveFactory.getTeacherLeaveList(2);
 			$scope.leave = false;
-			$timeout(function(){
-				teacherLeaveFactory.getTeacherLeaveList(2);
-			},20)
 		}
 	}
 
@@ -218,7 +208,8 @@ angular.module('app.controller',[]).controller('recordCtrl', ['$scope','homeLeav
 }])
 .controller('tabHomeCtrl', ['$scope','Storage','logoutFactory','$state', function ($scope,Storage,logoutFactory,$state) {
 	if(!Storage.get('children') && !Storage.get('childrenArr')){
-		$state.go('login');
+		window.location.href = 'http://www.krbb.cn/WebAppHandler/GetOpenID.ashx?yeyId=54&backUrl=http://www.krbb.cn/leave/#/login'
+		// $state.go('login');
 		return;
 	}
 	if(!!Storage.get('children')){
@@ -255,12 +246,19 @@ angular.module('app.controller',[]).controller('recordCtrl', ['$scope','homeLeav
 			if(!!Storage.get('childrenArr')){
 				Storage.remove('childrenArr');
 			}
+			if(!!Storage.get('teacher')){
+				Storage.remove('teacher');
+			}
+			if(!!Storage.get('teacherArr')){
+				Storage.remove('teacherArr');
+			}
 		})
 	}
 }])
 .controller('tabTeacherCtrl', ['$scope','Storage','logoutFactory','$state', function ($scope,Storage,logoutFactory,$state) {
 	if(!Storage.get('teacher') && !Storage.get('teacherArr')){
-		$state.go('login');
+		window.location.href = 'http://www.krbb.cn/WebAppHandler/GetOpenID.ashx?yeyId=54&backUrl=http://www.krbb.cn/leave/#/login'
+		// $state.go('login');
 		return;
 	}
 	if(!!Storage.get('teacher')){
@@ -291,6 +289,12 @@ angular.module('app.controller',[]).controller('recordCtrl', ['$scope','homeLeav
 	$scope.logout = function(){
 		logoutFactory.logout(1);
 		$scope.$on('User.UserLogoutUpdated',function(){
+			if(!!Storage.get('teacher')){
+				Storage.remove('teacher');
+			}
+			if(!!Storage.get('teacherArr')){
+				Storage.remove('teacherArr');
+			}
 			if(!!Storage.get('teacher')){
 				Storage.remove('teacher');
 			}

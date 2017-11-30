@@ -4,42 +4,22 @@
 	</ion-header-bar>
 	<ion-content has-subheader="true" class="leave" overflow-scroll="false">
 		<ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()"></ion-refresher>
-		<div ng-if="leave">
-			<div class="padding content" ng-repeat="item in leaveList">
-				<div class="record-item padding">
-					<p class="time" ng-bind="'提交时间：'+(item.applyTime | dateFormat)"></p>
-					<div class="info row">
-						<div class="col col-20" ng-bind="item.className"></div>
-						<div class="col col-20" ng-bind="item.name"></div>
-						<div class="col col-50" ng-bind="'开始时间：'+item.beginTime"></div>
-						<div class="col col-10" ng-bind=" item.vacationTime+'天'"></div>
-					</div>
-					<div class="handle">
-						<span ng-if="item.validStatus==1">已审核</span>
-						<span class="wait" ng-if="item.validStatus==-1">待审核</span>
-						<a href="javascript:void(0)" class="agree" ng-click="agreement(item.id)" ng-if="item.validStatus==-1">同意</a>
-						<a href="javascript:void(0)" ng-click="notice(item.id)" ng-if="!item.cancelNotice && !item.canceled">通知销假</a>
-						<div class="cf"></div>
-					</div>
+		<div class="padding content" ng-repeat="item in leaveList">
+			<div class="record-item padding">
+				<p class="time" ng-bind="'提交时间：'+(item.applyTime | dateFormat)"></p>
+				<div class="info row">
+					<div class="col col-20" ng-bind="item.className"></div>
+					<div class="col col-25" ng-bind="item.name"></div>
+					<div class="col col-40" ng-bind="' 从'+item.beginTime+'起'"></div>
+					<div class="col col-15 fr" ng-bind="'共'+item.vacationTime+'天'"></div>
 				</div>
-			</div>
-		</div>
-		<div ng-if="!leave">
-			<div class="padding content" ng-repeat="item in leaveList">
-				<div class="record-item padding">
-					<p class="time" ng-bind="'提交时间：'+(item.applyTime | dateFormat)"></p>
-					<div class="info row">
-						<div class="col col-20" ng-bind="item.className"></div>
-						<div class="col col-20" ng-bind="item.name"></div>
-						<div class="col col-50" ng-bind="'开始时间：'+item.beginTime"></div>
-						<div class="col col-10" ng-bind=" item.vacationTime+'天'"></div>
-					</div>
-					<div class="handle">
-						<span ng-if="item.validStatus==1">已审核</span>
-						<span class="wait" ng-if="item.validStatus==-1">待审核</span>
-						<a href="javascript:void(0)" class="agree" ng-if="item.validStatus==-1" ng-click="cancelAgreement(item.id)">同意</a>
-						<div class="cf"></div>
-					</div>
+				<div class="handle">
+					<span ng-if="item.validStatus==1">已审核</span>
+					<span class="wait" ng-if="item.validStatus==-1">待审核</span>
+					<a href="javascript:void(0)" class="agree" ng-click="agreement(item.id)" ng-if="(item.validStatus==-1) && (item.applyType==1)">同意</a>
+					<a href="javascript:void(0)" ng-click="notice(item.id)" ng-if="!item.cancelNotice && !item.canceled && (item.applyType==1)">通知销假</a>
+					<a href="javascript:void(0)" class="agree" ng-if="(item.validStatus==-1) && (item.applyType==2)" ng-click="cancelAgreement(item.id)">同意</a>
+					<div class="cf"></div>
 				</div>
 			</div>
 		</div>

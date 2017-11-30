@@ -1,5 +1,6 @@
 angular.module('app.filter',[]).filter('dateFormat',['$filter',function($filter){
 	return function(date){
+		console.log(123)
 		var resultDate;
 		var dateArr = [];
 		var timeStamp = Date.parse(date);
@@ -26,8 +27,10 @@ angular.module('app.filter',[]).filter('dateFormat',['$filter',function($filter)
 				break;
 			case 'Sunday':
 				dateArr.splice(2,1,'星期日');
+			default:
+				dateArr;
 		}
-
+		console.log(dateArr);
 		return dateArr.join(' ')
 	}
 }])

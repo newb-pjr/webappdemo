@@ -62,7 +62,8 @@ angular.module('app.services',[]).factory('Storage', [function(){
 				pwd: this.createPassword()
 			},function(resp){
 				if(!resp.status){
-					$state.go('login')
+					// weui.alert('您此前的登录信息已注销，请重新登录');
+					$state.go('login');
 				}else{
 					if(resp.children[0].type===1){
 						Storage.set('teacherArr',resp);
@@ -509,10 +510,12 @@ angular.module('app.services',[]).factory('Storage', [function(){
 			},function(resp){
 				if(resp.status){
 					$rootScope.$broadcast('User.UserLogoutUpdated');
-					$state.go('login');
+					window.location.href = 'http://www.krbb.cn/WebAppHandler/GetOpenID.ashx?yeyId=54&backUrl=http://www.krbb.cn/leave/#/login'
+					// $state.go('login');
 				}else{
 					weui.alert(resp.err);
-					$state.go('login');
+					window.location.href = 'http://www.krbb.cn/WebAppHandler/GetOpenID.ashx?yeyId=54&backUrl=http://www.krbb.cn/leave/#/login'
+					// $state.go('login');
 				}
 			})
 		}
