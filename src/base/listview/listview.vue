@@ -1,5 +1,5 @@
 <template>
-	<scroll :data="data" class="listview" ref="listview">
+	<scroll :data="data" class="listview" ref="listview" @scroll="scroll" :listenScroll="listenScroll">
     <ul>
       <li class="list-group" v-for="group in data" ref="listGroup">
         <h2 class="list-group-title">{{group.title}}</h2>
@@ -13,7 +13,7 @@
     </ul>
     <div class="list-shortcut" @touchstart="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove">
       <ul>
-        <li class="item" v-for="(item,index) in shortcutList" ref="viewlist" :data-index="index">
+        <li class="item" v-for="(item,index) in shortcutList" ref="viewlist" :data-index="index" :class="{'current':currentIndex==index}">
           {{item}}
         </li>
       </ul>
@@ -29,7 +29,15 @@
 	export default {
     created () {
       this.touch = {}
+      this.listenScroll = true
+      this.listHeiht = []
     },
+    data () {
+      return {
+        this.scrollY = -1,
+        this.currentIndex = 0
+      }
+    }
 		props: {
 			data: {
 				type: Array,
@@ -58,10 +66,49 @@
         let anchorIndex = Number.parseInt(this.touch.anchor) + delta
         this._scrollTo(anchorIndex)
       },
+      scroll (pos) {
+        this.scrollY = pos.y
+      },
+      _calculateHeight () {
+        this.listHeiht = []
+        const list = this.$refs.listGroup
+        let height = 0
+        this.listHeiht.push(height)
+        for(i in list){
+          let item = list[i]
+          height += item.clientHeight
+          this.listHeiht.push(height)
+        }
+      },
       _scrollTo (index) {
         this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
       }
     },
+    watch: {
+      data () {
+        setTimeout(() => {
+          this._calculateHeight()
+        }, 20)
+      },
+      scrollY (newY) {
+        for(let i = 0; i < this.listHeiht.length; i++){
+          let height1 = this.listHeiht[i]
+          let height2 = this.listHeiht[i + 1]
+          if (newY > 0) {
+            this.currentIndex = 0
+            return
+          }
+          if (-newY >= height1 && -newY < height2){
+            this.currentIndex = i
+            return
+          }
+          if (-newY >= height2){
+            this.currentIndex = i - 2
+            return
+          }
+        }
+      }
+    }
 		components: {
 			Scroll
 		}

@@ -18,6 +18,10 @@
       data: {
         type: Array,
         default: null
+      },
+      listenScroll: {
+        type: Boolean,
+        default: false
       }
     },
     mounted () {
@@ -29,6 +33,12 @@
       _initScroll () {
         if (!this.$refs.wrapper) {
           return
+        }
+        if (this.listenScroll) {
+          var me = this
+          this.scroll.on('scroll', (pos) => {
+            me.$meit('scroll',pos)
+          })
         }
         this.scroll = new BScroll(this.$refs.wrapper, {
           probeType: this.probeType,
