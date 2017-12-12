@@ -13,19 +13,25 @@
     </ul>
     <div class="list-shortcut" @touchstart="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove">
       <ul>
-        <li class="item" v-for="(item,index) in shortcutList" ref="viewlist" :data-index="index" :class="{'current':currentIndex==index}">
+        <li class="item" v-for="(item,index) in shortcutList" :data-index="index" :class="{'current':currentIndex==index}">
           {{item}}
         </li>
       </ul>
     </div>
-    <!-- <div class="list-fixed">
-      <div class="fixed-title"></div>
-    </div> -->
+    <div class="list-fixed" v-show="fixedTitle" ref="fixed">
+      <h1 class="fixed-title">
+        {{fixedTitle}}
+      </h1>
+    </div>
+    <div class="loading-container" v-show="!data.length">
+      <loading></loading>
+    </div>
   </scroll>
 </template>
 <script type="text/ecmascript-6">
 	import Scroll from 'base/scroll/scroll'
   import { getData } from 'common/js/dom'
+  import Loading from 'base/loading/loading'
 	export default {
     created () {
       this.touch = {}
@@ -36,7 +42,8 @@
       return {
         scrollY: -1,
         currentIndex: 0,
-        probeType: 3
+        probeType: 3,
+        diff: -1
       }
     },
 		props: {
@@ -50,6 +57,12 @@
         return this.data.map((group) => {
           return group.title.charAt(0)
         })
+      },
+      fixedTitle () {
+        if (this.scrollY > 0) {
+          return ''
+        }
+        return this.data[this.currentIndex] ? this.data[this.currentIndex].title : ''
       }
     },
     methods: {
@@ -85,6 +98,15 @@
         }
       },
       _scrollTo (index) {
+        if (!index && index !== 0) {
+          return
+        }
+        if (index < 0) {
+          index = 0
+        } else if (index > this.listHeight.length - 2) {
+          index = this.listHeight.length - 2
+        }
+        this.scrollY = -this.listHeight[index]
         this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
       }
     },
@@ -105,14 +127,24 @@
           let height2 = listHeight[i + 1]
           if (-newY >= height1 && -newY < height2) {
             this.currentIndex = i
+            this.diff = height2 + newY
             return
           }
         }
         this.currentIndex = listHeight.length - 2
+      },
+      diff (newVal) {
+        let fixedTop = (newVal > 0 && newVal < 30) ? newVal - 30 : 0
+        if (this.fixedTop === fixedTop) {
+          return
+        }
+        this.fixedTop = fixedTop
+        this.$refs.fixed.style.transform = `translate3d(0, ${fixedTop}px, 0)`
       }
     },
 		components: {
-			Scroll
+			Scroll,
+      Loading
 		}
 	}
 </script>
