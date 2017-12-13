@@ -9,6 +9,7 @@
   import { ERR_OK } from 'api/config'
   import Singer from 'common/js/singer'
   import Listview from 'base/listview/listview'
+  import { mapMutations } from 'vuex'
 	export default {
 		data () {
 			return {
@@ -19,16 +20,19 @@
 			this._getSingerList()
 		},
 		methods: {
+			...mapMutations({
+				setSinger: 'SET_SINGER'
+			}),
 			selectSinger (singer) {
 				this.$router.push({
 					path: `/singer/${singer.id}`
 				})
+				this.setSinger(singer)
 			},
 			_getSingerList () {
 				getSingerList().then((resp) => {
 					if (resp.code === ERR_OK) {
 						this.singer = this._normalize(resp.data.list)
-						console.log(resp.data.list)
 					}
 				})
 			},
