@@ -5,12 +5,28 @@
 </template>
 <script type="text/ecmascript-6">
 	import { mapGetters } from 'vuex'
+	import { getMusicList } from 'api/singer'
+	import { ERR_OK } from 'api/config'
 	export default {
 		computed: {
 			...mapGetters(['singer'])
 		},
 		created () {
-			console.log(this.singer)
+			this._getDetails()
+		},
+		methods: {
+			_getDetails () {
+				if (!this.singer.id) {
+					this.$router.push('/singer')
+					return
+				}
+				getMusicList(this.singer.id).then((resp) => {
+				console.log(resp)
+					if (resp.code === ERR_OK) {
+						console.log(resp.data.list)
+					}
+				})
+			}
 		}
 	}
 </script>
