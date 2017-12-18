@@ -13,7 +13,8 @@
       </div>
       <div class="filter" ref="filter"></div>
     </div>
-    <scroll class="list" :data="song" ref="list">
+    <div class="bg-layer" ref="layer"></div>
+    <scroll class="list" :data="song" ref="list" :probe-type="probeType" :listen-scroll="listenScroll" @scroll="scroll">
     	<div class="song-list-wrapper">
     		<song-list :songs="song"></song-list>
     	</div>
@@ -38,13 +39,36 @@
 				default: []
 			}
 		},
+		data () {
+			return {
+				scrollY: -1
+			}
+		},
+		watch: {
+			scrollY (newY) {
+				let TranslateY = Math.max(this.minTranslateY, newY)
+				this.$refs.layer.style['transform'] = `translate3d(0,${TranslateY}px,0)`
+				this.$refs.layer.style['webkitTransform'] = `translate3d(0,${TranslateY}px,0)`
+			}
+		},
 		computed: {
 			bgStyle () {
 				return `background-image:url(${this.bgImg})`
 			}
 		},
+		created () {
+			this.probeType = 3
+			this.listenScroll = true
+		},
 		mounted () {
-			this.$refs.list.$el.style.top = `${this.$refs.bgImg.clientHeight}px`
+			this.imageHeigt = this.$refs.bgImg.clientHeight
+			this.minTranslateY = -this.imageHeigt + 40
+			this.$refs.list.$el.style.top = `${this.imageHeigt}px`
+		},
+		methods: {
+			scroll (pos) {
+				this.scrollY = pos.y
+			}
 		},
 		components: {
 			Scroll,
@@ -92,7 +116,6 @@
 	    padding-top: 70%
 	    transform-origin: top
 	    background-size: cover
-	    z-index: 10
 	    .play-wrapper
 	      position: absolute
 	      bottom: 20px
