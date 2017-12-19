@@ -1,12 +1,12 @@
 <template>
 	<div class="music-list">
-    <div class="back">
+    <div class="back" @click="back">
       <i class="icon-back"></i>
     </div>
     <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImg">
       <div class="play-wrapper">
-        <div class="play" ref="playBtn">
+        <div class="play" ref="playBtn" v-show="song.length>0">
           <i class="icon-play"></i>
           <span class="text">随机播放全部</span>
         </div>
@@ -18,12 +18,21 @@
     	<div class="song-list-wrapper">
     		<song-list :songs="song"></song-list>
     	</div>
+    	<div class="loading-container" v-show="!song.length">
+    		<loading></loading>
+    	</div>
     </scroll>
   </div>
 </template>
 <script type="text/ecmascript-6">
 	import Scroll from 'base/scroll/scroll'
 	import SongList from 'base/song-list/song-list'
+	import Loading from 'base/loading/loading'
+	import { prefixStyle } from 'common/js/dom'
+
+	const transform = prefixStyle('transform')
+	const filter = prefixStyle('filter')
+
 	export default {
 		props: {
 			title: {
@@ -47,8 +56,30 @@
 		watch: {
 			scrollY (newY) {
 				let TranslateY = Math.max(this.minTranslateY, newY)
-				this.$refs.layer.style['transform'] = `translate3d(0,${TranslateY}px,0)`
-				this.$refs.layer.style['webkitTransform'] = `translate3d(0,${TranslateY}px,0)`
+				let zIndex = 0
+				let scale = 1
+				this.$refs.layer.style[transform] = `translate3d(0,${TranslateY}px,0)`
+				const percent = Math.abs(newY / this.imageHeigt)
+				if (newY > 0) {
+					scale = 1 + percent
+					zIndex = 10
+				} else {
+					let blur = Math.min(percent * 20, 20)
+					this.$refs.bgImg.style[filter] = `blur(${blur}px)`
+				}
+				this.$refs.bgImg.style[transform] = `scale(${scale})`
+				if (newY < this.minTranslateY) {
+					this.$refs.bgImg.style.paddingTop = 0
+					this.$refs.bgImg.style.height = '40px'
+					this.$refs.bgImg.style[filter] = 'blur(0px)'
+					this.$refs.playBtn.style.display = 'none'
+					zIndex = 10
+				} else {
+					this.$refs.bgImg.style.paddingTop = '70%'
+					this.$refs.bgImg.style.height = '0'
+					this.$refs.playBtn.style.display = ''
+				}
+				this.$refs.bgImg.style.zIndex = zIndex
 			}
 		},
 		computed: {
@@ -68,11 +99,15 @@
 		methods: {
 			scroll (pos) {
 				this.scrollY = pos.y
+			},
+			back () {
+				this.$router.back()
 			}
 		},
 		components: {
 			Scroll,
-			SongList
+			SongList,
+			Loading
 		}
 	}
 </script>
