@@ -6,7 +6,7 @@
     <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImg">
       <div class="play-wrapper">
-        <div class="play" ref="playBtn" v-show="song.length>0">
+        <div class="play" ref="playBtn" v-show="songs.length>0">
           <i class="icon-play"></i>
           <span class="text">随机播放全部</span>
         </div>
@@ -14,11 +14,11 @@
       <div class="filter" ref="filter"></div>
     </div>
     <div class="bg-layer" ref="layer"></div>
-    <scroll class="list" :data="song" ref="list" :probe-type="probeType" :listen-scroll="listenScroll" @scroll="scroll">
+    <scroll class="list" :data="songs" ref="list" :probe-type="probeType" :listen-scroll="listenScroll" @scroll="scroll">
     	<div class="song-list-wrapper">
-    		<song-list :songs="song"></song-list>
+    		<song-list :songs="songs" @select="select"></song-list>
     	</div>
-    	<div class="loading-container" v-show="!song.length">
+    	<div class="loading-container" v-show="!songs.length">
     		<loading></loading>
     	</div>
     </scroll>
@@ -29,6 +29,7 @@
 	import SongList from 'base/song-list/song-list'
 	import Loading from 'base/loading/loading'
 	import { prefixStyle } from 'common/js/dom'
+	import { mapActions } from 'vuex'
 
 	const transform = prefixStyle('transform')
 	const filter = prefixStyle('filter')
@@ -43,7 +44,7 @@
 				type: String,
 				default: ''
 			},
-			song: {
+			songs: {
 				type: Array,
 				default: []
 			}
@@ -102,7 +103,14 @@
 			},
 			back () {
 				this.$router.back()
-			}
+			},
+			select (item, index) {
+				this.selectSong({
+					list: this.songs,
+					index
+				})
+			},
+			...mapActions(['selectSong'])
 		},
 		components: {
 			Scroll,
