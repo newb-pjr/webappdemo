@@ -49,14 +49,14 @@
 		            <div class="icon i-left">
 		              <i class="icon-sequence"></i>
 		            </div>
-		            <div class="icon i-left">
-		              <i class="icon-prev"></i>
+		            <div class="icon i-left" :class="disableCls">
+		              <i class="icon-prev" @click="prev"></i>
 		            </div>
-		            <div class="icon i-center">
+		            <div class="icon i-center" :class="disableCls">
 		              <i :class="play" @click="togglePlay"></i>
 		            </div>
-		            <div class="icon i-right">
-		              <i class="icon-next"></i>
+		            <div class="icon i-right" :class="disableCls">
+		              <i class="icon-next" @click="next"></i>
 		            </div>
 		            <div class="icon i-right">
 		              <i class="icon"></i>
@@ -82,7 +82,7 @@
 		        </div>
 			</div>
 		</transition>
-		<video ref="video" :src="currentSong.url"></video>
+		<video ref="video" :src="currentSong.url" @canplay="ready" @error="error"></video>
 	</div>
 </template>
 <script type="text/ecmascript-6">
@@ -95,6 +95,11 @@
 	const transition = prefixStyle('transition')
 
 	export default {
+		data () {
+			return {
+				readyPlay: false
+			}
+		},
 		computed: {
 			play () {
 				return this.playing ? 'icon-pause' : 'icon-play'
@@ -105,11 +110,15 @@
 			cdCls () {
 				return this.playing ? 'play' : 'play pause'
 			},
+			disableCls () {
+				return this.readyPlay ? '' : 'disable'
+			},
 			...mapGetters([
 					'fullScreen',
 					'playList',
 					'currentSong',
-					'playing'
+					'playing',
+					'currentIndex'
 				])
 		},
 		methods: {
@@ -121,7 +130,8 @@
 			},
 			...mapMutations({
 				setFullScreen: 'SET_FULLSCREEN',
-				setPlayingState: 'SET_PLAYING_STATE'
+				setPlayingState: 'SET_PLAYING_STATE',
+				setCurrentIndex: 'SET_CURRENT_INDEX'
 			}),
 			enter (el, done) {
 				const {x, y, scale} = this._setPosAndScale()
@@ -159,10 +169,46 @@
 			afterLeave () {
 				this.$refs.cdWrapper.style[transform] = ''
 				this.$refs.cdWrapper.style[transition] = ''
-				console.log(123)
 			},
 			togglePlay () {
+				if (!this.readyPlay) {
+					return
+				}
 				this.setPlayingState(!this.playing)
+			},
+			prev () {
+				if (!this.readyPlay) {
+					return
+				}
+				if (!this.playing) {
+					this.togglePlay()
+				}
+				let index = this.currentIndex - 1
+				if (index === -1) {
+					index = this.playList.length - 1
+				}
+				this.setCurrentIndex(index)
+				this.readyPlay = false
+			},
+			next () {
+				if (!this.readyPlay) {
+					return
+				}
+				if (!this.playing) {
+					this.togglePlay()
+				}
+				let index = this.currentIndex + 1
+				if (index === this.playList.length) {
+					index = 0
+				}
+				this.setCurrentIndex(index)
+				this.readyPlay = false
+			},
+			ready () {
+				this.readyPlay = true
+			},
+			error () {
+				this.readyPlay = true
 			},
 			_setPosAndScale () {
 				const paddingLeft = 40
