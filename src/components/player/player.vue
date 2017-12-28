@@ -15,7 +15,7 @@
 		        <div class="middle">
 		          <div class="middle-l" ref="middleL">
 		            <div class="cd-wrapper" ref="cdWrapper">
-		              <div class="cd">
+		              <div class="cd" :class="cdCls">
 		                <img class="image" :src="currentSong.image">
 		              </div>
 		            </div>
@@ -53,7 +53,7 @@
 		              <i class="icon-prev"></i>
 		            </div>
 		            <div class="icon i-center">
-		              <i class="icon-play"></i>
+		              <i :class="play" @click="togglePlay"></i>
 		            </div>
 		            <div class="icon i-right">
 		              <i class="icon-next"></i>
@@ -68,33 +68,48 @@
 		<transition name="mini">
 			<div class="mini-player" v-show="!fullScreen" @click="open">
 				<div class="icon">
-		          <img width="40" height="40" :src="currentSong.image">
+		          <img :class="cdCls" width="40" height="40" :src="currentSong.image">
 		        </div>
 		        <div class="text">
 		          <h2 class="name" v-html="currentSong.name"></h2>
 		          <p class="desc" v-html="currentSong.singer"></p>
 		        </div>
 		        <div class="control">
-		          
+		        	<i :class="miniPlay" @click.stop="togglePlay"></i>
 		        </div>
 		        <div class="control">
 		          <i class="icon-playlist"></i>
 		        </div>
 			</div>
 		</transition>
+		<video ref="video" :src="currentSong.url"></video>
 	</div>
 </template>
 <script type="text/ecmascript-6">
 	import { mapGetters, mapMutations } from 'vuex'
 	import Scroll from 'base/scroll/scroll'
 	import animations from 'create-keyframe-animation'
+	import { prefixStyle } from 'common/js/dom'
+
+	const transform = prefixStyle('transform')
+	const transition = prefixStyle('transition')
 
 	export default {
 		computed: {
+			play () {
+				return this.playing ? 'icon-pause' : 'icon-play'
+			},
+			miniPlay () {
+				return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+			},
+			cdCls () {
+				return this.playing ? 'play' : 'play pause'
+			},
 			...mapGetters([
 					'fullScreen',
 					'playList',
-					'currentSong'
+					'currentSong',
+					'playing'
 				])
 		},
 		methods: {
@@ -105,10 +120,11 @@
 				this.setFullScreen(true)
 			},
 			...mapMutations({
-				setFullScreen: 'SET_FULLSCREEN'
+				setFullScreen: 'SET_FULLSCREEN',
+				setPlayingState: 'SET_PLAYING_STATE'
 			}),
 			enter (el, done) {
-				const {x, y, scale} = _setPosAndScale()
+				const {x, y, scale} = this._setPosAndScale()
 				let animation = {
 					0: {
 						transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`
@@ -120,30 +136,61 @@
 						transform: `translate3d(0, 0, 0) scale(1)`
 					}
 				}
+				animations.registerAnimation({
+					name: 'move',
+					animation,
+					presets: {
+						duration: 400,
+						easing: 'linear'
+					}
+				})
+				animations.runAnimation(this.$refs.cdWrapper, 'move', done)
 			},
 			afterEnter () {
-
+				animations.unregisterAnimation('move')
+				this.$refs.cdWrapper.style.animation = ''
 			},
 			leave (el, done) {
-
+				this.$refs.cdWrapper.style[transition] = 'all .4s'
+				const {x, y, scale} = this._setPosAndScale()
+				this.$refs.cdWrapper.style[transform] = `translate3d(${x}px, ${y}px, 0) scale(${scale})`
+				this.$refs.cdWrapper.addEventListener('transitionend', done)
 			},
 			afterLeave () {
-
-			}
+				this.$refs.cdWrapper.style[transform] = ''
+				this.$refs.cdWrapper.style[transition] = ''
+				console.log(123)
+			},
+			togglePlay () {
+				this.setPlayingState(!this.playing)
+			},
 			_setPosAndScale () {
 				const paddingLeft = 40
-				const paddingBottom = 40
+				const paddingBottom = 30
 				const paddingTop = 80
 				const smallWidth = 40
-				const width = window.clientWidth * 0.8
-				const x = -(window.clientWidth / 2 - paddingLeft)
-				const y = window.clientHeight - paddingTop - width / 2 - paddingBottom
+				const width = window.innerWidth * 0.8
+				const x = -(window.innerWidth / 2 - paddingLeft)
+				const y = window.innerHeight - paddingTop - width / 2 - paddingBottom
 				const scale = smallWidth / width
 				return {
 					x,
 					y,
 					scale
 				}
+			}
+		},
+		watch: {
+			currentSong () {
+				this.$nextTick(() => {
+					this.$refs.video.play()
+				})
+			},
+			playing (newPlay) {
+				let video = this.$refs.video
+				this.$nextTick(() => {
+					newPlay ? video.play() : video.pause()
+				})
 			}
 		},
 		components: {
