@@ -39,11 +39,11 @@
 		            <span class="dot"></span>
 		          </div>
 		          <div class="progress-wrapper">
-		            <span class="time time-l"></span>
+		            <span class="time time-l">{{format(currentTime)}}</span>
 		            <div class="progress-bar-wrapper">
-		             
+		            	<Progress-bar :percent="percent" @percentChange="onPercentChange"></Progress-bar>
 		            </div>
-		            <span class="time time-r"></span>
+		            <span class="time time-r">{{format(currentSong.duration)}}</span>
 		          </div>
 		          <div class="operators">
 		            <div class="icon i-left">
@@ -82,7 +82,7 @@
 		        </div>
 			</div>
 		</transition>
-		<video ref="video" :src="currentSong.url" @canplay="ready" @error="error"></video>
+		<video ref="video" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"></video>
 	</div>
 </template>
 <script type="text/ecmascript-6">
@@ -90,6 +90,7 @@
 	import Scroll from 'base/scroll/scroll'
 	import animations from 'create-keyframe-animation'
 	import { prefixStyle } from 'common/js/dom'
+	import ProgressBar from 'base/progress-bar/progress-bar'
 
 	const transform = prefixStyle('transform')
 	const transition = prefixStyle('transition')
@@ -97,7 +98,8 @@
 	export default {
 		data () {
 			return {
-				readyPlay: false
+				readyPlay: false,
+				currentTime: 0
 			}
 		},
 		computed: {
@@ -112,6 +114,9 @@
 			},
 			disableCls () {
 				return this.readyPlay ? '' : 'disable'
+			},
+			percent () {
+				return this.currentTime / this.currentSong.duration
 			},
 			...mapGetters([
 					'fullScreen',
@@ -210,6 +215,29 @@
 			error () {
 				this.readyPlay = true
 			},
+			updateTime (e) {
+				this.currentTime = e.target.currentTime
+			},
+			format (interval) {
+				interval = interval | 0
+				let minute = interval / 60 | 0
+				let second = this._pad(interval % 60)
+				return `${minute}:${second}`
+			},
+			onPercentChange (percent) {
+				this.$refs.video.currentTime = this.currentSong.duration * percent
+				if (!this.playing) {
+					this.togglePlay()
+				}
+			},
+			_pad (num, n = 2) {
+				let len = num.toString().length
+				while (len < n) {
+					num = '0' + num
+					len++
+				}
+				return num
+			},
 			_setPosAndScale () {
 				const paddingLeft = 40
 				const paddingBottom = 30
@@ -240,7 +268,8 @@
 			}
 		},
 		components: {
-			Scroll
+			Scroll,
+			ProgressBar
 		}
 	}
 </script>
