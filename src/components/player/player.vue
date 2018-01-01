@@ -47,7 +47,7 @@
 		          </div>
 		          <div class="operators">
 		            <div class="icon i-left">
-		              <i class="icon-sequence"></i>
+		              <i :class="mode" @click="changeMode"></i>
 		            </div>
 		            <div class="icon i-left" :class="disableCls">
 		              <i class="icon-prev" @click="prev"></i>
@@ -75,14 +75,16 @@
 		          <p class="desc" v-html="currentSong.singer"></p>
 		        </div>
 		        <div class="control">
-		        	<i :class="miniPlay" @click.stop="togglePlay"></i>
+		        	<progress-circle :radius="radius" :percent="percent">
+		        		<i :class="miniPlay" class="icon-mini" @click.stop="togglePlay"></i>
+		        	</progress-circle>
 		        </div>
 		        <div class="control">
 		          <i class="icon-playlist"></i>
 		        </div>
 			</div>
 		</transition>
-		<video ref="video" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"></video>
+		<video ref="video" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></video>
 	</div>
 </template>
 <script type="text/ecmascript-6">
@@ -91,6 +93,9 @@
 	import animations from 'create-keyframe-animation'
 	import { prefixStyle } from 'common/js/dom'
 	import ProgressBar from 'base/progress-bar/progress-bar'
+	import ProgressCircle from 'base/progress-circle/progress-circle'
+	import { playMode } from 'common/js/config'
+	import { shuffle } from 'common/js/util'
 
 	const transform = prefixStyle('transform')
 	const transition = prefixStyle('transition')
@@ -99,7 +104,8 @@
 		data () {
 			return {
 				readyPlay: false,
-				currentTime: 0
+				currentTime: 0,
+				radius: 32
 			}
 		},
 		computed: {
@@ -118,12 +124,17 @@
 			percent () {
 				return this.currentTime / this.currentSong.duration
 			},
+			mode () {
+				return playMode.sequence === this.playMode ? 'icon-sequence' : playMode.loop === this.playMode ? 'icon-loop' : 'icon-random'
+			},
 			...mapGetters([
 					'fullScreen',
 					'playList',
 					'currentSong',
 					'playing',
-					'currentIndex'
+					'currentIndex',
+					'playMode',
+					'sequenceList'
 				])
 		},
 		methods: {
@@ -136,7 +147,9 @@
 			...mapMutations({
 				setFullScreen: 'SET_FULLSCREEN',
 				setPlayingState: 'SET_PLAYING_STATE',
-				setCurrentIndex: 'SET_CURRENT_INDEX'
+				setCurrentIndex: 'SET_CURRENT_INDEX',
+				setPlayMode: 'SET_PLAY_MODE',
+				setPlayList: 'SET_PLAYLIST'
 			}),
 			enter (el, done) {
 				const {x, y, scale} = this._setPosAndScale()
@@ -230,6 +243,32 @@
 					this.togglePlay()
 				}
 			},
+			changeMode () {
+				const mode = (this.playMode + 1) % 3
+				this.setPlayMode(mode)
+				let list = null
+				if (mode === playMode.random) {
+					list = shuffle(this.sequenceList)
+				} else {
+					list = this.sequenceList
+				}
+				let index = list.findIndex((item) => {
+					return item.id === this.currentSong.id
+				})
+				this.setCurrentIndex(index)
+				this.setPlayList(list)
+			},
+			end () {
+				if (this.playMode === playMode.loop) {
+					this.loop()
+				} else {
+					this.next()
+				}
+			},
+			loop () {
+				this.$refs.video.currentTime = 0
+				this.$refs.video.play()
+			},
 			_pad (num, n = 2) {
 				let len = num.toString().length
 				while (len < n) {
@@ -255,7 +294,10 @@
 			}
 		},
 		watch: {
-			currentSong () {
+			currentSong (newSong, oldSong) {
+				if (newSong.id === oldSong.id) {
+					return
+				}
 				this.$nextTick(() => {
 					this.$refs.video.play()
 				})
@@ -269,7 +311,8 @@
 		},
 		components: {
 			Scroll,
-			ProgressBar
+			ProgressBar,
+			ProgressCircle
 		}
 	}
 </script>
