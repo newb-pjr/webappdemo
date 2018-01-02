@@ -23,12 +23,10 @@
 		              <div class="playing-lyric"></div>
 		            </div>
 		          </div>
-		          <scroll class="middle-r" ref="lyricList">
+		          <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
 		            <div class="lyric-wrapper">
-		              <div>
-		                <p ref="lyricLine"
-		                   class="text"
-		                   </p>
+		              <div v-if="currentLyric">
+		                <p ref="lyricLine" class="text" :class="{'current':currentLineNum===index}" v-for="(line, index) in currentLyric.lines">{{line.txt}}</p>
 		              </div>
 		            </div>
 		          </scroll>
@@ -107,7 +105,8 @@
 				readyPlay: false,
 				currentTime: 0,
 				radius: 32,
-				currentLyric: null
+				currentLyric: null,
+				currentLineNum: 0
 			}
 		},
 		computed: {
@@ -273,9 +272,20 @@
 			},
 			getLyric () {
 				this.currentSong.getLyric().then((lyric) => {
-					this.currentLyric = new Lyric(lyric)
-					console.log(this.currentLyric)
+					this.currentLyric = new Lyric(lyric, this.handleLyric)
+					if (this.playing) {
+						this.currentLyric.play()
+					}
 				})
+			},
+			handleLyric ({lineNum, txt}) {
+				this.currentLineNum = lineNum
+				if (this.currentLineNum < 5) {
+					this.$refs.lyricList.scrollTo(0, 0, 1000)
+				} else {
+					let lineEl = this.$refs.lyricLine[lineNum - 5]
+					this.$refs.lyricList.scrollToElement(lineEl, 1000)
+				}
 			},
 			_pad (num, n = 2) {
 				let len = num.toString().length
@@ -308,8 +318,8 @@
 				}
 				this.$nextTick(() => {
 					this.$refs.video.play()
+					this.getLyric()
 				})
-				this.getLyric()
 			},
 			playing (newPlay) {
 				let video = this.$refs.video
