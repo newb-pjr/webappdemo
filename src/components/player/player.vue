@@ -12,7 +12,7 @@
 		          <h1 class="title" v-html="currentSong.name"></h1>
 		          <h2 class="subtitle" v-html="currentSong.singer"></h2>
 		        </div>
-		        <div class="middle">
+		        <div class="middle" @touchstart.prevent="middleTouchStart" @touchmove.prevent="middleTouchMove" @touchend="middleTouchEnd">
 		          <div class="middle-l" ref="middleL">
 		            <div class="cd-wrapper" ref="cdWrapper">
 		              <div class="cd" :class="cdCls">
@@ -33,8 +33,8 @@
 		        </div>
 		        <div class="bottom">
 		          <div class="dot-wrapper">
-		            <span class="dot"></span>
-		            <span class="dot"></span>
+		            <span class="dot" :class="{'active':currentShow==='cd'}"></span>
+		            <span class="dot" :class="{'active':currentShow==='lyric'}"></span>
 		          </div>
 		          <div class="progress-wrapper">
 		            <span class="time time-l">{{format(currentTime)}}</span>
@@ -98,6 +98,7 @@
 
 	const transform = prefixStyle('transform')
 	const transition = prefixStyle('transition')
+	const transitionDuration = prefixStyle('transitionDuration')
 
 	export default {
 		data () {
@@ -106,8 +107,12 @@
 				currentTime: 0,
 				radius: 32,
 				currentLyric: null,
-				currentLineNum: 0
+				currentLineNum: 0,
+				currentShow: 'cd'
 			}
+		},
+		created () {
+			this.touch = {}
 		},
 		computed: {
 			play () {
@@ -194,6 +199,9 @@
 					return
 				}
 				this.setPlayingState(!this.playing)
+				if (this.currentLyric) {
+					this.currentLyric.togglePlay()
+				}
 			},
 			prev () {
 				if (!this.readyPlay) {
@@ -239,9 +247,13 @@
 				return `${minute}:${second}`
 			},
 			onPercentChange (percent) {
-				this.$refs.video.currentTime = this.currentSong.duration * percent
+				let currentTime = this.currentSong.duration * percent
+				this.$refs.video.currentTime = currentTime
 				if (!this.playing) {
 					this.togglePlay()
+				}
+				if (this.currentLyric) {
+					this.currentLyric.seek(currentTime * 1000)
 				}
 			},
 			changeMode () {
@@ -269,6 +281,9 @@
 			loop () {
 				this.$refs.video.currentTime = 0
 				this.$refs.video.play()
+				if (this.currentLyric) {
+					this.currentLyric.seek(0)
+				}
 			},
 			getLyric () {
 				this.currentSong.getLyric().then((lyric) => {
@@ -286,6 +301,60 @@
 					let lineEl = this.$refs.lyricLine[lineNum - 5]
 					this.$refs.lyricList.scrollToElement(lineEl, 1000)
 				}
+			},
+			middleTouchStart (e) {
+				this.touch.initial = true
+				let touch = e.touches[0]
+				this.touch.startX = touch.pageX
+				this.touch.startY = touch.pageY
+			},
+			middleTouchMove (e) {
+				if (!this.touch.initial) {
+					return
+				}
+				let touch = e.touches[0]
+				this.touch.deltaX = touch.pageX - this.touch.startX
+				this.touch.deltaY = touch.pageY - this.touch.startY
+				if (Math.abs(this.touch.deltaY) > Math.abs(this.touch.deltaX)) {
+					return
+				}
+				let left = this.currentShow === 'cd' ? 0 : -window.innerWidth
+				let offsetWidth = Math.min(0, Math.max(-window.innerWidth, left + this.touch.deltaX))
+				this.touch.percent = Math.abs(offsetWidth / window.innerWidth)
+				this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px, 0, 0)`
+				this.$refs.middleL.style.opacity = 1 - this.touch.percent
+				this.$refs.lyricList.$el.style[transitionDuration] = 0
+				this.$refs.middleL.style[transitionDuration] = 0
+			},
+			middleTouchEnd () {
+				if (Math.abs(this.touch.deltaY) > Math.abs(this.touch.deltaX)) {
+					return
+				}
+				let offsetWidth
+				let opacity
+				if (this.currentShow === 'cd') {
+					if (this.touch.percent > 0.1) {
+						offsetWidth = -window.innerWidth
+						opacity = 0
+						this.currentShow = 'lyric'
+					} else {
+						offsetWidth = 0
+						opacity = 1
+					}
+				} else {
+					if (this.touch.percent < 0.9) {
+						offsetWidth = 0
+						opacity = 1
+						this.currentShow = 'cd'
+					} else {
+						offsetWidth = -window.innerWidth
+						opacity = 0
+					}
+				}
+				this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px, 0, 0)`
+				this.$refs.middleL.style.opacity = opacity
+				this.$refs.lyricList.$el.style[transitionDuration] = '300ms'
+				this.$refs.middleL.style[transitionDuration] = '300ms'
 			},
 			_pad (num, n = 2) {
 				let len = num.toString().length
@@ -315,6 +384,9 @@
 			currentSong (newSong, oldSong) {
 				if (newSong.id === oldSong.id) {
 					return
+				}
+				if (this.currentLyric) {
+					this.currentLyric.stop()
 				}
 				this.$nextTick(() => {
 					this.$refs.video.play()
