@@ -1,5 +1,5 @@
 <template>
-	<div class="recommend">
+	<div class="recommend" ref="recommend">
 		<scroll :data="discList" class="recommend-content" ref="scroll">
 			<div>
 				<ic-Slider :autoplay="3000">
@@ -37,7 +37,10 @@ import {getRecommend, getDiscList} from 'api/recommend'
 import {ERR_OK} from 'api/config'
 import {IcSlider, IcSliderItem} from 'vue-better-slider'
 import 'vue-better-slider/style.css'
+import { playListMixin } from 'common/js/mixin'
+
 export default {
+mixins: [playListMixin],
 data () {
 	return {
 		sliderData: [],
@@ -57,6 +60,11 @@ created () {
   }, 2000)
 },
 methods: {
+	handlePlayList (playList) {
+		const bottom = playList.length > 0 ? '60px' : ''
+		this.$refs.recommend.style.bottom = bottom
+		this.$refs.scroll.refresh()
+	},
   _getRecommend () {
     getRecommend().then((resp) => {
       if (resp.code === ERR_OK) {

@@ -66,6 +66,9 @@
       }
     },
     methods: {
+      refresh () {
+        this.$refs.listview.refresh()
+      },
       selectSinger (singer) {
         this.$emit('select', singer)
       },

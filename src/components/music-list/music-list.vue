@@ -1,5 +1,5 @@
 <template>
-	<div class="music-list">
+	<div class="music-list" ref="musicList">
     <div class="back" @click="back">
       <i class="icon-back"></i>
     </div>
@@ -30,11 +30,13 @@
 	import Loading from 'base/loading/loading'
 	import { prefixStyle } from 'common/js/dom'
 	import { mapActions } from 'vuex'
+	import { playListMixin } from 'common/js/mixin'
 
 	const transform = prefixStyle('transform')
 	const filter = prefixStyle('filter')
 
 	export default {
+		mixins: [playListMixin],
 		props: {
 			title: {
 				type: String,
@@ -98,6 +100,11 @@
 			this.$refs.list.$el.style.top = `${this.imageHeigt}px`
 		},
 		methods: {
+			handlePlayList (playList) {
+				const bottom = playList.length > 0 ? '60px' : ''
+				this.$refs.list.$el.style.bottom = bottom
+				this.$refs.list.refresh()
+			},
 			scroll (pos) {
 				this.scrollY = pos.y
 			},

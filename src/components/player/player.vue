@@ -20,7 +20,7 @@
 		              </div>
 		            </div>
 		            <div class="playing-lyric-wrapper">
-		              <div class="playing-lyric"></div>
+		              <div class="playing-lyric">{{playingLyric}}</div>
 		            </div>
 		          </div>
 		          <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
@@ -57,7 +57,7 @@
 		              <i class="icon-next" @click="next"></i>
 		            </div>
 		            <div class="icon i-right">
-		              <i class="icon"></i>
+		              <i class="icon-not-favorite"></i>
 		            </div>
 		          </div>
 		        </div>
@@ -82,7 +82,7 @@
 		        </div>
 			</div>
 		</transition>
-		<video ref="video" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></video>
+		<audio ref="video" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
 	</div>
 </template>
 <script type="text/ecmascript-6">
@@ -108,7 +108,8 @@
 				radius: 32,
 				currentLyric: null,
 				currentLineNum: 0,
-				currentShow: 'cd'
+				currentShow: 'cd',
+				playingLyric: ''
 			}
 		},
 		created () {
@@ -207,29 +208,37 @@
 				if (!this.readyPlay) {
 					return
 				}
-				if (!this.playing) {
-					this.togglePlay()
+				if (this.playList.length === 1) {
+					this.loop()
+				} else {
+					if (!this.playing) {
+						this.togglePlay()
+					}
+					let index = this.currentIndex - 1
+					if (index === -1) {
+						index = this.playList.length - 1
+					}
+					this.setCurrentIndex(index)
+					this.readyPlay = false
 				}
-				let index = this.currentIndex - 1
-				if (index === -1) {
-					index = this.playList.length - 1
-				}
-				this.setCurrentIndex(index)
-				this.readyPlay = false
 			},
 			next () {
 				if (!this.readyPlay) {
 					return
 				}
-				if (!this.playing) {
-					this.togglePlay()
+				if (this.playList.length === 1) {
+					this.loop()
+				} else {
+					if (!this.playing) {
+						this.togglePlay()
+					}
+					let index = this.currentIndex + 1
+					if (index === this.playList.length) {
+						index = 0
+					}
+					this.setCurrentIndex(index)
+					this.readyPlay = false
 				}
-				let index = this.currentIndex + 1
-				if (index === this.playList.length) {
-					index = 0
-				}
-				this.setCurrentIndex(index)
-				this.readyPlay = false
 			},
 			ready () {
 				this.readyPlay = true
@@ -291,6 +300,10 @@
 					if (this.playing) {
 						this.currentLyric.play()
 					}
+				}).catch(() => {
+					this.currentLyric = null
+					this.currentLineNum = 0
+					this.playingLyric = ''
 				})
 			},
 			handleLyric ({lineNum, txt}) {
@@ -301,6 +314,7 @@
 					let lineEl = this.$refs.lyricLine[lineNum - 5]
 					this.$refs.lyricList.scrollToElement(lineEl, 1000)
 				}
+				this.playingLyric = txt
 			},
 			middleTouchStart (e) {
 				this.touch.initial = true
@@ -388,10 +402,10 @@
 				if (this.currentLyric) {
 					this.currentLyric.stop()
 				}
-				this.$nextTick(() => {
+				setTimeout(() => {
 					this.$refs.video.play()
 					this.getLyric()
-				})
+				}, 1000)
 			},
 			playing (newPlay) {
 				let video = this.$refs.video
