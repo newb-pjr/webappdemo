@@ -12,7 +12,7 @@
 				<div class="recommend-list">
 		      <h1 class="list-title">热门歌单推荐</h1>
 		      <ul>
-		        <li v-for="(item,index) in discList" key="index" class="item">
+		        <li @click="selectList(item)" v-for="(item,index) in discList" key="index" class="item">
 		          <div class="icon">
 		            <img width="60" height="60" v-lazy="item.imgurl">
 		          </div>
@@ -28,6 +28,7 @@
 	    	<loading></loading>
 	    </div>
 		</scroll>
+		<router-view></router-view>
 	</div>
 </template>
 <script type="text/ecmascript-6">
@@ -38,6 +39,7 @@ import {ERR_OK} from 'api/config'
 import {IcSlider, IcSliderItem} from 'vue-better-slider'
 import 'vue-better-slider/style.css'
 import { playListMixin } from 'common/js/mixin'
+import { mapMutations } from 'vuex'
 
 export default {
 mixins: [playListMixin],
@@ -60,6 +62,15 @@ created () {
   }, 2000)
 },
 methods: {
+	selectList (item) {
+		this.$router.push({
+			path: `recommend/${item.dissid}`
+		})
+		this.setDisc(item)
+	},
+	...mapMutations({
+		setDisc: 'SET_DISC'
+	}),
 	handlePlayList (playList) {
 		const bottom = playList.length > 0 ? '60px' : ''
 		this.$refs.recommend.style.bottom = bottom
