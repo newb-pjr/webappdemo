@@ -63,7 +63,7 @@ apiRouters.get('/getLyric', function (req, res) {
 })
 
 apiRouters.get('/getSongList', function (req, res) {
-  var url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+  let url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
 
   axios.get(url, {
     headers: {
@@ -77,6 +77,22 @@ apiRouters.get('/getSongList', function (req, res) {
     console.log(e)
   })
 })
+
+// apiRouters.get('/getMusicList', function (req, res) {
+//   let url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg'
+
+//   axios.get(url, {
+//     headers: {
+//       referer: 'https://c.y.qq.com/',
+//       host: 'c.y.qq.com'
+//     },
+//     params: req.query
+//   }).then((response) => {
+//    res.json(response.data)
+//   }).catch((e) => {
+//     console.log(e)
+//   })
+// })
 
 app.use('/api', apiRouters)
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
