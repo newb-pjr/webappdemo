@@ -122,7 +122,6 @@
 				})
 			},
 			randomPlay () {
-				console.log(333)
 				this.randomSong({
 					list: this.songs
 				})

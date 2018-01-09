@@ -21,6 +21,10 @@
 		methods: {
 			clear () {
 				this.query = ''
+			},
+			setQuery (key) {
+				console.log(123)
+				this.query = key
 			}
 		},
 		created () {
