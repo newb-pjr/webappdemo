@@ -1,5 +1,5 @@
 <template>
-	<div ref="suggest" class="suggest" >
+	<scroll ref="suggest" class="suggest" :data="result" :pull-up="pullUp" @scrollToEnd="searchMore">
     <ul class="suggest-list">
       <li class="suggest-item" v-for="item in result">
         <div class="icon">
@@ -9,21 +9,27 @@
           <p class="text" v-html="getResultText(item)"></p>
         </div>
       </li>
+    	<loading title="" v-show="hasMore"></loading>
     </ul>
-  </div>
+  </scroll>
 </template>
 <script type="text/ecmascript-6">
 	import { search } from 'api/search'
 	import { ERR_OK } from 'api/config'
-	import { filterSinger } from 'common/js/song'
+	import { createSong } from 'common/js/song'
+	import Scroll from 'base/scroll/scroll'
+	import Loading from 'base/loading/loading'
 	
 	const TYPR_SINGER = 'singer'
+	const perpage = 20
 
 	export default {
 		data () {
 			return {
 				page: 1,
-				result: []
+				result: [],
+				pullUp: true,
+				hasMore: true
 			}
 		},
 		props: {
@@ -37,6 +43,18 @@
 			}
 		},
 		methods: {
+			searchMore () {
+				if (!this.hasMore) {
+					return
+				}
+				this.page++
+				search(this.page, this.query, this.zhida, perpage).then((resp) => {
+					if (resp.code === ERR_OK) {
+						this.result = [...this.result, ...this._genResult(resp.data)]
+						this._checkMore(resp.data)
+					}
+				})
+			},
 			getIconCls (item) {
 				if (item.type === TYPR_SINGER) {
 					return 'icon-mine'
@@ -48,28 +66,53 @@
 				if (item.type === TYPR_SINGER) {
 					return item.singername
 				} else {
-					return `${item.songname}-${filterSinger(item.singer)}`
+					return `${item.name}-${item.singer}`
 				}
 			},
 			_genResult (result) {
 				let ret = []
-				if (result.zhida && result.zhida.singerid) {
-					ret.push({...result.zhida, ...{type: TYPR_SINGER}})
+				if (this.page === 1) {
+					if (result.zhida && result.zhida.singerid) {
+						ret.push({...result.zhida, ...{type: TYPR_SINGER}})
+					}
 				}
 				if (result.song) {
-					ret = [...ret, ...result.song.list]
+					let list = this._normalize(result.song.list)
+					ret = [...ret, ...list]
 				}
+				return ret
+			},
+			_checkMore (result) {
+				if (!result.song.list.length || (result.song.curnum + result.song.curpage * perpage >= result.song.totalnum)) {
+					this.hasMore = false
+				}
+			},
+			_normalize (list) {
+				let ret = []
+				list.forEach((musicData) => {
+					if (musicData.songid && musicData.albumid) {
+						ret.push(createSong(musicData))
+					}
+				})
 				return ret
 			}
 		},
 		watch: {
 			query (newQuery) {
-				search(this.page, newQuery, this.zhida).then((resp) => {
+				this.page = 1
+				this.hasMore = true
+				this.$refs.suggest.scrollTo(0, 0)
+				search(this.page, newQuery, this.zhida, perpage).then((resp) => {
 					if (resp.code === ERR_OK) {
 						this.result = this._genResult(resp.data)
+						this._checkMore(resp.data)
 					}
 				})
 			}
+		},
+		components: {
+			Scroll,
+			Loading
 		}
 	}
 </script>
