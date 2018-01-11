@@ -31,3 +31,21 @@ export function selectSong ({commit, state}, {list, index}) {
 	commit(types.SET_CURRENT_INDEX, index)
 	commit(types.SET_PLAYING_STATE, true)
 }
+
+export function insertSong ({commit, state}, {song}) {
+	let playList = state.playList
+	let sequenceList = state.sequenceList
+	let currentIndex = state.currentIndex
+
+	let fpIndex = findIndex(playList, song)
+	currentIndex++
+	playList.splice(currentIndex, 0, song)
+	if (fpIndex > -1) {
+		if (fpIndex < currentIndex) {
+			playList.splice(fpIndex, 1)
+			currentIndex--
+		} else {
+			playList.splice(fpIndex + 1, 1)
+		}
+	}
+}

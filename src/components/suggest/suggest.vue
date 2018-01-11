@@ -1,7 +1,7 @@
 <template>
 	<scroll ref="suggest" class="suggest" :data="result" :pull-up="pullUp" @scrollToEnd="searchMore">
     <ul class="suggest-list">
-      <li class="suggest-item" v-for="item in result">
+      <li class="suggest-item" v-for="item in result" @click="selectItem(item)">
         <div class="icon">
           <i :class="getIconCls(item)"></i>
         </div>
@@ -19,6 +19,8 @@
 	import { createSong } from 'common/js/song'
 	import Scroll from 'base/scroll/scroll'
 	import Loading from 'base/loading/loading'
+	import Singer from 'common/js/singer'
+	import { mapMutations } from 'vuex'
 	
 	const TYPR_SINGER = 'singer'
 	const perpage = 20
@@ -43,6 +45,18 @@
 			}
 		},
 		methods: {
+			selectItem (item) {
+				if (item.type === TYPR_SINGER) {
+					const singer = new Singer({id: item.singermid, name: item.singername})
+					this.setSinger(singer)
+					this.$router.push({
+						path: `/search/${singer.id}`
+					})
+				}
+			},
+			...mapMutations({
+				setSinger: 'SET_SINGER'
+			}),
 			searchMore () {
 				if (!this.hasMore) {
 					return
