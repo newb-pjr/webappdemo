@@ -32,11 +32,12 @@ export function selectSong ({commit, state}, {list, index}) {
 	commit(types.SET_PLAYING_STATE, true)
 }
 
-export function insertSong ({commit, state}, {song}) {
-	let playList = state.playList
-	let sequenceList = state.sequenceList
+export function insertSong ({commit, state}, song) {
+	let playList = state.playList.slice()
+	let sequenceList = state.sequenceList.slice()
 	let currentIndex = state.currentIndex
 
+	let currentSong = playList[currentIndex]
 	let fpIndex = findIndex(playList, song)
 	currentIndex++
 	playList.splice(currentIndex, 0, song)
@@ -48,4 +49,22 @@ export function insertSong ({commit, state}, {song}) {
 			playList.splice(fpIndex + 1, 1)
 		}
 	}
+
+	let currentSIndex = findIndex(sequenceList, currentSong)
+	let fsIndex = findIndex(sequenceList, song)
+	sequenceList.splice(currentSIndex + 1, 0, song)
+
+	if (fsIndex > -1) {
+		if (fsIndex < currentSIndex) {
+			sequenceList.splice(fsIndex, 1)
+		} else {
+			sequenceList.splice(fsIndex + 1, 0)
+		}
+	}
+
+	commit(types.SET_SEQUENCE_LIST, sequenceList)
+	commit(types.SET_PLAYLIST, playList)
+	commit(types.SET_FULLSCREEN, true)
+	commit(types.SET_CURRENT_INDEX, currentIndex)
+	commit(types.SET_PLAYING_STATE, true)
 }
