@@ -50,6 +50,9 @@
 			}
 		},
 		methods: {
+			refresh () {
+				this.$refs.suggest.refresh()
+			},
 			selectItem (item) {
 				if (item.type === TYPR_SINGER) {
 					const singer = new Singer({id: item.singermid, name: item.singername})
@@ -60,6 +63,7 @@
 				} else {
 					this.insertSong(item)
 				}
+				this.$emit('selectSaveSearch')
 			},
 			...mapMutations({
 				setSinger: 'SET_SINGER'
