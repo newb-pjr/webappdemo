@@ -1,6 +1,7 @@
 import * as types from './mutation-types'
 import { playMode } from 'common/js/config'
 import { shuffle } from 'common/js/util'
+import { saveSearch, delectSearch, clearSearch } from 'common/js/cache'
 
 function findIndex (list, song) {
 	return list.findIndex((item) => {
@@ -67,4 +68,16 @@ export function insertSong ({commit, state}, song) {
 	commit(types.SET_FULLSCREEN, true)
 	commit(types.SET_CURRENT_INDEX, currentIndex)
 	commit(types.SET_PLAYING_STATE, true)
+}
+
+export function saveSearchHistory ({commit}, query) {
+	commit(types.SET_SEARCH_HISTORY, saveSearch(query))
+}
+
+export function delectSearchHistory ({commit}, query) {
+	commit(types.SET_SEARCH_HISTORY, delectSearch(query))
+}
+
+export function clearSearchHistory ({commit}) {
+	commit(types.SET_SEARCH_HISTORY, clearSearch())
 }
