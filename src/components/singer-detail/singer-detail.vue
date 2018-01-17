@@ -34,10 +34,8 @@
 					return
 				}
 				getMusicList(this.singer.id).then((resp) => {
-				console.log(resp)
 					if (resp.code === ERR_OK) {
 						this.song = this._normalize(resp.data.list)
-						console.log(this.song)
 					}
 				})
 			},

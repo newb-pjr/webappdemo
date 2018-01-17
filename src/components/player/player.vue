@@ -312,6 +312,9 @@
 				})
 			},
 			handleLyric ({lineNum, txt}) {
+				setTimeout(() => {
+					this.$refs.lyricList.refresh()
+				}, 20)
 				this.currentLineNum = lineNum
 				if (this.currentLineNum < 5) {
 					this.$refs.lyricList.scrollTo(0, 0, 1000)

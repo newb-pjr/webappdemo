@@ -9,20 +9,20 @@
 	            <span class="clear" ><i class="icon-clear"></i></span>
 	          </h1>
 	        </div>
-	        <div ref="listContent" class="list-content">
+	        <scroll ref="listContent" class="list-content" :data="sequenceList">
 	          <ul>
-	            <li class="item">
-	              <i class="current"></i>
-	              <span class="text"></span>
+	            <li ref="listItem" class="item" v-for="(item, index) in sequenceList" @click="selectItem(index, item)">
+	              <i class="current" :class="currentCls(item)"></i>
+	              <span class="text">{{item.name}}</span>
 	              <span class="like">
-	                <i ></i>
+	                <i class="icon-favorite"></i>
 	              </span>
 	              <span class="delete">
 	                <i class="icon-delete"></i>
 	              </span>
 	            </li>
 	          </ul>
-	        </div>
+	        </scroll>
 	        <div class="list-operate">
 	          <div class="add">
 	            <i class="icon-add"></i>
@@ -37,20 +37,72 @@
 	  </transition>
 </template>
 <script type="text/ecmascript-6">
+  import { mapGetters, mapMutations } from 'vuex'
+  import Scroll from 'base/scroll/scroll'
+  import { playMode } from 'common/js/config'
+
 	export default {
 		data () {
 			return {
 				isShow: false
 			}
 		},
+    computed: {
+      ...mapGetters([
+          'sequenceList',
+          'playMode',
+          'playList',
+          'currentSong'
+        ])
+    },
 		methods: {
+      currentCls (item) {
+        if (item.id === this.currentSong.id) {
+          return 'icon-play'
+        }
+        return ''
+      },
+      selectItem (index, song) {
+        if (this.playMode === playMode.random) {
+          index = this.playList.findIndex((item) => {
+            return item.id === song.id
+          })
+        }
+        this.setCurrentIndex(index)
+        this.setPlayState(true)
+      },
+      scrollToElement () {
+        let index = this.sequenceList.findIndex((item) => {
+          return item.id === this.currentSong.id
+        })
+        this.$refs.listContent.scrollToElement(this.$refs.listItem[index], 300)
+      },
 			show () {
 				this.isShow = true
+        setTimeout(() => {
+          this.$refs.listContent.refresh()
+          this.scrollToElement()
+        }, 20)
 			},
 			hide () {
 				this.isShow = false
-			}
-		}
+			},
+      ...mapMutations({
+        setCurrentIndex: 'SET_CURRENT_INDEX',
+        setPlayState: 'SET_PLAYING_STATE'
+      })
+		},
+    watch: {
+      currentSong (newSong, oldSong) {
+        if (!this.isShow || newSong.id === oldSong.id) {
+          return
+        }
+        this.scrollToElement()
+      }
+    },
+    components: {
+      Scroll
+    }
 	}
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
