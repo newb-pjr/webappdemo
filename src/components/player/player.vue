@@ -77,12 +77,13 @@
 		        		<i :class="miniPlay" class="icon-mini" @click.stop="togglePlay"></i>
 		        	</progress-circle>
 		        </div>
-		        <div class="control">
+		        <div class="control" @click.stop="openPlayList">
 		          <i class="icon-playlist"></i>
 		        </div>
 			</div>
 		</transition>
 		<audio ref="video" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
+		<playlist ref="playlist"></playlist>
 	</div>
 </template>
 <script type="text/ecmascript-6">
@@ -95,6 +96,7 @@
 	import { playMode } from 'common/js/config'
 	import { shuffle } from 'common/js/util'
 	import Lyric from 'lyric-parser'
+	import Playlist from 'components/playlist/playlist'
 
 	const transform = prefixStyle('transform')
 	const transition = prefixStyle('transition')
@@ -145,6 +147,9 @@
 				])
 		},
 		methods: {
+			openPlayList () {
+				this.$refs.playlist.show()
+			},
 			back () {
 				this.setFullScreen(false)
 			},
@@ -417,7 +422,8 @@
 		components: {
 			Scroll,
 			ProgressBar,
-			ProgressCircle
+			ProgressCircle,
+			Playlist
 		}
 	}
 </script>
