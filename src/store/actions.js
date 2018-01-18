@@ -92,7 +92,7 @@ export function deleteSong ({commit, state}, song) {
 	let sIndex = findIndex(sequenceList, song)
 	sequenceList.splice(sIndex, 1)
 
-	if (pIndex < currentIndex || pIndex === playList.length) {
+	if (pIndex < currentIndex || currentIndex === playList.length) {
 		currentIndex--
 	}
 
