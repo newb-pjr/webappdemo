@@ -51,15 +51,15 @@ export function insertSong ({commit, state}, song) {
 		}
 	}
 
-	let currentSIndex = findIndex(sequenceList, currentSong)
+	let currentSIndex = findIndex(sequenceList, currentSong) + 1
 	let fsIndex = findIndex(sequenceList, song)
-	sequenceList.splice(currentSIndex + 1, 0, song)
+	sequenceList.splice(currentSIndex, 0, song)
 
 	if (fsIndex > -1) {
 		if (fsIndex < currentSIndex) {
 			sequenceList.splice(fsIndex, 1)
 		} else {
-			sequenceList.splice(fsIndex + 1, 0)
+			sequenceList.splice(fsIndex + 1, 1)
 		}
 	}
 
@@ -80,4 +80,36 @@ export function delectSearchHistory ({commit}, query) {
 
 export function clearSearchHistory ({commit}) {
 	commit(types.SET_SEARCH_HISTORY, clearSearch())
+}
+
+export function deleteSong ({commit, state}, song) {
+	let playList = state.playList.slice()
+	let sequenceList = state.sequenceList.slice()
+	let currentIndex = state.currentIndex
+
+	let pIndex = findIndex(playList, song)
+	playList.splice(pIndex, 1)
+	let sIndex = findIndex(sequenceList, song)
+	sequenceList.splice(sIndex, 1)
+
+	if (pIndex < currentIndex || pIndex === playList.length) {
+		currentIndex--
+	}
+
+	commit(types.SET_SEQUENCE_LIST, sequenceList)
+	commit(types.SET_PLAYLIST, playList)
+	commit(types.SET_CURRENT_INDEX, currentIndex)
+
+	if (!playList.length) {
+		commit(types.SET_PLAYING_STATE, false)
+	} else {
+		commit(types.SET_PLAYING_STATE, true)
+	}
+}
+
+export function clearPlayList ({commit}) {
+	commit(types.SET_SEQUENCE_LIST, [])
+	commit(types.SET_PLAYLIST, [])
+	commit(types.SET_CURRENT_INDEX, -1)
+	commit(types.SET_PLAYING_STATE, false)
 }

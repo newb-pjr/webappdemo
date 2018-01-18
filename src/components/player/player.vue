@@ -404,6 +404,9 @@
 		},
 		watch: {
 			currentSong (newSong, oldSong) {
+				if (!newSong.id) {
+					return
+				}
 				if (newSong.id === oldSong.id) {
 					return
 				}
