@@ -87,7 +87,7 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import { mapGetters, mapMutations } from 'vuex'
+	import { mapGetters, mapMutations, mapActions } from 'vuex'
 	import Scroll from 'base/scroll/scroll'
 	import animations from 'create-keyframe-animation'
 	import { prefixStyle } from 'common/js/dom'
@@ -97,12 +97,14 @@
 	import { shuffle } from 'common/js/util'
 	import Lyric from 'lyric-parser'
 	import Playlist from 'components/playlist/playlist'
+  import { playerMixin } from 'common/js/mixin'
 
 	const transform = prefixStyle('transform')
 	const transition = prefixStyle('transition')
 	const transitionDuration = prefixStyle('transitionDuration')
 
 	export default {
+		mixins: [playerMixin],
 		data () {
 			return {
 				readyPlay: false,
@@ -133,17 +135,10 @@
 			percent () {
 				return this.currentTime / this.currentSong.duration
 			},
-			mode () {
-				return playMode.sequence === this.playMode ? 'icon-sequence' : playMode.loop === this.playMode ? 'icon-loop' : 'icon-random'
-			},
 			...mapGetters([
 					'fullScreen',
-					'playList',
-					'currentSong',
 					'playing',
-					'currentIndex',
-					'playMode',
-					'sequenceList'
+					'currentIndex'
 				])
 		},
 		methods: {
@@ -158,11 +153,11 @@
 			},
 			...mapMutations({
 				setFullScreen: 'SET_FULLSCREEN',
-				setPlayingState: 'SET_PLAYING_STATE',
-				setCurrentIndex: 'SET_CURRENT_INDEX',
-				setPlayMode: 'SET_PLAY_MODE',
-				setPlayList: 'SET_PLAYLIST'
+				setPlayHistory: 'SET_PLAY_HISTORY'
 			}),
+			...mapActions([
+					'savePlayHistory'
+				]),
 			enter (el, done) {
 				const {x, y, scale} = this._setPosAndScale()
 				let animation = {
@@ -247,6 +242,7 @@
 			},
 			ready () {
 				this.readyPlay = true
+				this.savePlayHistory(this.currentSong)
 			},
 			error () {
 				this.readyPlay = true

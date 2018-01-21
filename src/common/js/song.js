@@ -23,7 +23,6 @@ export class Song {
 			getLyric(this.mid).then((resp) => {
 				if (ERR_OK === resp.retcode) {
 					this.lyric = Base64.decode(resp.lyric)
-					console.log(this.lyric)
 					resolve(this.lyric)
 				} else {
 					let err = 'no lyric'

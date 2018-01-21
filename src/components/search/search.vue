@@ -43,14 +43,13 @@
 	import SearchList from 'base/search-list/search-list'
 	import Confirm from 'base/confirm/confirm'
 	import Scroll from 'base/scroll/scroll'
-	import { playListMixin } from 'common/js/mixin'
+	import { playListMixin, searchMixin } from 'common/js/mixin'
 
 	export default {
-		mixins: [playListMixin],
+		mixins: [playListMixin, searchMixin],
 		data () {
 			return {
-				hotKey: [],
-				query: ''
+				hotKey: []
 			}
 		},
 		created () {
@@ -75,15 +74,6 @@
 			delectAll () {
 				this.$refs.confirm.show()
 			},
-			saveSearch () {
-				this.saveSearchHistory(this.query)
-			},
-			blurInput () {
-				this.$refs.searchBox.blur()
-			},
-			onQueryChange (query) {
-				this.query = query
-			},
 			select (key) {
 				this.$refs.searchBox.setQuery(key)
 			},
@@ -95,7 +85,6 @@
 				})
 			},
 			...mapActions([
-					'saveSearchHistory',
 					'delectSearchHistory',
 					'clearSearchHistory'
 				])
