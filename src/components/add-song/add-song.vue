@@ -20,7 +20,7 @@
           </scroll>
           <scroll ref="searchList" class="list-scroll" v-if="currentIndex===1" :data="searchHistory">
             <div class="list-inner">
-            	<search-list :searches="searchHistory"></search-list>
+            	<search-list :searches="searchHistory" @select="select" @delect="delectSearchHistory"></search-list>
             </div>
           </scroll>
         </div>

@@ -1,12 +1,12 @@
 <template>
-	<div class="search-list">
-      <li class="search-item" v-for="item in searches" @click="selectItem(item)">
+	<transition-group name="list" tag="ul" class="search-list">
+      <li class="search-item" :key="item" v-for="item in searches" @click="selectItem(item)">
         <span class="text">{{item}}</span>
         <span class="icon" @click.stop="delect(item)">
           <i class="icon-delete"></i>
         </span>
       </li>
-  </div>
+  </transition-group>
 </template>
 <script type="text/ecmascript-6">
 	export default {

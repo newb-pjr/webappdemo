@@ -74,9 +74,6 @@
 			delectAll () {
 				this.$refs.confirm.show()
 			},
-			select (key) {
-				this.$refs.searchBox.setQuery(key)
-			},
 			_getHotKey () {
 				getHotKey().then((resp) => {
 					if (resp.code === ERR_OK) {
@@ -85,7 +82,6 @@
 				})
 			},
 			...mapActions([
-					'delectSearchHistory',
 					'clearSearchHistory'
 				])
 		},

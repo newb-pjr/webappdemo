@@ -61,11 +61,9 @@ export function savePlay (song) {
 	}, MAX_SAVE_PLAY_LENGTH)
 
 	storage.set(SAVE_PLAY_NAME, songList)
-	console.log(songList)
 	return songList
 }
 
 export function loadPlay () {
-	console.log(storage.get(SAVE_PLAY_NAME, []))
 	return storage.get(SAVE_PLAY_NAME, [])
 }
