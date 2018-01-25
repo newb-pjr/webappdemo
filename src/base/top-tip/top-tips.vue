@@ -1,6 +1,6 @@
 <template>
 	<transition name="drop">
-    <div class="top-tip" v-show="isShow">
+    <div class="top-tip" v-show="isShow" @click.stop="hide">
       <slot></slot>
     </div>
   </transition>
@@ -12,7 +12,7 @@
 					type: Number,
 					default: 2000
 				}
-		}
+		},
 		data () {
 			return {
 				isShow: false
@@ -21,8 +21,8 @@
 		methods: {
 			show () {
 				this.isShow = true
-				clearTimeout(timer)
-				let timer = setTimeout(() => {
+				clearTimeout(this.timer)
+				this.timer = setTimeout(() => {
 					this.hide()
 				}, this.delay)
 			},
