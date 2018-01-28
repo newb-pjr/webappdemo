@@ -84,6 +84,8 @@ export function deleteFavorite (song) {
 	delectInsertArray(songs, (item) => {
 		return item.id === song.id
 	})
+	storage.set(SAVE_FAVORITE_NAME, songs)
+	return songs
 }
 
 export function loadFavorite (song) {

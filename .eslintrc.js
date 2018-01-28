@@ -26,6 +26,7 @@ module.exports = {
     'eol-last': 0,
     'space-before-funtion-paren': 0,
     'indent': 0,
-    'no-tabs': 0
+    'no-tabs': 0,
+	'no-useless-return': 0
   }
 }

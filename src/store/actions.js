@@ -10,6 +10,7 @@ function findIndex (list, song) {
 }
 
 export function randomSong ({commit, state}, {list}) {
+	console.log(list)
 	commit(types.SET_PLAY_MODE, playMode.random)
 	commit(types.SET_SEQUENCE_LIST, list)
 	let randomList = shuffle(list)

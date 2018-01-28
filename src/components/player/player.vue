@@ -56,8 +56,8 @@
 		            <div class="icon i-right" :class="disableCls">
 		              <i class="icon-next" @click="next"></i>
 		            </div>
-		            <div class="icon i-right">
-		              <i class="icon-not-favorite"></i>
+		            <div class="icon i-right" @click="toggleFavorite(currentSong)">
+		              <i :class="getFavoriteIcon(currentSong)"></i>
 		            </div>
 		          </div>
 		        </div>
@@ -82,7 +82,7 @@
 		        </div>
 			</div>
 		</transition>
-		<audio ref="video" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
+		<audio ref="video" :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
 		<playlist ref="playlist"></playlist>
 	</div>
 </template>
@@ -210,6 +210,7 @@
 				}
 				if (this.playList.length === 1) {
 					this.loop()
+					return
 				} else {
 					if (!this.playing) {
 						this.togglePlay()
@@ -219,8 +220,8 @@
 						index = this.playList.length - 1
 					}
 					this.setCurrentIndex(index)
-					this.readyPlay = false
 				}
+				this.readyPlay = false
 			},
 			next () {
 				if (!this.readyPlay) {
@@ -228,6 +229,7 @@
 				}
 				if (this.playList.length === 1) {
 					this.loop()
+					return
 				} else {
 					if (!this.playing) {
 						this.togglePlay()
@@ -237,8 +239,8 @@
 						index = 0
 					}
 					this.setCurrentIndex(index)
-					this.readyPlay = false
 				}
+				this.readyPlay = false
 			},
 			ready () {
 				this.readyPlay = true
@@ -291,15 +293,21 @@
 			loop () {
 				this.$refs.video.currentTime = 0
 				this.$refs.video.play()
+				this.setPlayingState(true)
 				if (this.currentLyric) {
 					this.currentLyric.seek(0)
 				}
 			},
 			getLyric () {
 				this.currentSong.getLyric().then((lyric) => {
+					if (this.currentSong.lyric !== lyric) {
+						return
+					}
 					this.currentLyric = new Lyric(lyric, this.handleLyric)
 					if (this.playing) {
 						this.currentLyric.play()
+					} else {
+						this.currentLyric.togglePlay()
 					}
 				}).catch(() => {
 					this.currentLyric = null
@@ -409,7 +417,8 @@
 				if (this.currentLyric) {
 					this.currentLyric.stop()
 				}
-				setTimeout(() => {
+				clearTimeout(this.timer)
+				this.timer = setTimeout(() => {
 					this.$refs.video.play()
 					this.getLyric()
 				}, 1000)
