@@ -1,6 +1,6 @@
 import Jsonp from 'common/js/jsonp'
 import { commonParams, optionParams } from 'api/config'
-// import axios from 'axios'
+import axios from 'axios'
 export function getRecommend () {
 	const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
   const data = Object.assign({}, commonParams, {
@@ -13,7 +13,7 @@ export function getRecommend () {
 }
 
 export function getDiscList () {
-	const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
+	// const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
 
 	const data = Object.assign({}, commonParams, {
 		platform: 'yqq',
@@ -24,19 +24,19 @@ export function getDiscList () {
 		needNewCode: 0,
 		categoryId: 10000000,
 		rnd: Math.random(),
-		format: 'jsonp'
+		format: 'json'
 	})
-	// return axios.get('api/getDiscList', {
-	// 	params: data
-	// }).then((resp) => {
-	// 	return new Promise((resolve, reject) => {
-	// 		resolve(resp.data)
-	// 	})
-	// }).catch((err) => {
-	// 	console.log(err)
-	// })
+	return axios.get('api/getDiscList', {
+		params: data
+	}).then((resp) => {
+		return new Promise((resolve, reject) => {
+			resolve(resp.data)
+		})
+	}).catch((err) => {
+		console.log(err)
+	})
 
-	return Jsonp(url, data, optionParams)
+	// return Jsonp(url, data, optionParams)
 }
 
 export function getSongList (disstid) {
