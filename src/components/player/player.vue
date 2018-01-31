@@ -1,4 +1,5 @@
 <template>
+	<div>
 	<div class="player" v-show="playList.length>0">
 		<transition name="normal" @enter="enter" @after-enter="afterEnter" @leave="leave" @after-leave="afterLeave">
 			<div class="normal-player" v-show="fullScreen">
@@ -83,8 +84,9 @@
 			</div>
 		</transition>
 		<audio ref="video" :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
-		<playlist ref="playlist"></playlist>
 	</div>
+		<playlist ref="playlist"></playlist>
+</div>
 </template>
 <script type="text/ecmascript-6">
 	import { mapGetters, mapMutations, mapActions } from 'vuex'
@@ -418,16 +420,23 @@
 					this.currentLyric.stop()
 				}
 				clearTimeout(this.timer)
+				this.isToggleSong = true
 				this.timer = setTimeout(() => {
+					this.isToggleSong = false
 					this.$refs.video.play()
 					this.getLyric()
 				}, 1000)
 			},
 			playing (newPlay) {
 				let video = this.$refs.video
-				this.$nextTick(() => {
-					newPlay ? video.play() : video.pause()
-				})
+				if (!this.isToggleSong) {
+					this.$nextTick(() => {
+						newPlay ? video.play() : video.pause()
+					})
+				}
+				// this.$nextTick(() => {
+				// 	newPlay ? video.play() : video.pause()
+				// })
 			}
 		},
 		components: {
