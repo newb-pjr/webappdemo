@@ -1,23 +1,33 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">123
-    <router-view/>
+  <div>
+    <s-header :seller="seller"></s-header>
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
+import SHeader from 'components/head/head'
+import {ERR_OK} from 'common/js/config'
+
 export default {
-  name: 'App'
+  data () {
+    return {
+      seller: {}
+    }
+  },
+  created () {
+    this.$http.get('/api/seller').then((resp) => {
+      if (resp.data.errorNum === ERR_OK) {
+        this.seller = resp.data.data
+        console.log(this.seller)
+      }
+    })
+  },
+  components: {
+    SHeader
+  }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped lang="stylus" rel="stylesheet/stylus">
+
 </style>
