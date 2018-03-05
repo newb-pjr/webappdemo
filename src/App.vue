@@ -41,6 +41,7 @@ export default {
   .nav
     display: flex
     height: 40px
+    border 1px solid rgba(7, 17, 27, 0.1)
     .item
       flex: 1
       font-size: 14px

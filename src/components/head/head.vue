@@ -58,7 +58,9 @@
 </template>
 <script type="text/ecmascript-6">
 import Star from 'base/star/star'
+import {typePicMixin} from 'common/js/mixin'
 export default {
+	mixins: [typePicMixin],
 	data () {
 		return {
 			isShow: false,
@@ -80,30 +82,6 @@ export default {
 		},
 		hide () {
 			this.isShow = false
-		},
-		typePic (index) {
-			let cls
-			if (!this.seller.supports) {
-				return
-			}
-			switch (index) {
-				case 0:
-					cls = 'decrease'
-					break
-				case 1:
-					cls = 'discount'
-					break
-				case 2:
-					cls = 'special'
-					break
-				case 3:
-					cls = 'invoice'
-					break
-				case 4:
-					cls = 'guarantee'
-					break
-			}
-			return cls
 		}
 	},
 	components: {
