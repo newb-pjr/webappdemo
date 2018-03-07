@@ -1,13 +1,34 @@
 <template>
 	<div class="goods">
 		<ul class="goods-name">
-			<li class="item" :class="active" v-for="(item, index) in goods" :key="index">
-				<div class="cell">
-					<div class="pic" :class="typePic(item.type)"></div>
+			<li class="item" :class="{'active':index===currentIndex}" v-for="(item, index) in goods" :key="index">
+				<div class="cell" :class="{'no-border':index===currentIndex || (index+1)===currentIndex}">
+					<div class="pic" :class="typePic(item.type)" v-if="item.type>-1"></div>
 					<span class="name">{{item.name}}</span>
 				</div>
 			</li>
 		</ul>
+		<div class="foods-container">
+			<div v-for="(item, index) in goods" :key="index">
+				<div class="title">{{item.name}}</div>
+				<ul class="detail-container">
+					<li class="detail" v-for="(foodItem, index) in item.foods" :key="index">
+						<img :src="foodItem.icon" width="64" height="64">
+						<div class="info">
+							<p class="name">{{foodItem.name}}</p>
+							<p class="desc">{{foodItem.description}}</p>
+							<p class="sell">
+								<span>月售{{foodItem.sellCount}}份</span><span>好评率{{foodItem.rating}}%</span>
+							</p>
+							<p class="price">
+								<span class="currentPrice"><i class="symbol">¥</i>{{foodItem.price}}</span>
+								<span class="oldPrice" v-if="foodItem.oldPrice"><i class="symbol">¥</i>{{foodItem.oldPrice}}</span>
+							</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </template>
 <script type="text/ecmascript-6">
@@ -18,7 +39,8 @@
 		mixins: [typePicMixin],
 		data () {
 			return {
-				goods: []
+				goods: [],
+				currentIndex: 2
 			}
 		},
 		created () {
@@ -37,15 +59,14 @@
 		.goods-name
 			flex: 0 0 80px
 			width: 80px
-			padding 0 12px
 			background-color: #f3f5f7
 			.item
 				display: table
 				width: 100%
+				padding 0 12px
 				height: 54px
 				box-sizing: border-box
 				font-size: 0
-				border-bottom 1px solid rgba(7, 17, 27, 0.1)
 				&:last-child
 					border-bottom: 0
 				&.active
@@ -55,6 +76,10 @@
 				.cell
 					display: table-cell
 					vertical-align: middle
+					border-bottom 1px solid rgba(7, 17, 27, 0.1)
+					&.no-border{
+						border-bottom: 0
+					}
 					.pic
 						display: inline-block
 						width: 12px
@@ -77,4 +102,62 @@
 						color: rgb(77, 85, 93)
 						line-height: 14px
 						font-weight: 200
+		.foods-container
+			flex: 1
+			.title
+				width: 100%
+				height: 26px
+				border-left 2px solid #d9dde1
+				padding-left: 13px
+				box-sizing: border-box
+				background-color: #f3f5f7
+				font-size: 12px
+				color: $color-text-deepGray
+				line-height: 26px
+			.detail-container
+				font-size: 0
+				padding: 0 18px
+				.detail
+					display: flex
+					padding: 18px 0
+					border-bottom 1px solid gray(0.1)
+					&:last-child
+						border-bottom: 0
+					img
+						flex: 0 0 64px
+					.info
+						flex: 1
+						vertical-align: top
+						margin-left: 10px
+						.name
+							margin-top: 2px
+							font-size: 14px
+							color: $color-text-black
+							line-height: 14px
+						.desc,.sell
+							margin-top: 8px
+							font-size: 10px
+							color: $color-text-deepGray
+							line-height: 10px
+						.sell
+							span
+								margin-right: 12px
+								&:last-child
+									margin-right: 0
+						.price
+							.symbol
+								font-size: 10px
+								font-weight: normal
+							.currentPrice
+								margin-right: 8px
+								font-size: 14px
+								color: $color-text-red
+								font-weight: 700
+								line-height: 24px
+							.oldPrice
+								font-size: 10px
+								color: $color-text-deepGray
+								font-weight: 700
+								line-height: 24px
+								text-decoration: line-through
 </style>
