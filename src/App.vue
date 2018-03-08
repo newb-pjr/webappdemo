@@ -39,7 +39,9 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import '~common/stylus/index'
   .nav
+    position: relative
     display: flex
+    width: 100%
     height: 40px
     border 1px solid rgba(7, 17, 27, 0.1)
     .item

@@ -1,32 +1,36 @@
 <template>
 	<div class="goods">
-		<ul class="goods-name">
-			<li class="item" :class="{'active':index===currentIndex}" v-for="(item, index) in goods" :key="index">
-				<div class="cell" :class="{'no-border':index===currentIndex || (index+1)===currentIndex}">
-					<div class="pic" :class="typePic(item.type)" v-if="item.type>-1"></div>
-					<span class="name">{{item.name}}</span>
+		<div class="goods-name" ref="menuWrapper">
+			<ul>
+				<li class="item" :class="{'active':index===currentIndex}" v-for="(item, index) in goods" :key="index">
+					<div class="cell" :class="{'no-border':index===currentIndex || (index+1)===currentIndex}">
+						<div class="pic" :class="typePic(item.type)" v-if="item.type>-1"></div>
+						<span class="name">{{item.name}}</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="foods-container" ref="foodsWrapper">
+			<div>
+				<div v-for="(item, index) in goods" :key="index">
+					<div class="title">{{item.name}}</div>
+					<ul class="detail-container">
+						<li class="detail" v-for="(foodItem, index) in item.foods" :key="index">
+							<img :src="foodItem.icon" width="64" height="64">
+							<div class="info">
+								<p class="name">{{foodItem.name}}</p>
+								<p class="desc">{{foodItem.description}}</p>
+								<p class="sell">
+									<span>月售{{foodItem.sellCount}}份</span><span>好评率{{foodItem.rating}}%</span>
+								</p>
+								<p class="price">
+									<span class="currentPrice"><i class="symbol">¥</i>{{foodItem.price}}</span>
+									<span class="oldPrice" v-if="foodItem.oldPrice"><i class="symbol">¥</i>{{foodItem.oldPrice}}</span>
+								</p>
+							</div>
+						</li>
+					</ul>
 				</div>
-			</li>
-		</ul>
-		<div class="foods-container">
-			<div v-for="(item, index) in goods" :key="index">
-				<div class="title">{{item.name}}</div>
-				<ul class="detail-container">
-					<li class="detail" v-for="(foodItem, index) in item.foods" :key="index">
-						<img :src="foodItem.icon" width="64" height="64">
-						<div class="info">
-							<p class="name">{{foodItem.name}}</p>
-							<p class="desc">{{foodItem.description}}</p>
-							<p class="sell">
-								<span>月售{{foodItem.sellCount}}份</span><span>好评率{{foodItem.rating}}%</span>
-							</p>
-							<p class="price">
-								<span class="currentPrice"><i class="symbol">¥</i>{{foodItem.price}}</span>
-								<span class="oldPrice" v-if="foodItem.oldPrice"><i class="symbol">¥</i>{{foodItem.oldPrice}}</span>
-							</p>
-						</div>
-					</li>
-				</ul>
 			</div>
 		</div>
 	</div>
@@ -34,6 +38,8 @@
 <script type="text/ecmascript-6">
 	import {ERR_OK} from 'common/js/config'
 	import {typePicMixin} from 'common/js/mixin'
+	import BScroll from 'better-scroll'
+	// import Scroll from 'base/scroll/scroll'
 
 	export default {
 		mixins: [typePicMixin],
@@ -47,15 +53,38 @@
 			this.$http.get('api/goods').then((resp) => {
 				if (ERR_OK === resp.data.errorNum) {
 					this.goods = resp.data.data
+					this.$nextTick(() => {
+            this._initScroll()
+          })
 				}
 			})
+		},
+		methods: {
+			_initScroll () {
+				this.meunScroll = new BScroll(this.$refs.menuWrapper, {
+          click: true
+        })
+
+        this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+          click: true,
+          probeType: 3
+        })
+
+        this.foodsScroll.on('scroll', (pos) => {
+          this.scrollY = Math.abs(Math.round(pos.y))
+        })
+			}
 		}
+		// components: {
+		// 	Scroll
+		// }
 	}
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
 	@import '~common/stylus/index'
 	.goods
 		display: flex
+		overflow: hidden
 		.goods-name
 			flex: 0 0 80px
 			width: 80px
