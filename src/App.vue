@@ -9,12 +9,14 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <shopcart></shopcart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import SHeader from 'components/head/head'
 import {ERR_OK} from 'common/js/config'
+import Shopcart from 'components/shopcart/shopcart'
 
 export default {
   data () {
@@ -31,7 +33,8 @@ export default {
     })
   },
   components: {
-    SHeader
+    SHeader,
+    Shopcart
   }
 }
 </script>
@@ -43,7 +46,7 @@ export default {
     display: flex
     width: 100%
     height: 40px
-    border 1px solid rgba(7, 17, 27, 0.1)
+    border-bottom: 1px solid rgba(7, 17, 27, 0.1)
     .item
       flex: 1
       font-size: 14px

@@ -18,30 +18,42 @@
 			probeType: {
 				type: Number,
 				default: 1
+			},
+			listenScroll: {
+				type: Boolean,
+				default: false
 			}
 		},
 		mounted () {
-			setTimeout(() => {
+			this.$nextTick(() => {
 				this._initScroll()
-			}, 20)
+			})
 		},
 		methods: {
 			refresh () {
 				this.scroll && this.scroll.refresh()
+			},
+			scrollToElement (...args) {
+				console.log(...args)
+				this.scroll && this.scroll.scrollToElement.apply(this.scroll, args)
 			},
 			_initScroll () {
 				this.scroll = new BScroll(this.$refs.scroll, {
 					click: this.click,
 					probeType: this.probeType
 				})
+				if (this.listenScroll) {
+					this.scroll.on('scroll', (pos) => {
+						this.$emit('scroll', pos)
+					})
+				}
 			}
 		},
 		watch: {
 			data () {
-				setTimeout(() => {
+				this.$nextTick(() => {
 					this._initScroll()
-					console.log(this.data)
-				}, 20)
+				})
 			}
 		}
 	}

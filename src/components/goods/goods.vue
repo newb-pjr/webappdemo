@@ -1,18 +1,18 @@
 <template>
 	<div class="goods">
-		<div class="goods-name" ref="menuWrapper">
+		<scroll class="goods-name">
 			<ul>
-				<li class="item" :class="{'active':index===currentIndex}" v-for="(item, index) in goods" :key="index">
+				<li class="item" :class="{'active':index===currentIndex}" v-for="(item, index) in goods" :key="index" @click="select(index)">
 					<div class="cell" :class="{'no-border':index===currentIndex || (index+1)===currentIndex}">
 						<div class="pic" :class="typePic(item.type)" v-if="item.type>-1"></div>
 						<span class="name">{{item.name}}</span>
 					</div>
 				</li>
 			</ul>
-		</div>
-		<div class="foods-container" ref="foodsWrapper">
+		</scroll>
+		<scroll class="foods-container" :listen-scroll="listenScroll" :probe-type="probeType" @scroll="scroll" ref="foodsScroll">
 			<div>
-				<div v-for="(item, index) in goods" :key="index">
+				<div v-for="(item, index) in goods" :key="index" ref="foods">
 					<div class="title">{{item.name}}</div>
 					<ul class="detail-container">
 						<li class="detail" v-for="(foodItem, index) in item.foods" :key="index">
@@ -32,21 +32,24 @@
 					</ul>
 				</div>
 			</div>
-		</div>
+		</scroll>
 	</div>
 </template>
 <script type="text/ecmascript-6">
 	import {ERR_OK} from 'common/js/config'
 	import {typePicMixin} from 'common/js/mixin'
-	import BScroll from 'better-scroll'
-	// import Scroll from 'base/scroll/scroll'
+	// import BScroll from 'better-scroll'
+	import Scroll from 'base/scroll/scroll'
 
 	export default {
 		mixins: [typePicMixin],
 		data () {
 			return {
 				goods: [],
-				currentIndex: 2
+				currentIndex: 0,
+				listenScroll: true,
+				listHeight: [],
+				probeType: 3
 			}
 		},
 		created () {
@@ -54,35 +57,57 @@
 				if (ERR_OK === resp.data.errorNum) {
 					this.goods = resp.data.data
 					this.$nextTick(() => {
-            this._initScroll()
-          })
+							this._calculateHeight()
+					})
 				}
 			})
 		},
 		methods: {
-			_initScroll () {
-				this.meunScroll = new BScroll(this.$refs.menuWrapper, {
-          click: true
-        })
-
-        this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
-          click: true,
-          probeType: 3
-        })
-
-        this.foodsScroll.on('scroll', (pos) => {
-          this.scrollY = Math.abs(Math.round(pos.y))
-        })
+			select (index) {
+				this.currentIndex = index
+				this.$refs.foodsScroll.scrollToElement(this.$refs.foods[index], 1000)
+			},
+			scroll (pos) {
+				let scrollY = pos.y | 0
+				for (let i = 0; i < this.listHeight.length; i++) {
+					let height1 = this.listHeight[i]
+					let height2 = this.listHeight[i + 1]
+					if (-scrollY >= height1 && -scrollY < height2) {
+						this.currentIndex = i
+						return
+					}
+					if (!height2) {
+						this.currentIndex = this.listHeight.length - 2
+						return
+					}
+					if (scrollY > 0) {
+						this.currentIndex = 0
+						return
+					}
+				}
+			},
+			_calculateHeight () {
+				let arr = []
+				let height = 0
+				arr.push(height)
+				for (let i = 0; i < this.$refs.foods.length; i++) {
+					height += this.$refs.foods[i].clientHeight
+					arr.push(height)
+				}
+				this.listHeight = arr
 			}
+		},
+		components: {
+			Scroll
 		}
-		// components: {
-		// 	Scroll
-		// }
 	}
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
 	@import '~common/stylus/index'
 	.goods
+		position: absolute
+		top: 175px
+		bottom: 44px
 		display: flex
 		overflow: hidden
 		.goods-name
