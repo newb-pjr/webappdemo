@@ -1,15 +1,16 @@
 <template>
 	<div class="shopcart">
 		<div class="outer-circle">
-			<div class="inner-circle">
+			<div class="inner-circle" :class="">
 				<i class="icon-shopping_cart"></i>
+				<div class="badge">{{}}</div>
 			</div>
 		</div>
-		<div class="">
+		<div class="price">
 			¥0
 		</div>
-		<div class="">另需配送费¥10元</div>
-		<div class="">
+		<div class="carriage">另需配送费¥10元</div>
+		<div class="sellBtn">
 			¥20元起送
 		</div>
 	</div>
@@ -26,10 +27,13 @@
 		width: 100%
 		height: 44px
 		background-color: #141d27
+		font-size: 0
 		.outer-circle
+			position: absolute
+			left: 12px
+			bottom: 2px
 			width: 56px
 			height: 56px
-			margin: -14px 12px 0
 			padding: 6px
 			border-radius: 50%
 			background-color: #141d27
@@ -44,4 +48,47 @@
 				font-size: 24px
 				line-height: 44px
 				color: rgba(255, 255, 255, 0.4)
+				&.has-foods
+					background-color: rgb(0, 160, 220)
+					color: $text-color
+					.badge
+						width: 24px
+						border-radius: 12px
+						font-size: 18px
+						font-weight: 700
+						color: $text-color
+						line-height: 16px
+						background-color: $color-text-red
+						text-align: center
+		.price
+			display: inline-block
+			margin-top: 8px
+			margin-left: 80px
+			padding-right: 12px
+			font-size: 16px
+			color: rgba(255, 255, 255, 0.4)
+			font-weight: 700
+			line-height: 24px
+			border-right 1px solid rgba(255,255,255,0.1)
+		.carriage
+			display: inline-block
+			padding-left: 12px
+			font-size: 16px
+			color: rgba(255, 255, 255, 0.4)
+			font-weight: 700
+			line-height: 24px
+		.sellBtn
+			position: absolute
+			right: 0
+			bottom: 0
+			width: 105px
+			height: 44px
+			padding: 0 8px
+			box-sizing: border-box
+			background-color: rgba(255, 255, 255, 0.2)
+			line-height: 44px
+			font-size: 12px
+			color: rgba(255, 255, 255, 0.4)
+			font-weight: 700
+			text-align: center
 </style>

@@ -28,6 +28,7 @@
 									<span class="oldPrice" v-if="foodItem.oldPrice"><i class="symbol">¥</i>{{foodItem.oldPrice}}</span>
 								</p>
 							</div>
+							<cart-control class="cartcontrol"></cart-control>
 						</li>
 					</ul>
 				</div>
@@ -40,6 +41,7 @@
 	import {typePicMixin} from 'common/js/mixin'
 	// import BScroll from 'better-scroll'
 	import Scroll from 'base/scroll/scroll'
+	import CartControl from 'base/cartcontrol/cartcontrol'
 
 	export default {
 		mixins: [typePicMixin],
@@ -98,7 +100,8 @@
 			}
 		},
 		components: {
-			Scroll
+			Scroll,
+			CartControl
 		}
 	}
 </script>
@@ -172,11 +175,16 @@
 				font-size: 0
 				padding: 0 18px
 				.detail
+					position: relative
 					display: flex
 					padding: 18px 0
 					border-bottom 1px solid gray(0.1)
 					&:last-child
 						border-bottom: 0
+					.cartcontrol
+						position: absolute
+						right: 0
+						bottom: 15px
 					img
 						flex: 0 0 64px
 					.info
