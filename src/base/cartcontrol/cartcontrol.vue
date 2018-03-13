@@ -22,6 +22,11 @@
 				}
 			}
 		},
+		computed: {
+			sub () {
+				return this.food.count
+			}
+		},
 		methods: {
 			minus () {
 				if (this.food.count > 0) {
@@ -36,6 +41,11 @@
 					this.food.count++
 					Vue.set(this.food, 'count', this.food.count)
 				}
+			}
+		},
+		watch: {
+			sub (newVal, oldVal) {
+				console.log(newVal, oldVal)
 			}
 		}
 	}

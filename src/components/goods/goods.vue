@@ -42,13 +42,13 @@
 	// import BScroll from 'better-scroll'
 	import Scroll from 'base/scroll/scroll'
 	import CartControl from 'base/cartcontrol/cartcontrol'
+	import {mapActions} from 'vuex'
 
 	export default {
 		mixins: [typePicMixin],
 		data () {
 			return {
 				goods: [],
-				foods: {},
 				currentIndex: 0,
 				listenScroll: true,
 				listHeight: [],
@@ -65,7 +65,13 @@
 				}
 			})
 		},
+		watch: {
+			goods () {
+				console.log(123)
+			}
+		},
 		methods: {
+			...mapActions(['cartCont']),
 			select (index) {
 				this.currentIndex = index
 				this.$refs.foodsScroll.scrollToElement(this.$refs.foods[index], 1000)

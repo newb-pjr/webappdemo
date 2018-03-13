@@ -39,6 +39,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         })
       }),
       app.get('/api/goods', (req, res) => {
+        let s = ''
+        for (let i = 0; i < goods.length; i++) {
+          for (let j = 0; j < goods[i].foods.length; j++) {
+            s = i + '' + j + ''
+            Object.assign(goods[i].foods[j], {id: s})
+          }
+        }
         res.json({
           errorNum: 0,
           data: goods
