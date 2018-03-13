@@ -28,7 +28,7 @@
 									<span class="oldPrice" v-if="foodItem.oldPrice"><i class="symbol">¥</i>{{foodItem.oldPrice}}</span>
 								</p>
 							</div>
-							<cart-control class="cartcontrol"></cart-control>
+							<cart-control class="cartcontrol" :food="foodItem"></cart-control>
 						</li>
 					</ul>
 				</div>
@@ -48,6 +48,7 @@
 		data () {
 			return {
 				goods: [],
+				foods: {},
 				currentIndex: 0,
 				listenScroll: true,
 				listHeight: [],

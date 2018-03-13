@@ -1,31 +1,41 @@
 <template>
 	<div class="cartcontrol">
 		<transition name="rolling">
-			<div class="minus" @click="minus" v-show="count>0">
+			<div class="minus" @click="minus" v-show="food.count>0">
 				<i class="icon-remove_circle_outline inner"></i>
 			</div>
 		</transition>
-		<span class="num" v-show="count>0">{{count}}</span>
+		<span class="num" v-show="food.count">{{food.count}}</span>
 		<div class="add" @click="add">
 			<i class="icon-add_circle"></i>
 		</div>
 	</div>
 </template>
 <script type="text/ecmascript-6">
+	import Vue from 'vue'
 	export default {
-		data () {
-			return {
-				count: 0
+		props: {
+			food: {
+				type: Object,
+				default () {
+					return {}
+				}
 			}
 		},
 		methods: {
 			minus () {
-				if (this.count > 0) {
-					this.count--
+				if (this.food.count > 0) {
+					this.food.count--
+					Vue.set(this.food, 'count', this.food.count)
 				}
 			},
 			add () {
-				this.count++
+				if (!this.food.count) {
+					Vue.set(this.food, 'count', 1)
+				} else {
+					this.food.count++
+					Vue.set(this.food, 'count', this.food.count)
+				}
 			}
 		}
 	}
@@ -49,7 +59,7 @@
 				.inner
 					transform: rotate(180deg)
 			&.rolling-enter-active,&.rolling-leave-avtive
-				transition: all .5s linear
+				// transition: all .5s linear
 		.num
 			display: inline-block
 			width: 24px

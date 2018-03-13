@@ -1,9 +1,9 @@
 <template>
 	<div class="shopcart">
 		<div class="outer-circle">
-			<div class="inner-circle" :class="">
+			<div class="inner-circle has-foods">
 				<i class="icon-shopping_cart"></i>
-				<div class="badge">{{}}</div>
+				<div class="badge"></div>
 			</div>
 		</div>
 		<div class="price">
@@ -39,6 +39,7 @@
 			background-color: #141d27
 			box-sizing: border-box
 			.inner-circle
+				position: relative
 				width: 44px
 				height: 44px
 				margin: 0 auto
@@ -50,16 +51,20 @@
 				color: rgba(255, 255, 255, 0.4)
 				&.has-foods
 					background-color: rgb(0, 160, 220)
-					color: $text-color
+					color: $color-text
 					.badge
+						position: absolute
+						top: -8px
+						right: -6px
 						width: 24px
 						border-radius: 12px
-						font-size: 18px
+						font-size: 9px
 						font-weight: 700
-						color: $text-color
+						color: $color-text
 						line-height: 16px
 						background-color: $color-text-red
 						text-align: center
+						box-shadow 0px 4px 8px 0px rgba(0, 0, 0, 0.4)
 		.price
 			display: inline-block
 			margin-top: 8px
