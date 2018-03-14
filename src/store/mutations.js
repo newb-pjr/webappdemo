@@ -6,6 +6,9 @@ const mutations = {
 	},
 	[types.SET_COUNT] (state, count) {
 		state.count = count
+	},
+	[types.SET_PRICE] (state, price) {
+		state.price = price
 	}
 }
 

@@ -22,6 +22,7 @@ export function cartCont ({commit, state}, food) {
 	// slice()，不会修改原始数组而是返回一个新数组
 	let foodList = state.foodList.slice()
 	let count = 0
+	let price = 0
 	// let isExist = false
 	foodList = updateList(foodList, food)
 	// console.log(foodList)
@@ -36,8 +37,10 @@ export function cartCont ({commit, state}, food) {
 	// }
 	for (let i = 0; i < foodList.length; i++) {
 		count += foodList[i].count
+		price += foodList[i].count * foodList[i].price
 	}
 	commit(types.SET_FOODLIST, foodList)
 	// console.log(count)
 	commit(types.SET_COUNT, count)
+	commit(types.SET_PRICE, price)
 }

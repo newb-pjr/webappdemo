@@ -1,17 +1,17 @@
 <template>
 	<div class="shopcart">
 		<div class="outer-circle">
-			<div class="inner-circle has-foods">
+			<div class="inner-circle" :class="hasFoods">
 				<i class="icon-shopping_cart"></i>
 				<div class="badge" v-show="count>0">{{count}}</div>
 			</div>
 		</div>
 		<div class="price">
-			¥0
+			¥{{price}}
 		</div>
 		<div class="carriage">另需配送费¥10元</div>
-		<div class="sellBtn">
-			¥{{seller.minPrice}}元起送
+		<div class="sellBtn" :class="{'canSellBtn':price-seller.minPrice>=0}" @click="bug">
+			{{isSettlement}}
 		</div>
 	</div>
 </template>
@@ -27,9 +27,23 @@
 			}
 		},
 		computed: {
+			isSettlement () {
+				return this.price - this.seller.minPrice >= 0 ? '去结算' : `¥${this.seller.minPrice}元起送`
+			},
+			hasFoods () {
+				return this.count > 0 ? 'has-foods' : ''
+			},
 			...mapGetters([
-					'count'
+					'count',
+					'price'
 				])
+		},
+		methods: {
+			bug () {
+				if (this.price - this.seller.minPrice >= 0) {
+					alert('购买成功')
+				}
+			}
 		}
 	}
 </script>
@@ -111,4 +125,7 @@
 			color: rgba(255, 255, 255, 0.4)
 			font-weight: 700
 			text-align: center
+			&.canSellBtn
+				background-color: #00b43c
+				color: $color-text
 </style>
