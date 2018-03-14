@@ -1,4 +1,6 @@
-export const state = {
+const state = {
 	foodList: [],
 	count: 0
 }
+
+export default state

@@ -9,7 +9,7 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <shopcart></shopcart>
+    <shopcart :seller="seller"></shopcart>
   </div>
 </template>
 

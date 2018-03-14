@@ -1,6 +1,6 @@
 import * as types from './mutation-types'
 
-export const mutations = {
+const mutations = {
 	[types.SET_FOODLIST] (state, foodList) {
 		state.foodList = foodList
 	},
@@ -8,3 +8,5 @@ export const mutations = {
 		state.count = count
 	}
 }
+
+export default mutations

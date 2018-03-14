@@ -3,7 +3,7 @@
 		<div class="outer-circle">
 			<div class="inner-circle has-foods">
 				<i class="icon-shopping_cart"></i>
-				<div class="badge"></div>
+				<div class="badge" v-show="count>0">{{count}}</div>
 			</div>
 		</div>
 		<div class="price">
@@ -11,12 +11,27 @@
 		</div>
 		<div class="carriage">另需配送费¥10元</div>
 		<div class="sellBtn">
-			¥20元起送
+			¥{{seller.minPrice}}元起送
 		</div>
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	export default {}
+	import {mapGetters} from 'vuex'
+	export default {
+		props: {
+			seller: {
+				type: Object,
+				default () {
+					return {}
+				}
+			}
+		},
+		computed: {
+			...mapGetters([
+					'count'
+				])
+		}
+	}
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
 	@import '~common/stylus/index'

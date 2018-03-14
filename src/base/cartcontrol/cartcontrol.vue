@@ -12,6 +12,7 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
+	import {mapActions} from 'vuex'
 	import Vue from 'vue'
 	export default {
 		props: {
@@ -28,6 +29,9 @@
 			}
 		},
 		methods: {
+			...mapActions([
+					'cartCont'
+				]),
 			minus () {
 				if (this.food.count > 0) {
 					this.food.count--
@@ -44,8 +48,8 @@
 			}
 		},
 		watch: {
-			sub (newVal, oldVal) {
-				console.log(newVal, oldVal)
+			sub () {
+				this.cartCont(this.food)
 			}
 		}
 	}
