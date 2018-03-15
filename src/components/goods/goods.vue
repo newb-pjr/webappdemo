@@ -28,7 +28,7 @@
 									<span class="oldPrice" v-if="foodItem.oldPrice"><i class="symbol">¥</i>{{foodItem.oldPrice}}</span>
 								</p>
 							</div>
-							<cart-control class="cartcontrol" :food="foodItem"></cart-control>
+							<cart-control class="cartcontrol" :food="foodItem" @drop="drop"></cart-control>
 						</li>
 					</ul>
 				</div>
@@ -65,6 +65,9 @@
 			})
 		},
 		methods: {
+			drop (el) {
+				this.$emit('drop', el)
+			},
 			select (index) {
 				this.currentIndex = index
 				this.$refs.foodsScroll.scrollToElement(this.$refs.foods[index], 1000)

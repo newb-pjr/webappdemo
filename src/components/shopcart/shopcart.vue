@@ -13,11 +13,34 @@
 		<div class="sellBtn" :class="{'canSellBtn':price-seller.minPrice>=0}" @click="bug">
 			{{isSettlement}}
 		</div>
+		<div class="balls-container">
+			<transition-group name="drop" tag="div" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+				<div class="ball" v-for="(ball, index) in balls" v-show="ball.show" :key="index">
+					<div class="inner"></div>
+				</div>
+			</transition-group>
+		</div>
 	</div>
 </template>
 <script type="text/ecmascript-6">
 	import {mapGetters} from 'vuex'
 	export default {
+		data () {
+			return {
+				balls: [{
+					show: false
+				}, {
+					show: false
+				}, {
+					show: false
+				}, {
+					show: false
+				}, {
+					show: false
+				}],
+				dropBalls: []
+			}
+		},
 		props: {
 			seller: {
 				type: Object,
@@ -39,6 +62,22 @@
 				])
 		},
 		methods: {
+			beforeEnter (el) {
+				for (let i = 0)
+				console.log(el)
+			},
+			enter (el) {},
+			afterEnter () {},
+			drop (el) {
+				for (let i = 0; i < this.balls.length; i++) {
+					if (!this.balls[i].show) {
+						this.balls[i].show = true
+						this.balls[i].el = el
+						this.dropBalls.push(this.balls[i])
+						return
+					}
+				}
+			},
 			bug () {
 				if (this.price - this.seller.minPrice >= 0) {
 					alert('购买成功')
@@ -128,4 +167,18 @@
 			&.canSellBtn
 				background-color: #00b43c
 				color: $color-text
+		.balls-container
+			position: fixed
+			left: 32px
+			bottom: 22px
+			.ball
+				width: 16px
+				height: 16px
+				background-color: rgb(0, 160, 220)
+				border-radius: 50%
+				transition: all .4s
+				.inner
+					width: 100%
+					height: 100%
+					transition: all .4s
 </style>

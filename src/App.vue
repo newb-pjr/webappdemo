@@ -7,9 +7,9 @@
       <router-link :to="{path:'seller'}" class="item">商家</router-link>
     </div>
     <keep-alive>
-      <router-view></router-view>
+      <router-view @drop="drop"></router-view>
     </keep-alive>
-    <shopcart :seller="seller"></shopcart>
+    <shopcart :seller="seller" ref="shopcart"></shopcart>
   </div>
 </template>
 
@@ -31,6 +31,11 @@ export default {
         console.log(this.seller)
       }
     })
+  },
+  methods: {
+    drop (el) {
+      this.$refs.shopcart.drop(el)
+    }
   },
   components: {
     SHeader,
