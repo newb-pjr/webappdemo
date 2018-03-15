@@ -14,16 +14,20 @@
 			{{isSettlement}}
 		</div>
 		<div class="balls-container">
-			<transition-group name="drop" tag="div" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
-				<div class="ball" v-for="(ball, index) in balls" v-show="ball.show" :key="index">
-					<div class="inner"></div>
+			<transition name="drop" v-for="(ball, index) in balls" :key="index" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+				<div class="ball" v-show="ball.show">
+					<div class="inner" refs="inner"></div>
 				</div>
-			</transition-group>
+			</transition>
 		</div>
 	</div>
 </template>
 <script type="text/ecmascript-6">
 	import {mapGetters} from 'vuex'
+	import {prefixStyle} from 'common/js/util'
+
+	const transform = prefixStyle('transform')
+
 	export default {
 		data () {
 			return {
@@ -63,10 +67,21 @@
 		},
 		methods: {
 			beforeEnter (el) {
-				for (let i = 0)
-				console.log(el)
+				for (let i = 0; i < this.dropBalls.length; i++) {
+					let ball = this.dropBalls[i]
+					if (ball.show) {
+						let rect = ball.el.getBoundingClientRect()
+						let x = rect.left - 32
+						let y = -(window.innerHeight - rect.top - 32)
+						el.style[transform] = `translate3d(0, ${y}px, 0)`
+						this.$refs.inner[i].style[transform] = `translate3d(${x}px, 0, 0)`
+					}
+				}
 			},
-			enter (el) {},
+			enter (el) {
+				el.style[transform] = `translate3d(0, 0, 0)`
+				this.$refs.inner[i].style[transform] = `translate3d(0, 0, 0)`
+			},
 			afterEnter () {},
 			drop (el) {
 				for (let i = 0; i < this.balls.length; i++) {
@@ -174,11 +189,11 @@
 			.ball
 				width: 16px
 				height: 16px
-				background-color: rgb(0, 160, 220)
-				border-radius: 50%
 				transition: all .4s
 				.inner
 					width: 100%
 					height: 100%
+					background-color: rgb(0, 160, 220)
+					border-radius: 50%
 					transition: all .4s
 </style>
