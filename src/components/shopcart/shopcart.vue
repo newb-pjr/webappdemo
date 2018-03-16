@@ -16,7 +16,7 @@
 		<div class="balls-container">
 			<transition name="drop" v-for="(ball, index) in balls" :key="index" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
 				<div class="ball" v-show="ball.show">
-					<div class="inner" refs="inner"></div>
+					<div class="inner inner-hook" ref="inner"></div>
 				</div>
 			</transition>
 		</div>
@@ -69,20 +69,33 @@
 			beforeEnter (el) {
 				for (let i = 0; i < this.dropBalls.length; i++) {
 					let ball = this.dropBalls[i]
+					// this.num = i
 					if (ball.show) {
 						let rect = ball.el.getBoundingClientRect()
 						let x = rect.left - 32
-						let y = -(window.innerHeight - rect.top - 32)
+						let y = -(window.innerHeight - rect.top - 22)
+						let inner = el.querySelector('.inner-hook')
 						el.style[transform] = `translate3d(0, ${y}px, 0)`
-						this.$refs.inner[i].style[transform] = `translate3d(${x}px, 0, 0)`
+						inner.style[transform] = `translate3d(${x}px, 0, 0)`
+						// this.$refs.inner[i].style[transform] = `translate3d(${x}px, 0, 0)`
 					}
 				}
 			},
 			enter (el) {
-				el.style[transform] = `translate3d(0, 0, 0)`
-				this.$refs.inner[i].style[transform] = `translate3d(0, 0, 0)`
+				/* eslint-disable no-unused-vars */
+				let rf = el.offsetHeight
+				let inner = el.querySelector('.inner-hook')
+				el.style[transform] = 'translate3d(0, 0, 0)'
+				inner.style[transform] = 'translate3d(0, 0, 0)'
+				// this.$refs.inner[this.num].style[transform] = `translate3d(0, 0, 0)`
 			},
-			afterEnter () {},
+			afterEnter (el) {
+				let ball = this.dropBalls.shift()
+				if (ball) {
+					ball.show = false
+					el.style.display = 'none'
+				}
+			},
 			drop (el) {
 				for (let i = 0; i < this.balls.length; i++) {
 					if (!this.balls[i].show) {
@@ -183,17 +196,32 @@
 				background-color: #00b43c
 				color: $color-text
 		.balls-container
-			position: fixed
-			left: 32px
-			bottom: 22px
+			// .ball
+			// 	position fixed
+			// 	left 32px
+			// 	bottom 22px
+			// 	z-index 200
+			// 	&.drop-enter,&.drop-enter-active
+			// 		transition all 0.4s cubic-bezier(0.49,-0.29,0.75,0.41)
+			// 		.inner
+			// 			width 16px
+			// 			height 16px
+			// 			border-radius 50%
+			// 			background rgb(0,160,220)
+			// 			transition all 0.4s linear
 			.ball
+				position: fixed
+				left: 32px
+				bottom: 22px
 				width: 16px
 				height: 16px
-				transition: all .4s
-				.inner
-					width: 100%
-					height: 100%
-					background-color: rgb(0, 160, 220)
-					border-radius: 50%
-					transition: all .4s
+				// transition: all .4s cubic-bezier(0.49,-0.29,0.75,0.41)
+				&.drop-enter,&.drop-enter-active
+					transition: all .4s cubic-bezier(0.49,-0.29,0.75,0.41)
+					.inner
+						width: 100%
+						height: 100%
+						background-color: rgb(0, 160, 220)
+						border-radius: 50%
+						transition: all .4s linear
 </style>

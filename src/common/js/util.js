@@ -9,7 +9,7 @@ let vendor = (() => {
 	}
 
 	for (let key in styleTransform) {
-		if(createStyle[styleTransform[key]] !== undefined) {
+		if (createStyle[styleTransform[key]] !== undefined) {
 			return key
 		}
 	}
