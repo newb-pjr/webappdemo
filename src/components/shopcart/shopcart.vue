@@ -50,6 +50,7 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
+	import Vue from 'vue'
 	import {mapGetters, mapMutations} from 'vuex'
 	import {prefixStyle} from 'common/js/util'
 	import cartControl from 'base/cartcontrol/cartcontrol'
@@ -97,6 +98,12 @@
 		},
 		methods: {
 			clear () {
+				for (let i = 0; i < this.foodList.length; i++) {
+					let food = this.foodList[i]
+					if (food.count) {
+						Vue.set(food, 'count', 0)
+					}
+				}
 				this.setFoodList([])
 			},
 			open () {
@@ -153,7 +160,7 @@
 				}
 			},
 			...mapMutations({
-				setFoodList: 'foodList'
+				setFoodList: 'SET_FOODLIST'
 			})
 		},
 		watch: {
