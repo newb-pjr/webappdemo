@@ -15,7 +15,7 @@
 				<div v-for="(item, index) in goods" :key="index" ref="foods">
 					<div class="title">{{item.name}}</div>
 					<ul class="detail-container">
-						<li class="detail" v-for="(foodItem, index) in item.foods" :key="index">
+						<li class="detail" v-for="(foodItem, index) in item.foods" :key="index" @click="open(foodItem)">
 							<img :src="foodItem.icon" width="64" height="64">
 							<div class="info">
 								<p class="name">{{foodItem.name}}</p>
@@ -34,6 +34,17 @@
 				</div>
 			</div>
 		</scroll>
+		<transition name="slide">
+			<div class="foodDet-container" v-show="isShow">
+				<div class="food-details">
+					<div class="img-container" :style="bgImage"></div>
+					<div class="title">
+						<i class="icon-arrow_lift" @click="close"></i>
+					</div>
+					<i class="icon-arrow_lift" @click="close"></i>
+				</div>
+			</div>
+		</transition>
 	</div>
 </template>
 <script type="text/ecmascript-6">
@@ -51,7 +62,9 @@
 				currentIndex: 0,
 				listenScroll: true,
 				listHeight: [],
-				probeType: 3
+				probeType: 3,
+				food: {},
+				isShow: false
 			}
 		},
 		created () {
@@ -64,7 +77,19 @@
 				}
 			})
 		},
+		computed: {
+			bgImage () {
+				return `background-image:url(${this.food.image})`
+			}
+		},
 		methods: {
+			open (food) {
+				this.food = food
+				this.isShow = true
+			},
+			close () {
+				this.isShow = false
+			},
 			drop (el) {
 				this.$emit('drop', el)
 			},
@@ -225,4 +250,32 @@
 								font-weight: 700
 								line-height: 24px
 								text-decoration: line-through
+		.foodDet-container
+			position: fixed
+			top: 0
+			left: 0
+			width: 100%
+			height: 100%
+			background-color: $color-text
+			&.slide-enter,&.slide-leave-to
+				transform: translate3d(100%,0,0)
+			&.slide-enter-active,&.slide-leave-active
+				transition: all .3s
+			.food-details
+				position: relative
+				.img-container
+					width: 100%
+					height: 0
+					padding-top: 70%
+					background-size: cover
+				.title
+					position: absolute
+					top: 0
+					left: 0
+				.icon-arrow_lift
+					position: absolute
+					top: 10px
+					left: 10px
+					font-size: 18px
+					color: $color-text
 </style>
