@@ -35,13 +35,31 @@
 			</div>
 		</scroll>
 		<transition name="slide">
-			<div class="foodDet-container" v-show="isShow">
+			<div class="foodDet-container" v-show="isShow" @touchmove.prevent="scrollTouchMove">
 				<div class="food-details">
 					<div class="img-container" :style="bgImage"></div>
 					<div class="title">
-						<i class="icon-arrow_lift" @click="close"></i>
+						<i class="icon-arrow_lift" @click="close"></i>{{food.name}}
 					</div>
-					<i class="icon-arrow_lift" @click="close"></i>
+					<!-- <i class="icon-arrow_lift" @click="close"></i> -->
+					<scroll :data="goods">
+						<div class="food-info">
+							<div class="food-info-detail">
+								<div class="name">{{food.name}}</div>
+								<div class="sellCount">
+									<span>月售{{food.sellCount}}份</span>
+									<span>好评率{{food.rating}}%</span>
+								</div>
+								<div class="price">
+									<span class="currentSymbol">¥</span><span class="currentPrice">{{food.price}}</span><span class="oldSymbol" v-show="food.oldPrice">¥</span><span v-show="food.oldPrice">{{food.oldPrice}}}</span>
+								</div>
+								<div class="addToCart" v-if="hasCount">
+									加入购物车
+								</div>
+								<!-- <cart-control class="cartCtrl"></cart-control> -->
+							</div>
+						</div>
+					</scroll>
 				</div>
 			</div>
 		</transition>
@@ -53,6 +71,7 @@
 	// import BScroll from 'better-scroll'
 	import Scroll from 'base/scroll/scroll'
 	import CartControl from 'base/cartcontrol/cartcontrol'
+	import {mapGetters} from 'vuex'
 
 	export default {
 		mixins: [typePicMixin],
@@ -64,7 +83,8 @@
 				listHeight: [],
 				probeType: 3,
 				food: {},
-				isShow: false
+				isShow: false,
+				hasCount: true
 			}
 		},
 		created () {
@@ -80,9 +100,29 @@
 		computed: {
 			bgImage () {
 				return `background-image:url(${this.food.image})`
+			},
+			...mapGetters([
+					'foodList'
+				])
+		},
+		watch: {
+			foodList () {
+				this.foodList.forEach((item) => {
+				console.log(this.food.id)
+					if (item.id === this.food.id) {
+						console.log(item.id)
+						this.hasCount = false
+						return false
+					}
+				})
+				console.log(654)
+				this.hasCount = true
 			}
 		},
 		methods: {
+			scrollTouchMove () {
+				console.log(123)
+			},
 			open (food) {
 				this.food = food
 				this.isShow = true
@@ -269,13 +309,66 @@
 					padding-top: 70%
 					background-size: cover
 				.title
-					position: absolute
+					position: fixed
 					top: 0
 					left: 0
-				.icon-arrow_lift
+					width: 100%
+					height: 44px
+					line-height: 44px
+					text-align: center
+					font-size: 16px
+					.icon-arrow_lift
+						position: absolute
+						top: 10px
+						left: 10px
+						font-size: 18px
+						color: $color-text
+				.food-info
 					position: absolute
-					top: 10px
-					left: 10px
-					font-size: 18px
-					color: $color-text
+					top: 262.5px
+					left: 0
+					width: 100%
+					.food-info-detail
+						position: relative
+						padding: 18px
+						.name
+							font-size: 14px
+							font-weight: 700
+							color: $color-text-black
+							line-height: 14px
+						.sellCount
+							margin-top: 8px
+							font-size: 10px
+							color: $color-text-deepGray
+							line-height: 10px
+							span
+								&:first-child
+									margin-right: 12px
+						.price
+							margin-top: 18px
+							font-size: 10px
+							font-weight: 700
+							color: $color-text-deepGray
+							line-height: 24px
+							.currentSymbol
+								color: $color-text-red
+							.currentPrice
+								margin-right: 12px
+								font-size: 14px
+								font-weight: 700
+								color: $color-text-red
+							.oldSymbol
+								font-weight: normal
+						.addToCart
+							position: absolute
+							bottom: 18px
+							right: 18px
+							width: 74px
+							height: 24px
+							line-height: 24px
+							text-align: center
+							font-size: 10px
+							color: $color-text
+							border-radius: 12px
+							background-color: rgb(0, 160, 220)
 </style>
