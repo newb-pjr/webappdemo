@@ -55,8 +55,10 @@
 		}
 	}
 </script>
-<style lang="stylus" rel="stylesheet/stylus">
+<style scoped lang="stylus" rel="stylesheet/stylus">
+	@import '~common/stylus/index'
 	.cartcontrol
+		font-size: 0
 		.minus
 			display: inline-block
 			opacity: 1

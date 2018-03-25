@@ -42,7 +42,7 @@
 						<i class="icon-arrow_lift" @click="close"></i>{{food.name}}
 					</div>
 					<!-- <i class="icon-arrow_lift" @click="close"></i> -->
-					<scroll :data="goods">
+					<scroll :data="food.ratings">
 						<div class="food-info">
 							<div class="food-info-detail">
 								<div class="name">{{food.name}}</div>
@@ -53,11 +53,18 @@
 								<div class="price">
 									<span class="currentSymbol">¥</span><span class="currentPrice">{{food.price}}</span><span class="oldSymbol" v-show="food.oldPrice">¥</span><span v-show="food.oldPrice">{{food.oldPrice}}}</span>
 								</div>
-								<div class="addToCart" v-if="hasCount">
+								<div class="addToCart" v-if="hasCount" @click.once="addDrop">
 									加入购物车
 								</div>
-								<!-- <cart-control class="cartCtrl"></cart-control> -->
+								<cart-control class="cartCtrl" @drop="drop" :food="food" ref="cartCtrl"></cart-control>
 							</div>
+							<split></split>
+							<div class="intr">
+								<div class="name">商品介绍</div>
+								<div class="info">{{food.info}}</div>
+							</div>
+							<split></split>
+							<rating-select></rating-select>
 						</div>
 					</scroll>
 				</div>
@@ -72,6 +79,9 @@
 	import Scroll from 'base/scroll/scroll'
 	import CartControl from 'base/cartcontrol/cartcontrol'
 	import {mapGetters} from 'vuex'
+	// import Vue from 'vue'
+	import Split from 'base/split/split'
+	import RatingSelect from 'components/ratingselect/ratingselect'
 
 	export default {
 		mixins: [typePicMixin],
@@ -105,20 +115,6 @@
 					'foodList'
 				])
 		},
-		watch: {
-			foodList () {
-				this.foodList.forEach((item) => {
-				console.log(this.food.id)
-					if (item.id === this.food.id) {
-						console.log(item.id)
-						this.hasCount = false
-						return false
-					}
-				})
-				console.log(654)
-				this.hasCount = true
-			}
-		},
 		methods: {
 			scrollTouchMove () {
 				console.log(123)
@@ -126,9 +122,30 @@
 			open (food) {
 				this.food = food
 				this.isShow = true
+				for (let i = 0; i < this.foodList.length; i++) {
+					let id = this.foodList[i].id
+					if (id === this.food.id) {
+						this.hasCount = false
+						return
+					}
+				}
+				this.hasCount = true
 			},
 			close () {
 				this.isShow = false
+			},
+			addDrop (e) {
+				this.$refs.cartCtrl.add(e)
+				this.$nextTick(() => {
+					for (let i = 0; i < this.foodList.length; i++) {
+						let id = this.foodList[i].id
+						if (id === this.food.id) {
+							this.hasCount = false
+							return
+						}
+					}
+					this.hasCount = true
+				})
 			},
 			drop (el) {
 				this.$emit('drop', el)
@@ -169,7 +186,9 @@
 		},
 		components: {
 			Scroll,
-			CartControl
+			CartControl,
+			Split,
+			RatingSelect
 		}
 	}
 </script>
@@ -371,4 +390,21 @@
 							color: $color-text
 							border-radius: 12px
 							background-color: rgb(0, 160, 220)
+							z-index: 99
+						.cartCtrl
+							position: absolute
+							bottom: 16px
+							right: 18px
+					.intr
+						padding: 18px
+						.name
+							font-size: 14px
+							color: $color-text-black
+							line-height: 14px
+						.info
+							padding: 6px 8px 0 8px
+							font-size: 12px
+							font-weight: 200
+							color: rgb(77,85,93)
+							line-height: 24px
 </style>
