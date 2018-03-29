@@ -42,31 +42,43 @@
 						<i class="icon-arrow_lift" @click="close"></i>{{food.name}}
 					</div>
 					<!-- <i class="icon-arrow_lift" @click="close"></i> -->
-					<scroll :data="food.ratings">
-						<div class="food-info">
-							<div class="food-info-detail">
-								<div class="name">{{food.name}}</div>
-								<div class="sellCount">
-									<span>月售{{food.sellCount}}份</span>
-									<span>好评率{{food.rating}}%</span>
+						<scroll class="food-info-container">
+							<div class="food-info">
+								<div class="food-info-detail">
+									<div class="name">{{food.name}}</div>
+									<div class="sellCount">
+										<span>月售{{food.sellCount}}份</span>
+										<span>好评率{{food.rating}}%</span>
+									</div>
+									<div class="price">
+										<span class="currentSymbol">¥</span><span class="currentPrice">{{food.price}}</span><span class="oldSymbol" v-show="food.oldPrice">¥</span><span v-show="food.oldPrice">{{food.oldPrice}}}</span>
+									</div>
+									<div class="addToCart" v-if="hasCount" @click.once="addDrop">
+										加入购物车
+									</div>
+									<cart-control class="cartCtrl" @drop="drop" @minus="minus" :food="food" ref="cartCtrl"></cart-control>
 								</div>
-								<div class="price">
-									<span class="currentSymbol">¥</span><span class="currentPrice">{{food.price}}</span><span class="oldSymbol" v-show="food.oldPrice">¥</span><span v-show="food.oldPrice">{{food.oldPrice}}}</span>
+								<split></split>
+								<div class="intr">
+									<div class="name">商品介绍</div>
+									<div class="info">{{food.info}}</div>
 								</div>
-								<div class="addToCart" v-if="hasCount" @click.once="addDrop">
-									加入购物车
-								</div>
-								<cart-control class="cartCtrl" @drop="drop" :food="food" ref="cartCtrl"></cart-control>
+								<split></split>
+								<rating-select></rating-select>
+								<ul class="ratings-list">
+									<li v-for="(item, index) in food.ratings" :key="index" class="ratings-item">
+										<div class="time">{{item.rateTime}}</div>
+										<div class="text">
+											<i :class="iconCls(item.rateType)"></i><span>{{item.text}}</span>
+										</div>
+										<div class="user-info">
+											<span>{{item.username}}</span>
+											<img :src="item.avatar">
+										</div>
+									</li>
+								</ul>
 							</div>
-							<split></split>
-							<div class="intr">
-								<div class="name">商品介绍</div>
-								<div class="info">{{food.info}}</div>
-							</div>
-							<split></split>
-							<rating-select></rating-select>
-						</div>
-					</scroll>
+						</scroll>
 				</div>
 			</div>
 		</transition>
@@ -112,24 +124,32 @@
 				return `background-image:url(${this.food.image})`
 			},
 			...mapGetters([
-					'foodList'
+					'foodList',
+					'count'
 				])
 		},
 		methods: {
+			iconCls (rateType) {
+				if (rateType === 0) {
+					return 'icon-thumb_up'
+				} else {
+					return 'icon-thumb_down'
+				}
+			},
+			minus () {
+				this.$nextTick(() => {
+					if (this.count === 0) {
+						this.hasCount = true
+					}
+				})
+			},
 			scrollTouchMove () {
 				console.log(123)
 			},
 			open (food) {
 				this.food = food
 				this.isShow = true
-				for (let i = 0; i < this.foodList.length; i++) {
-					let id = this.foodList[i].id
-					if (id === this.food.id) {
-						this.hasCount = false
-						return
-					}
-				}
-				this.hasCount = true
+				this._isHasCount()
 			},
 			close () {
 				this.isShow = false
@@ -137,14 +157,7 @@
 			addDrop (e) {
 				this.$refs.cartCtrl.add(e)
 				this.$nextTick(() => {
-					for (let i = 0; i < this.foodList.length; i++) {
-						let id = this.foodList[i].id
-						if (id === this.food.id) {
-							this.hasCount = false
-							return
-						}
-					}
-					this.hasCount = true
+					this._isHasCount()
 				})
 			},
 			drop (el) {
@@ -172,6 +185,18 @@
 						return
 					}
 				}
+			},
+			_isHasCount () {
+				for (let i = 0; i < this.foodList.length; i++) {
+					let id = this.foodList[i].id
+					if (id === this.food.id) {
+						this.hasCount = false
+						console.log(id)
+						return
+					}
+				}
+				console.log(999)
+				this.hasCount = true
 			},
 			_calculateHeight () {
 				let arr = []
@@ -322,6 +347,7 @@
 				transition: all .3s
 			.food-details
 				position: relative
+				height: 100%
 				.img-container
 					width: 100%
 					height: 0
@@ -342,69 +368,113 @@
 						left: 10px
 						font-size: 18px
 						color: $color-text
-				.food-info
+				.food-info-container
 					position: absolute
 					top: 262.5px
 					left: 0
-					width: 100%
-					.food-info-detail
-						position: relative
-						padding: 18px
-						.name
-							font-size: 14px
-							font-weight: 700
-							color: $color-text-black
-							line-height: 14px
-						.sellCount
-							margin-top: 8px
-							font-size: 10px
-							color: $color-text-deepGray
-							line-height: 10px
-							span
-								&:first-child
-									margin-right: 12px
-						.price
-							margin-top: 18px
-							font-size: 10px
-							font-weight: 700
-							color: $color-text-deepGray
-							line-height: 24px
-							.currentSymbol
-								color: $color-text-red
-							.currentPrice
-								margin-right: 12px
+					right: 0
+					bottom: 44px
+					overflow: hidden
+					.food-info
+						.food-info-detail
+							position: relative
+							padding: 18px
+							.name
 								font-size: 14px
 								font-weight: 700
-								color: $color-text-red
-							.oldSymbol
-								font-weight: normal
-						.addToCart
-							position: absolute
-							bottom: 18px
-							right: 18px
-							width: 74px
-							height: 24px
-							line-height: 24px
-							text-align: center
-							font-size: 10px
-							color: $color-text
-							border-radius: 12px
-							background-color: rgb(0, 160, 220)
-							z-index: 99
-						.cartCtrl
-							position: absolute
-							bottom: 16px
-							right: 18px
-					.intr
-						padding: 18px
-						.name
-							font-size: 14px
-							color: $color-text-black
-							line-height: 14px
-						.info
-							padding: 6px 8px 0 8px
-							font-size: 12px
-							font-weight: 200
-							color: rgb(77,85,93)
-							line-height: 24px
+								color: $color-text-black
+								line-height: 14px
+							.sellCount
+								margin-top: 8px
+								font-size: 10px
+								color: $color-text-deepGray
+								line-height: 10px
+								span
+									&:first-child
+										margin-right: 12px
+							.price
+								margin-top: 18px
+								font-size: 10px
+								font-weight: 700
+								color: $color-text-deepGray
+								line-height: 24px
+								.currentSymbol
+									color: $color-text-red
+								.currentPrice
+									margin-right: 12px
+									font-size: 14px
+									font-weight: 700
+									color: $color-text-red
+								.oldSymbol
+									font-weight: normal
+							.addToCart
+								position: absolute
+								bottom: 18px
+								right: 18px
+								width: 74px
+								height: 24px
+								line-height: 24px
+								text-align: center
+								font-size: 10px
+								color: $color-text
+								border-radius: 12px
+								background-color: rgb(0, 160, 220)
+								z-index: 99
+							.cartCtrl
+								position: absolute
+								bottom: 16px
+								right: 18px
+						.intr
+							padding: 18px
+							.name
+								font-size: 14px
+								color: $color-text-black
+								line-height: 14px
+							.info
+								padding: 6px 8px 0 8px
+								font-size: 12px
+								font-weight: 200
+								color: rgb(77,85,93)
+								line-height: 24px
+						.ratings-list
+							border-top: 2px solid gray(0.1)
+							padding: 0 18px
+							.ratings-item
+								position: relative
+								padding: 16px 0
+								border-bottom: 1px solid gray(0.1)
+								font-size: 0
+								&:last-child
+									border-bottom: 0
+								.time
+									margin-bottom: 6px
+									font-size: 10px
+									color: $color-text-deepGray
+									line-height: 12px
+								.text
+									font-size: 12px
+									color: $color-text-black
+									line-height: 16px
+									i
+										margin-right: 4px
+										color: $color-text-deepGray
+										line-height: 24px
+										&.icon-thumb_up
+											color: rgb(0, 160, 220)
+								.user-info
+									position: absolute
+									top: 16px
+									right: 0
+									font-size: 0
+									color: $color-text-deepGray
+									line-height: 12px
+									span
+										font-size: 10px
+									img
+										display: inline-block
+										width: 12px
+										height: 12px
+										margin-left: 6px
+										border-radius: 50%
+										vertical-align: top
 </style>

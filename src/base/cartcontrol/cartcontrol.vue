@@ -37,6 +37,7 @@
 					this.food.count--
 					Vue.set(this.food, 'count', this.food.count)
 				}
+				this.$emit('minus')
 			},
 			add (e) {
 				if (!this.food.count) {
