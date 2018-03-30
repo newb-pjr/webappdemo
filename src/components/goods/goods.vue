@@ -42,7 +42,7 @@
 						<i class="icon-arrow_lift" @click="close"></i>{{food.name}}
 					</div>
 					<!-- <i class="icon-arrow_lift" @click="close"></i> -->
-						<scroll class="food-info-container">
+						<scroll class="food-info-container" ref="foodScroll">
 							<div class="food-info">
 								<div class="food-info-detail">
 									<div class="name">{{food.name}}</div>
@@ -64,9 +64,9 @@
 									<div class="info">{{food.info}}</div>
 								</div>
 								<split></split>
-								<rating-select></rating-select>
+								<rating-select @hasContent="hasCountChange" @select="onSelect" :all="all" :good="good" :bad="bad"></rating-select>
 								<ul class="ratings-list">
-									<li v-for="(item, index) in food.ratings" :key="index" class="ratings-item">
+									<li v-show="" v-for="(item, index) in ratingsList" :key="index" class="ratings-item">
 										<div class="time">{{item.rateTime}}</div>
 										<div class="text">
 											<i :class="iconCls(item.rateType)"></i><span>{{item.text}}</span>
@@ -95,6 +95,12 @@
 	import Split from 'base/split/split'
 	import RatingSelect from 'components/ratingselect/ratingselect'
 
+	// const select = {
+	// 	all: 0,
+	// 	good: 1,
+	// 	bad: 2
+	// }
+
 	export default {
 		mixins: [typePicMixin],
 		data () {
@@ -106,7 +112,8 @@
 				probeType: 3,
 				food: {},
 				isShow: false,
-				hasCount: true
+				hasCount: true,
+				ratingsList: []
 			}
 		},
 		created () {
@@ -120,6 +127,35 @@
 			})
 		},
 		computed: {
+			good () {
+				if (this.food.ratings) {
+					let n = 0
+					for (let i = 0; i < this.food.ratings.length; i++) {
+						let rating = this.food.ratings[i]
+						if (rating.rateType === 0) {
+							n++
+						}
+					}
+					return {name: '推荐', num: n}
+				}
+			},
+			bad () {
+				if (this.food.ratings) {
+					let n = 0
+					for (let i = 0; i < this.food.ratings.length; i++) {
+						let rating = this.food.ratings[i]
+						if (rating.rateType === 1) {
+							n++
+						}
+					}
+					return {name: '吐槽', num: n}
+				}
+			},
+			all () {
+				if (this.food.ratings) {
+					return {name: '全部', num: this.food.ratings.length}
+				}
+			},
 			bgImage () {
 				return `background-image:url(${this.food.image})`
 			},
@@ -129,6 +165,32 @@
 				])
 		},
 		methods: {
+			onSelect (type) {
+				if (type === select.all) {
+					this.ratingsList = this.food.ratings
+				}
+				let arr = []
+				for (let i = 0; i < this.ratingsList.length; i++) {
+					let rating = this.ratingsList[i]
+					if (type === rating.rateType) {
+						arr.push(rating)
+					}
+				}
+			},
+			hasCountChange (flag) {
+				if (flag) {
+					let arr = []
+					for (let i = 0; i < this.ratingsList.length; i++) {
+						let rating = this.ratingsList[i]
+						if (rating.text !== '') {
+							arr.push(rating)
+						}
+					}
+					this.ratingsList = arr
+				} else {
+					this.ratingsList = this.food.ratings
+				}
+			},
 			iconCls (rateType) {
 				if (rateType === 0) {
 					return 'icon-thumb_up'
@@ -149,6 +211,8 @@
 			open (food) {
 				this.food = food
 				this.isShow = true
+				this.ratingsList = food.ratings
+				this.$refs.foodScroll.scrollTo(0, 0)
 				this._isHasCount()
 			},
 			close () {

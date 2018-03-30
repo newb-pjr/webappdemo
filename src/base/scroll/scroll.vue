@@ -30,6 +30,9 @@
 			})
 		},
 		methods: {
+			scrollTo (...args) {
+				this.scroll && this.scroll.scrollTo.apply(this.scroll, args)
+			},
 			refresh () {
 				this.scroll && this.scroll.refresh()
 			},
