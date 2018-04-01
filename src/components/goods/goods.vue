@@ -64,10 +64,10 @@
 									<div class="info">{{food.info}}</div>
 								</div>
 								<split></split>
-								<rating-select @hasContent="hasCountChange" @select="onSelect" :all="all" :good="good" :bad="bad"></rating-select>
+								<rating-select @hasContent="hasContChange" @select="onSelect" :all="all" :good="good" :bad="bad"></rating-select>
 								<ul class="ratings-list">
-									<li v-show="" v-for="(item, index) in ratingsList" :key="index" class="ratings-item">
-										<div class="time">{{item.rateTime}}</div>
+									<li v-show="showComment(item.text, item.rateType)" v-for="(item, index) in food.ratings" :key="index" class="ratings-item">
+										<div class="time">{{item.rateTime | formatDate}}</div>
 										<div class="text">
 											<i :class="iconCls(item.rateType)"></i><span>{{item.text}}</span>
 										</div>
@@ -113,7 +113,8 @@
 				food: {},
 				isShow: false,
 				hasCount: true,
-				ratingsList: []
+				commentType: 2,
+				hasOnlyComment: false
 			}
 		},
 		created () {
@@ -166,30 +167,20 @@
 		},
 		methods: {
 			onSelect (type) {
-				if (type === select.all) {
-					this.ratingsList = this.food.ratings
+				this.commentType = type
+			},
+			showComment (text, rateType) {
+				if (this.hasOnlyComment && !text) {
+					return false
 				}
-				let arr = []
-				for (let i = 0; i < this.ratingsList.length; i++) {
-					let rating = this.ratingsList[i]
-					if (type === rating.rateType) {
-						arr.push(rating)
-					}
+				if (this.commentType === 2) {
+					return true
+				} else {
+					return this.commentType === rateType
 				}
 			},
-			hasCountChange (flag) {
-				if (flag) {
-					let arr = []
-					for (let i = 0; i < this.ratingsList.length; i++) {
-						let rating = this.ratingsList[i]
-						if (rating.text !== '') {
-							arr.push(rating)
-						}
-					}
-					this.ratingsList = arr
-				} else {
-					this.ratingsList = this.food.ratings
-				}
+			hasContChange (flag) {
+				this.hasOnlyComment = flag
 			},
 			iconCls (rateType) {
 				if (rateType === 0) {
@@ -211,7 +202,6 @@
 			open (food) {
 				this.food = food
 				this.isShow = true
-				this.ratingsList = food.ratings
 				this.$refs.foodScroll.scrollTo(0, 0)
 				this._isHasCount()
 			},
@@ -271,6 +261,12 @@
 					arr.push(height)
 				}
 				this.listHeight = arr
+			}
+		},
+		filters {
+			formatDate (time) {
+				let date = new Date(time)
+				return formatDate(date, 'yyyy-MM-dd hh:mm')
 			}
 		},
 		components: {
