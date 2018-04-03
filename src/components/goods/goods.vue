@@ -64,7 +64,10 @@
 									<div class="info">{{food.info}}</div>
 								</div>
 								<split></split>
-								<rating-select @hasContent="hasContChange" @select="onSelect" :all="all" :good="good" :bad="bad"></rating-select>
+								<div class="intr padding-bottom-none">
+									<div class="name">商品评价</div>
+									<rating-select @hasContent="hasContChange" @select="onSelect" :all="all" :good="good" :bad="bad"></rating-select>
+								</div>
 								<ul class="ratings-list">
 									<li v-show="showComment(item.text, item.rateType)" v-for="(item, index) in food.ratings" :key="index" class="ratings-item">
 										<div class="time">{{item.rateTime | formatDate}}</div>
@@ -93,7 +96,8 @@
 	import {mapGetters} from 'vuex'
 	// import Vue from 'vue'
 	import Split from 'base/split/split'
-	import RatingSelect from 'components/ratingselect/ratingselect'
+	import RatingSelect from 'base/ratingselect/ratingselect'
+	import {formatDate} from 'common/js/date'
 
 	// const select = {
 	// 	all: 0,
@@ -245,11 +249,9 @@
 					let id = this.foodList[i].id
 					if (id === this.food.id) {
 						this.hasCount = false
-						console.log(id)
 						return
 					}
 				}
-				console.log(999)
 				this.hasCount = true
 			},
 			_calculateHeight () {
@@ -263,7 +265,7 @@
 				this.listHeight = arr
 			}
 		},
-		filters {
+		filters: {
 			formatDate (time) {
 				let date = new Date(time)
 				return formatDate(date, 'yyyy-MM-dd hh:mm')
@@ -486,6 +488,9 @@
 								right: 18px
 						.intr
 							padding: 18px
+							&.padding-bottom-none{
+								padding-bottom: 0
+							}
 							.name
 								font-size: 14px
 								color: $color-text-black

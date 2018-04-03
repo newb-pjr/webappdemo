@@ -1,6 +1,5 @@
 <template>
 	<div class="select">
-		<div class="title">商品评价</div>
 		<ul>
 			<li class="blue" @click="selectItem(select.all)" :class="{'active':select.all===onActive}">
 				<span class="name">{{all.name}}</span><span class="num">{{all.num}}</span>
@@ -79,13 +78,8 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
 	@import '~common/stylus/index'
 	.select
-		padding: 18px 18px 0
-		.title
-			font-size: 14px
-			color: $color-text-black
-			line-height: 14px
+		padding-top: 18px
 		ul
-			margin-top: 18px
 			padding-bottom: 18px
 			border-bottom 1px solid gray(0.1)
 			li
