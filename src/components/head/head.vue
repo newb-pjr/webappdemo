@@ -96,6 +96,7 @@ export default {
 		position: relative
 		font-size: 0
 		bg-gray(0.5)
+		overflow: hidden
 		.header-info
 			padding: 24px 0px 18px 24px
 			.avatar

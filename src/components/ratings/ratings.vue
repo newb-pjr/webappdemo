@@ -3,24 +3,24 @@
 		<div>
 			<div class="seller-container">
 				<div class="left">
-					<div class="score">{{this.seller.score}}</div>
+					<div class="score">{{seller.score}}</div>
 					<div class="name">综合评分</div>
-					<div class="rankRate">高于周边商家{{this.seller.rankRate}}%</div>
+					<div class="rankRate">高于周边商家{{seller.rankRate}}%</div>
 				</div>
 				<div class="right">
 					<div class="score-container">
 						<div class="name">服务态度</div>
-						<star class="star" :size="36" :rating="this.seller.serviceScore"></star>.
-						<div class="score">{{this.seller.serviceScore}}</div>
+						<star class="star" :size="36" :rating="seller.serviceScore"></star>.
+						<div class="score">{{seller.serviceScore}}</div>
 					</div>
 					<div class="score-container">
 						<div class="name">出品得分</div>
-						<star class="star" :size="36" :rating="this.seller.foodScore"></star>
-						<div class="score">{{this.seller.foodScore}}</div>
+						<star class="star" :size="36" :rating="seller.foodScore"></star>
+						<div class="score">{{seller.foodScore}}</div>
 					</div>
 					<div class="score-container margin-none">
 						<div class="name">送达时间</div>
-						<div class="time">{{this.seller.deliveryTime}}分钟</div>
+						<div class="time">{{seller.deliveryTime}}分钟</div>
 					</div>
 				</div>
 			</div>
@@ -132,6 +132,10 @@
 				width: 137px
 				border-right 1px solid gray(0.1)
 				text-align: center
+				@media only screen and (max-width: 320px){
+					flex: 0 0 120px
+					width: 120px
+				}
 				.score{
 					margin-bottom: 6px
 					font-size: 24px
@@ -154,6 +158,9 @@
 			.right{
 				flex: 1
 				padding: 0 24px
+				@media only screen and (max-width: 320px){
+					padding: 0 5px
+				}
 				.score-container{
 					font-size: 0
 					margin-bottom: 8px
@@ -163,16 +170,19 @@
 						font-size: 12px
 						color: $color-text-black
 						line-height: 18px
+						vertical-align: top
 					}
 					.star{
 						display: inline-block
 						margin-right: 12px
+						vertical-align: top
 					}
 					.score{
 						display: inline-block
 						font-size: 12px
 						color: $color-text-orange
 						line-height: 18px
+						vertical-align: top
 					}
 					.time{
 						display: inline-block
@@ -226,6 +236,7 @@
 						margin-bottom: 6px
 						.star-container{
 							display: inline-block
+							margin-right: 6px
 						}
 						.time{
 							font-size: 10px
@@ -235,13 +246,15 @@
 						}
 					}
 					.text{
-						margin-bottom: 8px
 						font-size: 12px
 						color: $color-text-black
 						line-height: 18px
 					}
 					.recommend{
+						font-size: 0
 						.icon-thumb_up{
+							display: inline-block
+							margin-top: 8px
 							font-size: 12px
 							color: rgb(0, 160, 220)
 							line-height: 16px
@@ -250,6 +263,7 @@
 							display: inline-block
 							width: 54px
 							margin-left: 8px
+							margin-top: 8px
 							padding: 0 6px
 							box-sizing: border-box
 							font-size: 9px
@@ -260,6 +274,7 @@
 							white-space: nowrap
 							border: 1px solid gray(0.1)
 							border-radius: 1px
+							vertical-align: top
 						}
 					}
 				}

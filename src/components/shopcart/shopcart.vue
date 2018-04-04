@@ -246,11 +246,18 @@
 				color: rgba(255, 255, 255, 0.4)
 				font-weight: 700
 				line-height: 24px
+				@media only screen and (max-width: 320px){
+					padding-left: 10px
+					font-size: 12px
+				}
 			.sellBtn
 				position: absolute
 				right: 0
 				bottom: 0
 				width: 105px
+				@media only screen and (max-width: 320px){
+					width: 92px
+				}
 				height: 44px
 				padding: 0 8px
 				box-sizing: border-box
