@@ -51,7 +51,7 @@
 </template>
 <script type="text/ecmascript-6">
 	import Vue from 'vue'
-	import {mapGetters, mapMutations} from 'vuex'
+	import {mapGetters, mapActions} from 'vuex'
 	import {prefixStyle} from 'common/js/util'
 	import cartControl from 'base/cartcontrol/cartcontrol'
 
@@ -104,7 +104,7 @@
 						Vue.set(food, 'count', 0)
 					}
 				}
-				this.setFoodList([])
+				this.clearCart()
 			},
 			open () {
 				if (this.foodList.length > 0) {
@@ -159,9 +159,9 @@
 					alert('购买成功')
 				}
 			},
-			...mapMutations({
-				setFoodList: 'SET_FOODLIST'
-			})
+			...mapActions([
+					'clearCart'
+				])
 		},
 		watch: {
 			foodList (newVal) {

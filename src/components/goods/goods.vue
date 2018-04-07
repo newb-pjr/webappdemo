@@ -35,54 +35,55 @@
 			</div>
 		</scroll>
 		<transition name="slide">
-			<div class="foodDet-container" v-show="isShow" @touchmove.prevent="scrollTouchMove">
-				<div class="food-details">
-					<div class="img-container" :style="bgImage"></div>
-					<div class="title">
-						<i class="icon-arrow_lift" @click="close"></i>{{food.name}}
-					</div>
-					<!-- <i class="icon-arrow_lift" @click="close"></i> -->
-						<scroll class="food-info-container" ref="foodScroll">
-							<div class="food-info">
-								<div class="food-info-detail">
-									<div class="name">{{food.name}}</div>
-									<div class="sellCount">
-										<span>月售{{food.sellCount}}份</span>
-										<span>好评率{{food.rating}}%</span>
-									</div>
-									<div class="price">
-										<span class="currentSymbol">¥</span><span class="currentPrice">{{food.price}}</span><span class="oldSymbol" v-show="food.oldPrice">¥</span><span v-show="food.oldPrice">{{food.oldPrice}}}</span>
-									</div>
-									<div class="addToCart" v-if="hasCount" @click.once="addDrop">
-										加入购物车
-									</div>
-									<cart-control class="cartCtrl" @drop="drop" @minus="minus" :food="food" ref="cartCtrl"></cart-control>
-								</div>
-								<split></split>
-								<div class="intr">
-									<div class="name">商品介绍</div>
-									<div class="info">{{food.info}}</div>
-								</div>
-								<split></split>
-								<div class="intr padding-bottom-none">
-									<div class="name">商品评价</div>
-									<rating-select @hasContent="hasContChange" @select="onSelect" :all="all" :good="good" :bad="bad"></rating-select>
-								</div>
-								<ul class="ratings-list">
-									<li v-show="showComment(item.text, item.rateType)" v-for="(item, index) in food.ratings" :key="index" class="ratings-item">
-										<div class="time">{{item.rateTime | formatDate}}</div>
-										<div class="text">
-											<i :class="iconCls(item.rateType)"></i><span>{{item.text}}</span>
-										</div>
-										<div class="user-info">
-											<span>{{item.username}}</span>
-											<img :src="item.avatar">
-										</div>
-									</li>
-								</ul>
-							</div>
-						</scroll>
+			<div class="foodDet-container" v-show="isShow">
+				<div class="img-container" :style="bgImage" ref="imgContainer" @touchstart.prevent="scrollTouchStart" @touchmove.prevent="scrollTouchMove"></div>
+				<i class="icon-arrow_lift" @click="close" ref="closeIcon"></i>
+				<div class="title" ref="title">
+					{{food.name}}
 				</div>
+				<scroll class="foodDetScroll" :listenScroll="listenScroll" @scroll="detailsScroll" :probeType="probeType" ref="foodScroll">
+					<!-- <i class="icon-arrow_lift" @click="close"></i> -->
+					<div class="food-info-container" ref="foodContainer">
+						<div class="food-info">
+							<div class="food-info-detail">
+								<div class="name">{{food.name}}</div>
+								<div class="sellCount">
+									<span>月售{{food.sellCount}}份</span>
+									<span>好评率{{food.rating}}%</span>
+								</div>
+								<div class="price">
+									<span class="currentSymbol">¥</span><span class="currentPrice">{{food.price}}</span><span class="oldSymbol" v-show="food.oldPrice">¥</span><span v-show="food.oldPrice">{{food.oldPrice}}}</span>
+								</div>
+								<div class="addToCart" v-if="hasCount" @click="addDrop">
+									加入购物车
+								</div>
+								<cart-control class="cartCtrl" @drop="drop" :food="food" ref="cartCtrl"></cart-control>
+							</div>
+							<split></split>
+							<div class="intr">
+								<div class="name">商品介绍</div>
+								<div class="info">{{food.info}}</div>
+							</div>
+							<split></split>
+							<div class="intr padding-bottom-none">
+								<div class="name">商品评价</div>
+								<rating-select @hasContent="hasContChange" @select="onSelect" :all="all" :good="good" :bad="bad"></rating-select>
+							</div>
+							<ul class="ratings-list">
+								<li v-show="showComment(item.text, item.rateType)" v-for="(item, index) in food.ratings" :key="index" class="ratings-item">
+									<div class="time">{{item.rateTime | formatDate}}</div>
+									<div class="text">
+										<i :class="iconCls(item.rateType)"></i><span>{{item.text}}</span>
+									</div>
+									<div class="user-info">
+										<span>{{item.username}}</span>
+										<img :src="item.avatar">
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</scroll>
 			</div>
 		</transition>
 	</div>
@@ -98,12 +99,15 @@
 	import Split from 'base/split/split'
 	import RatingSelect from 'base/ratingselect/ratingselect'
 	import {formatDate} from 'common/js/date'
+	import {prefixStyle} from 'common/js/util'
 
 	// const select = {
 	// 	all: 0,
 	// 	good: 1,
 	// 	bad: 2
 	// }
+
+	const transform = prefixStyle('transform')
 
 	export default {
 		mixins: [typePicMixin],
@@ -122,6 +126,7 @@
 			}
 		},
 		created () {
+			this.touch = {}
 			this.$http.get('api/goods').then((resp) => {
 				if (ERR_OK === resp.data.errorNum) {
 					this.goods = resp.data.data
@@ -170,6 +175,27 @@
 				])
 		},
 		methods: {
+			detailsScroll (pos) {
+				let scrollY = pos.y
+				if (scrollY < 0) {
+					let rate = Math.min(Math.abs(scrollY / (this.$refs.imgContainer.offsetHeight - this.$refs.title.offsetHeight)), 1)
+					this.$refs.imgContainer.style.top = scrollY + 'px'
+					this.$refs.title.style.opacity = rate
+					if (rate === 1) {
+						this.$refs.closeIcon.style.color = '#000'
+					} else {
+						this.$refs.closeIcon.style = ''
+					}
+				}
+				if (scrollY > 0) {
+					let rate = Math.abs(scrollY / this.$refs.imgContainer.offsetHeight)
+					let scale = 1 + rate
+					this.$refs.imgContainer.style[transform] = `scale(${scale})`
+					this.$refs.title.style.opacity = 0
+				}
+				// this.$refs.closeIcon.style.top = -(scrollY - 10) + 'px'
+				// this.$refs.title.style.top = -scrollY + 'px'
+			},
 			onSelect (type) {
 				this.commentType = type
 			},
@@ -193,20 +219,34 @@
 					return 'icon-thumb_down'
 				}
 			},
-			minus () {
-				this.$nextTick(() => {
-					if (this.count === 0) {
-						this.hasCount = true
-					}
-				})
+			// minus () {
+			// 	this.$nextTick(() => {
+			// 		if (this.count === 0) {
+			// 			this.hasCount = true
+			// 		}
+			// 	})
+			// },
+			scrollTouchStart (e) {
+				this.touch.start = e.touches[0].pageY
 			},
-			scrollTouchMove () {
-				console.log(123)
+			scrollTouchMove (e) {
+				// let move = Math.abs(this.touch.start - e.touches[0].pageY)
+				// let rate = move / this.$refs.imgContainer.offsetHeight
+				// console.log(rate, move)
 			},
 			open (food) {
 				this.food = food
 				this.isShow = true
 				this.$refs.foodScroll.scrollTo(0, 0)
+				// this.$refs.foodScroll.$el.style.height = 1000 + 'px'
+				// this.$refs.foodScroll.refresh()
+				this.$nextTick(() => {
+					let height = this.$refs.imgContainer.offsetHeight
+					this.$refs.foodContainer.style.paddingTop = height + 'px'
+					this.$refs.title.style.opacity = 0
+					this.$refs.closeIcon.style.color = '#fff'
+					this.$refs.imgContainer.style.top = 0
+				})
 				this._isHasCount()
 			},
 			close () {
@@ -269,6 +309,17 @@
 			formatDate (time) {
 				let date = new Date(time)
 				return formatDate(date, 'yyyy-MM-dd hh:mm')
+			}
+		},
+		watch: {
+			count () {
+				this.$nextTick(() => {
+					if (this.count === 0) {
+						this.hasCount = true
+					} else {
+						this.hasCount = false
+					}
+				})
 			}
 		},
 		components: {
@@ -400,43 +451,49 @@
 			position: fixed
 			top: 0
 			left: 0
-			width: 100%
-			height: 100%
+			right: 0
+			bottom: 44px
 			background-color: $color-text
 			&.slide-enter,&.slide-leave-to
 				transform: translate3d(100%,0,0)
 			&.slide-enter-active,&.slide-leave-active
 				transition: all .3s
-			.food-details
-				position: relative
+			.img-container
+				position: fixed
+				top: 0
+				left: 0
+				width: 100%
+				height: 0
+				padding-top: 70%
+				background-size: cover
+				transform-origin: top
+				z-index: -1
+			.title
+				position: fixed
+				top: 0
+				left: 0
+				width: 100%
+				height: 44px
+				line-height: 44px
+				text-align: center
+				font-size: 16px
+				background-color: $color-text
+				z-index: 99
+			.icon-arrow_lift
+				position: fixed
+				top: 10px
+				left: 10px
+				display: inline-block
+				font-size: 18px
+				color: $color-text
+				z-index: 100
+			.foodDetScroll
+				position: absolute
+				top: 0
+				left: 0
+				width: 100%
 				height: 100%
-				.img-container
-					width: 100%
-					height: 0
-					padding-top: 70%
-					background-size: cover
-				.title
-					position: fixed
-					top: 0
-					left: 0
-					width: 100%
-					height: 44px
-					line-height: 44px
-					text-align: center
-					font-size: 16px
-					.icon-arrow_lift
-						position: absolute
-						top: 10px
-						left: 10px
-						font-size: 18px
-						color: $color-text
 				.food-info-container
-					position: absolute
-					top: 262.5px
-					left: 0
-					right: 0
-					bottom: 44px
-					overflow: hidden
 					.food-info
 						.food-info-detail
 							position: relative

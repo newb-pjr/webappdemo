@@ -28,9 +28,9 @@
 						</div>
 					</li>
 				</ul>
-				<div class="favorite">
+				<div class="favorite" :class="{'no-favorite':isFavorite===false}" @click="favorite">
 					<i class="icon-favorite"></i>
-					<p class="text">已收藏</p>
+					<p class="text">{{favoriteText}}</p>
 				</div>
 			</div>
 			<split></split>
@@ -38,10 +38,28 @@
 				<div class="name">公告与活动</div>
 				<div class="content">{{seller.bulletin}}</div>
 				<ul class="service">
-					<li class="item" v-for="item in seller.supports">
+					<li class="item" v-for="(item, index) in seller.supports" :key="index">
 						<div class="typePic" :class="typePic(item.type)"></div>
 						<div class="description">{{item.description}}</div>
 					</li>
+				</ul>
+			</div>
+			<split></split>
+			<div class="sellerPic">
+				<div class="name">商家实景</div>
+				<scroll :eventPassthrough="eventPassthrough" :scrollX="scrollX" class="picScroll">
+					<ul ref="picList">
+						<li v-for="(item, index) in seller.pics" :key="index" ref="picItem">
+							<img :src="item" width="120" height="90">
+						</li>
+					</ul>
+				</scroll>
+			</div>
+			<split></split>
+			<div class="seller-info">
+				<div class="name">商家信息</div>
+				<ul>
+					<li v-for="(item, index) in seller.infos" :key="index">{{item}}</li>
 				</ul>
 			</div>
 		</div>
@@ -53,14 +71,62 @@
 	import Split from 'base/split/split'
 	import {typePicMixin} from 'common/js/mixin'
 
+	const MARGINL = 6
+
 	export default {
 		mixins: [typePicMixin],
+		data () {
+			return {
+				eventPassthrough: 'vertical',
+				scrollX: true,
+				isFavorite: true
+			}
+		},
 		props: {
 			seller: {
 				type: Object,
 				default () {
 					return {}
 				}
+			}
+		},
+		computed: {
+			favoriteText () {
+				return this.isFavorite ? '已收藏' : '未收藏'
+			}
+		},
+		watch: {
+			seller () {
+				console.log('watch')
+				this._initPics()
+			}
+		},
+		// activated () {
+		// 	console.log('activated')
+		// 	this._initPics()
+		// },
+		mounted () {
+			console.log('mounted')
+			this._initPics()
+		},
+		// created () {
+		// 	this._initPics()
+		// 	console.log('created')
+		// },
+		methods: {
+			favorite () {
+				this.isFavorite = !this.isFavorite
+			},
+			_initPics () {
+				// this.$nextTick(() => {
+				// 	console.log(this.$refs)
+				// 	let width = this.$refs.picItem[0].offsetWidth * this.$refs.picItem.length + (MARGINL * (this.$refs.picItem.length - 1))
+				// 	this.$refs.picList.style.width = width + 'px'
+				// })
+				setTimeout(() => {
+					let width = this.$refs.picItem[0].offsetWidth * this.$refs.picItem.length + (MARGINL * (this.$refs.picItem.length - 1))
+					this.$refs.picList.style.width = width + 'px'
+				}, 20)
 			}
 		},
 		components: {
@@ -131,6 +197,9 @@
 				top: 18px
 				right: 18px
 				text-align: center
+				&.no-favorite
+					.icon-favorite
+						color: $color-text-deepGray
 				.icon-favorite
 					display: inline-block
 					margin-bottom: 4px
@@ -158,12 +227,61 @@
 				.item
 					padding: 16px 12px
 					border-top: 1px solid gray(0.1)
+					font-size: 0
 					.typePic
 						display: inline-block
 						width: 16px
 						height: 16px
 						margin-right: 6px
 						background-repeat: no-repeat
+						background-size: 16px 16px
+						vertical-align: top
 						&.decrease
 							bg-image('decrease_4')
+						&.discount
+							bg-image('discount_4')
+						&.special
+							bg-image('special_4')
+						&.invoice
+							bg-image('invoice_4')
+						&.guarantee
+							bg-image('guarantee_4')
+					.description
+						display: inline-block
+						font-size: 12px
+						font-weight: 200
+						color: $color-text-black
+						line-height: 16px
+		.sellerPic
+			padding: 18px 0 18px 18px
+			.name
+				margin-bottom: 12px
+				font-size: 14px
+				color: $color-text-black
+				line-height: 14px
+			.picScroll
+				position: relative
+				ul
+					li
+						display: inline-block
+						width: 120px
+						height: 90px
+						margin-right: 6px
+						&:last-child
+							margin-right: 0
+		.seller-info
+			padding: 18px 18px 0
+			.name
+				margin-bottom: 12px
+				font-size: 14px
+				color: $color-text-black
+				line-height: 14px
+			ul
+				li
+					padding: 16px 12px
+					border-top: 1px solid gray(0.1)
+					font-size: 12px
+					font-weight: 200
+					color: $color-text-black
+					line-height: 16px
 </style>

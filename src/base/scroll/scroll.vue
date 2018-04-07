@@ -22,6 +22,14 @@
 			listenScroll: {
 				type: Boolean,
 				default: false
+			},
+			eventPassthrough: {
+				type: String,
+				default: ''
+			},
+			scrollX: {
+				type: Boolean,
+				default: false
 			}
 		},
 		mounted () {
@@ -43,7 +51,9 @@
 			_initScroll () {
 				this.scroll = new BScroll(this.$refs.scroll, {
 					click: this.click,
-					probeType: this.probeType
+					probeType: this.probeType,
+					eventPassthrough: this.eventPassthrough,
+					scrollX: this.scrollX
 				})
 				if (this.listenScroll) {
 					this.scroll.on('scroll', (pos) => {

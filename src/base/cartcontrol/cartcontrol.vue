@@ -23,11 +23,12 @@
 				}
 			}
 		},
-		computed: {
-			sub () {
-				return this.food.count
-			}
-		},
+		// computed: {
+		// 	sub () {
+		// 		console.log('sub')
+		// 		return this.food.count
+		// 	}
+		// },
 		methods: {
 			...mapActions([
 					'cartCont'
@@ -37,6 +38,7 @@
 					this.food.count--
 					Vue.set(this.food, 'count', this.food.count)
 				}
+				this.cartCont(this.food)
 				this.$emit('minus')
 			},
 			add (e) {
@@ -46,14 +48,19 @@
 					this.food.count++
 					Vue.set(this.food, 'count', this.food.count)
 				}
+				this.cartCont(this.food)
 				this.$emit('drop', e.target)
 			}
-		},
-		watch: {
-			sub () {
-				this.cartCont(this.food)
-			}
 		}
+		// watch: {
+		// 	'food.count': {
+		// 		handler: function () {
+		// 			console.log(this.food)
+		// 			this.cartCont(this.food)
+		// 		},
+		// 		deep: true
+		// 	}
+		// }
 	}
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
