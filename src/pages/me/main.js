@@ -1,7 +1,5 @@
 import Vue from 'vue'
-import App from './App'
-
-Vue.config.productionTip = false
+import App from './index'
 
 const app = new Vue(App)
 app.$mount()
