@@ -7,10 +7,20 @@
 <script>
 import qcloud from 'wafer2-client-sdk'
 import config from './../../config'
+import {post} from '../../util'
 
 export default {
   created () {
     this.login()
+    wx.login({
+      success: res => {
+        post(config.wxLoginUrl, {
+          code: res.code
+        }).then((resp) => {
+          console.log('code', resp)
+        })
+      }
+    })
   },
   methods: {
     getUserInfo (e) {

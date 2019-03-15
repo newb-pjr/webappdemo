@@ -9,7 +9,7 @@
 		"autoAudits": false
 	},
 	"miniprogramRoot": "dist/wx/",
-  "qcloudRoot": "./server",
+	"qcloudRoot": "server/",
 	"compileType": "miniprogram",
 	"appid": "wxdd0a89f51472674a",
 	"projectname": "books",
