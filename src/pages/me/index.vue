@@ -5,49 +5,44 @@
 </template>
 
 <script>
-import qcloud from 'wafer2-client-sdk'
+// import qcloud from 'wafer2-client-sdk'
 import config from './../../config'
 import {post} from '../../util'
 
 export default {
+  data () {
+    return {
+      code: ''
+    }
+  },
   created () {
     this.login()
-    wx.login({
-      success: res => {
-        post(config.wxLoginUrl, {
-          code: res.code
-        }).then((resp) => {
-          console.log('code', resp)
-        })
-      }
-    })
   },
   methods: {
     getUserInfo (e) {
       console.log('111', e.mp.detail.userInfo)
-    },
-    login () {
-      qcloud.setLoginUrl(config.loginUrl)
-      const session = false
-      if (session) {
-        qcloud.loginWithCode({
-          success: res => {
-            this.setData({ userInfo: res, logged: true })
-            console.log(res)
-          },
-          fail: err => { console.error('222', err) } })
-      } else {
-        console.log(123)
-        qcloud.login({
-          success: res => {
-            console.log(res)
-            this.setData({ userInfo: res, logged: true })
-          },
-          fail: err => {
-            console.log(err)
-          }
+      let {avatarUrl, city, country, gender, language, nickName, province} = e.mp.detail.userInfo
+      if (this.code) {
+        post(config.wxLoginUrl, {
+          code: this.code,
+          avatarUrl,
+          city,
+          country,
+          gender,
+          language,
+          nickName,
+          province
+        }).then((resp) => {
+          this.code = resp
         })
       }
+    },
+    login () {
+      wx.login({
+        success: res => {
+          this.code = res.code
+        }
+      })
     }
   }
 }
