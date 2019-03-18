@@ -6,6 +6,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="sass" rel="stylesheet/sass">
+html, body
+  height: 100%
 </style>
