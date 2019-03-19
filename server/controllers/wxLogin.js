@@ -11,7 +11,7 @@ module.exports = async (ctx) => {
     if (findRes.length) {
       ctx.state.data = {
         msg: 'success',
-        openid: data.openid
+        data: {openid: data.openid, avatarUrl, city, country, gender, language, nickName, province}
       }
       return
     }
@@ -19,7 +19,7 @@ module.exports = async (ctx) => {
       await mysql('logininfo').insert({openid: data.openid, avatarUrl, city, country, gender, language, nickName, province})
       ctx.state.data = {
         msg: 'success',
-        openid: data.openid
+        data: {openid: data.openid, avatarUrl, city, country, gender, language, nickName, province}
       }
     } catch (e) {
       ctx.state = {

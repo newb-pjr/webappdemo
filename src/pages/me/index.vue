@@ -3,8 +3,10 @@
       <div class="userInfo">
         <img class="avatar" :src="avatar">
         <p>{{nickName}}</p>
+        <progress :percent="percent" active />
+        <button type="primary">扫码</button>
       </div>
-      <button class="login" open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo">获取用户信息</button>
+      <button v-if="flag" class="login" open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo">获取用户信息</button>
   </div>
 </template>
 
@@ -16,6 +18,7 @@ import {post} from '../../util'
 export default {
   data () {
     return {
+      flag: true,
       avatar: '',
       nickName: '',
       code: ''
@@ -23,6 +26,15 @@ export default {
   },
   created () {
     this.login()
+  },
+  computed: {
+    percent () {
+      const firstDay = new Date(`${new Date().getFullYear()}-01-01`).getTime()
+      const lastDay = new Date(`${new Date().getFullYear()}-12-31`).getTime()
+      const now = new Date().getTime()
+      const day = 1000 * 60 * 60 * 24
+      return Math.floor(((now - firstDay) / day) / ((lastDay - firstDay) / day) * 100)
+    }
   },
   methods: {
     getUserInfo (e) {
@@ -41,19 +53,26 @@ export default {
           nickName,
           province
         }).then((resp) => {
-          if (resp.data.code === 0) {
-            wx.setStorageSync('openid', resp.data.data)
-          }
+          wx.setStorageSync('userInfo', JSON.stringify(resp.data))
+          this.flag = false
         })
       }
     },
     login () {
-      console.log(wx.getStorageSync('openid'))
-      wx.login({
-        success: res => {
-          this.code = res.code
-        }
-      })
+      let userInfo = wx.getStorageSync('userInfo')
+      if (userInfo) {
+        this.flag = false
+        userInfo = JSON.parse(userInfo)
+        this.avatar = userInfo.avatarUrl
+        this.nickName = userInfo.nickName
+      } else {
+        this.flag = true
+        wx.login({
+          success: res => {
+            this.code = res.code
+          }
+        })
+      }
     }
   }
 }
@@ -68,7 +87,9 @@ export default {
     position: absolute
     top: 50%
     left: 50%
+    width: 700rpx
     transform: translate(-50%, -50%)
+    text-align: center
     .avatar
       width: 200rpx
       height: 200rpx
@@ -76,4 +97,7 @@ export default {
   .login
     position: absolute
     bottom: 0
+  button
+    margin-top: 20rpx
+    background-color: #EA5149
 </style>
