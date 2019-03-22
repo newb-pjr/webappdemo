@@ -4,7 +4,7 @@
         <img class="avatar" :src="avatar">
         <p>{{nickName}}</p>
         <progress :percent="percent" active />
-        <button type="primary">扫码</button>
+        <button type="primary" @click="scan">扫码</button>
       </div>
       <button v-if="flag" class="login" open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo">获取用户信息</button>
   </div>
@@ -37,6 +37,17 @@ export default {
     }
   },
   methods: {
+    scan () {
+      wx.scanCode({
+        success: res => {
+          post(config.bookUrl, {
+            isbn: res.result
+          }).then((resp) => {
+            console.log(resp)
+          })
+        }
+      })
+    },
     getUserInfo (e) {
       console.log('111', e.mp.detail.userInfo)
       let {avatarUrl, city, country, gender, language, nickName, province} = e.mp.detail.userInfo
