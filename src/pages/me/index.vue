@@ -13,7 +13,7 @@
 <script>
 // import qcloud from 'wafer2-client-sdk'
 import config from './../../config'
-import {post} from '../../util'
+import {post, showToast} from './../../util'
 
 export default {
   data () {
@@ -38,12 +38,14 @@ export default {
   },
   methods: {
     scan () {
+      const openid = JSON.parse(wx.getStorageSync('userInfo')).openid
       wx.scanCode({
         success: res => {
           post(config.bookUrl, {
+            openid,
             isbn: res.result
           }).then((resp) => {
-            console.log(resp)
+            showToast('添加成功')
           })
         }
       })

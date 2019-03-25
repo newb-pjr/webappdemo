@@ -4,7 +4,8 @@ const config = {
   host,
   loginUrl: `${host}/weapp/login`,
   wxLoginUrl: `${host}/weapp/wxLogin`,
-  bookUrl: `${host}/weapp/book`
+  bookUrl: `${host}/weapp/book`,
+  booksListUrl: `${host}/weapp/booksList`
 }
 
 export default config

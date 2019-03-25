@@ -34,5 +34,6 @@ router.post('/message', controllers.message.post)
 
 router.post('/wxLogin', controllers.wxLogin)
 router.post('/book', controllers.book)
+router.get('/booksList', controllers.booksList)
 
 module.exports = router
