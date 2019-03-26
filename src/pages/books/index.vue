@@ -1,7 +1,9 @@
 <template>
   <div>
     <ul>
-      <li v-for="(item, index) in list" :key="index">{{item.title}}</li>
+      <li v-for="(item, index) in list" :key="index">
+        <card :item="item"></card>
+      </li>
     </ul>
   </div>
 </template>
@@ -9,6 +11,7 @@
 <script>
 import {get} from '../../util'
 import config from './../../config'
+import Card from './../../components/card'
 
 export default {
   data () {
@@ -25,6 +28,9 @@ export default {
         this.list = resp.list
       })
     }
+  },
+  components: {
+    Card
   }
 }
 </script>
