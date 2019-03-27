@@ -22,10 +22,16 @@ export default {
   onShow () {
     this._getBooksList()
   },
+  onPullDownRefresh () {
+    this._getBooksList()
+  },
   methods: {
     _getBooksList () {
+      wx.showNavigationBarLoading()
       get(config.booksListUrl).then((resp) => {
         this.list = resp.list
+        wx.stopPullDownRefresh()
+        wx.hideNavigationBarLoading()
       })
     }
   },

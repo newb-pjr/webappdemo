@@ -25,7 +25,6 @@ export default {
 .rate-container
   display: inline-block
   position: relative
-  font-size: 26px
   .star
     position: absolute
     top: 0

@@ -6,15 +6,15 @@
     <div class="center">
       <p>{{item.title}}</p>
       <p>{{item.author}}</p>
-      <p>problisher</p>
+      <p>{{item.publisher}}</p>
     </div>
     <div class="right">
-      <div>
+      <div class="rate">
         {{item.rate}}
-        <rate></rate>
+        <rate :rate="item.rate"></rate>
       </div>
       <p>{{item.count}}</p>
-      <p>添加人</p>
+      <p>{{item.nickName}}</p>
     </div>
   </div>
 </template>
@@ -65,4 +65,6 @@ export default {
     box-sizing: border-box
     vertical-align: top
     text-align: right
+    .rate
+      color: #EA5149
 </style>
